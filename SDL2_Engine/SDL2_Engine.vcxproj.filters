@@ -48,12 +48,21 @@
     <ClInclude Include="src\SDL2_Engine\Time.h">
       <Filter>Header Files\SDL2_Engine</Filter>
     </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Debug.h">
+      <Filter>Header Files\SDL2_Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\SDL2_Engine\Time.cpp">
+      <Filter>Source Files\SDL2_Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SDL2_Engine\Debug.cpp">
       <Filter>Source Files\SDL2_Engine</Filter>
     </ClCompile>
   </ItemGroup>

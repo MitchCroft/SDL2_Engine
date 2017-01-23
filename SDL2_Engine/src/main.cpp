@@ -12,6 +12,7 @@
 #include "SDL2_Engine/Utilities/Properties/Properties.h"
 
 #include "SDL2_Engine/Time.h"
+#include "SDL2_Engine/Debug.h"
 
 int main(int pArgCount, char* pArgs[]) {
 
@@ -22,7 +23,7 @@ int main(int pArgCount, char* pArgs[]) {
 	GetModuleFileName(NULL, result, MAX_PATH);
 	std::cout << result << '\n';
 
-	//Test the time object
+	/*//Test the time object
 	SDL2_Engine::Time time;
 
 	bool pressed = GetKeyState(VK_SPACE) < 0;
@@ -32,13 +33,18 @@ int main(int pArgCount, char* pArgs[]) {
 		if (time.realElapsedTime > 5.0) time.timeScale = sinf(time.realElapsedTime);
 
 		//Output Values
-		printf("---------- Time Values ----------\n" \
+		SDL2_Engine::Debug::log("---------- Time Values ----------\n" \
 			"Time Scale: %f\n" \
-			"Delta Time: %f\n" \
-			"Real Delta Time: %f\n" \
+			"Delta Time: %f (%i fps)\n" \
+			"Real Delta Time: %f (%i fps)\n" \
 			"Elapsed Time: %f\n" \
-			"Real Elapsed Time: %f\n\n\n", time.timeScale.value(), time.deltaTime.value(), time.realDeltaTime.value(), time.elapsedTime.value(), time.realElapsedTime.value());
-	}
+			"Real Elapsed Time: %f\n\n\n", time.timeScale.value(), time.deltaTime.value(), (int)(1.f / time.deltaTime), time.realDeltaTime.value(), (int)(1.f / time.realDeltaTime), time.elapsedTime.value(), time.realElapsedTime.value());
+	}*/
+
+	SDL2_Engine::Debug::log("Test Log %s", result);
+	SDL2_Engine::Debug::log(SDL2_Engine::DebugColor::CYAN, "Test Log with color %s", result);
+	SDL2_Engine::Debug::logWarning("Test Warning %s", result);
+	SDL2_Engine::Debug::logError("Test Error %s", result);
 
 	system("PAUSE");
 	return 0;

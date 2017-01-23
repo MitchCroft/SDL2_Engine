@@ -103,6 +103,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)\dep\dirent;$(SolutionDir)\dep\glm</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions);$(PlatformName)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;RakNet.lib;ws2_32.lib;user32.lib</AdditionalDependencies>
@@ -116,6 +117,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)\dep\dirent;$(SolutionDir)\dep\glm</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions);$(PlatformName)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;RakNet.lib;ws2_32.lib;user32.lib</AdditionalDependencies>
@@ -131,6 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)\dep\dirent;$(SolutionDir)\dep\glm</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);$(PlatformName)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -148,6 +151,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)\dep\dirent;$(SolutionDir)\dep\glm</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);$(PlatformName)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -158,10 +162,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\SDL2_Engine\Debug.cpp" />
     <ClCompile Include="src\SDL2_Engine\Time.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SDL2_Engine\Debug.h" />
     <ClInclude Include="src\SDL2_Engine\Time.h" />
+    <ClInclude Include="src\SDL2_Engine\Types.h" />
     <ClInclude Include="src\SDL2_Engine\Utilities\Properties\Properties.h" />
     <ClInclude Include="src\SDL2_Engine\Utilities\Properties\ReadOnlyProperty.h" />
     <ClInclude Include="src\SDL2_Engine\Utilities\Properties\ValidatedProperty.h" />

@@ -12,7 +12,7 @@
 #include "SDL2_Engine/Utilities/Properties/Properties.h"
 
 #include "SDL2_Engine/Time.h"
-#include "SDL2_Engine/Debug.h"
+#include "SDL2_Engine/Logger.h"
 
 int main(int pArgCount, char* pArgs[]) {
 
@@ -41,10 +41,13 @@ int main(int pArgCount, char* pArgs[]) {
 			"Real Elapsed Time: %f\n\n\n", time.timeScale.value(), time.deltaTime.value(), (int)(1.f / time.deltaTime), time.realDeltaTime.value(), (int)(1.f / time.realDeltaTime), time.elapsedTime.value(), time.realElapsedTime.value());
 	}*/
 
-	SDL2_Engine::Debug::log("Test Log %s", result);
-	SDL2_Engine::Debug::log(SDL2_Engine::DebugColor::CYAN, "Test Log with color %s", result);
-	SDL2_Engine::Debug::logWarning("Test Warning %s", result);
-	SDL2_Engine::Debug::logError("Test Error %s", result);
+	std::string testString = " test to see if the log works";
+
+	SDL2_Engine::Logger::log("This is the ", 1, testString);
+	SDL2_Engine::Logger::logFormatted("Test Log %s", result);
+	SDL2_Engine::Logger::logFormatted(SDL2_Engine::DebugColor::CYAN | SDL2_Engine::DebugColor::MAGENTA_FILL, "Test Log with color %s", result);
+	SDL2_Engine::Logger::logWarning("Test Warning %s", result);
+	SDL2_Engine::Logger::logError("Test Error %s", result);
 
 	system("PAUSE");
 	return 0;

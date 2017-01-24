@@ -51,7 +51,7 @@
     <ClInclude Include="src\SDL2_Engine\Types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Debug.h">
+    <ClInclude Include="src\SDL2_Engine\Logger.h">
       <Filter>Header Files\SDL2_Engine</Filter>
     </ClInclude>
   </ItemGroup>
@@ -62,7 +62,7 @@
     <ClCompile Include="src\SDL2_Engine\Time.cpp">
       <Filter>Source Files\SDL2_Engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\SDL2_Engine\Debug.cpp">
+    <ClCompile Include="src\SDL2_Engine\Logger.cpp">
       <Filter>Source Files\SDL2_Engine</Filter>
     </ClCompile>
   </ItemGroup>

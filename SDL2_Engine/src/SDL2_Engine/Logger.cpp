@@ -1,4 +1,4 @@
-#include "Debug.h"
+#include "Logger.h"
 
 #include <Windows.h>
 #include <stdio.h>
@@ -9,9 +9,6 @@
 
 namespace SDL2_Engine {
 	#if defined(_DEBUG) || defined(GENERATE_BEBUG_REPORT)
-
-	//! Define static initialiser
-	Debug::Initialiser Debug::mInit;
 
 	#ifdef _DEBUG
 	/*
@@ -106,15 +103,15 @@ namespace SDL2_Engine {
 	} 
 
 	/*
-		outputMessage - Timestamp the supplied message and pass the information to the output functions
+		Logger : outputMessage - Timestamp the supplied message and pass the information to the output functions
 		Author: Mitchell Croft
 		Created: 23/01/2017
-		Modified: 23/01/2017
+		Modified: 24/01/2017
 
 		param[in] pColor - The Debug Color to apply to the console output
 		param[in] pMessage - The c-string to output to the different paths
 	*/
-	void outputMessage(const DebugColor& pColor, char* pMessage) {
+	void Logger::outputMessage(const DebugColor& pColor, char* pMessage) {
 		//Apply the time stamping to the message
 		timeStampString(pMessage);
 
@@ -127,50 +124,16 @@ namespace SDL2_Engine {
 	}
 
 	/*
-		Initialiser : Constructor - Output the initial message to the Debug logger
+		Logger : log - Log a formatted string to the set up output locations
 		Author: Mitchell Croft
 		Created: 23/01/2017
-		Modified: 23/01/2017
-	*/
-	Debug::Initialiser::Initialiser() {
-		//Retrieve the current build settings for the starting the output log
-		#ifdef _DEBUG
-		const char BUILD[32] = { "DEBUG" };
-		#else
-		const char BUILD[32] = { "RELEASE" };
-		#endif
-		#ifdef Win32
-		const char CONFIG[32] = { "Win32" };
-		#else
-		const char CONFIG[32] = { "x64" };
-		#endif
-
-		//Output the starting message
-		Debug::log("/-------------------- Execution Started - Build(%s) Configuration(%s) --------------------\\", BUILD, CONFIG);
-	}
-
-	/*
-		Initialiser : Destructor - Output the closing message to the Debug logger
-		Author: Mitchell Croft
-		Created: 23/01/2017
-		Modified: 23/01/2017
-	*/
-	Debug::Initialiser::~Initialiser() {
-		//Output the finishing message
-		Debug::log("/-----------------------------------------------------------------------------------------\\");
-	}
-
-	/*
-		Debug : log - Log a formatted string to the set up output locations
-		Author: Mitchell Croft
-		Created: 23/01/2017
-		Modified: 23/01/2017
+		Modified: 24/01/2017
 
 		param[in] pFormat - A c-string with the format symbols defined in 
 							http://www.cplusplus.com/reference/cstdio/fprintf/
 		param[in] Additional Values - The values to be formatted into the c-string
 	*/
-	void Debug::log(const char* pFormat, ...) {
+	void Logger::logFormatted(const char* pFormat, ...) {
 		//Create a char buffer to hold the compiled string
 		char buffer[MAX_DEBUG_MSG_SIZE] = { '\0' };
 
@@ -189,10 +152,10 @@ namespace SDL2_Engine {
 	}
 
 	/*
-		Debug : log - Log a formatted string to the set up output locations in a specified color
+		Logger : log - Log a formatted string to the set up output locations in a specified color
 		Author: Mitchell Croft
 		Created: 23/01/2017
-		Modified: 23/01/2017
+		Modified: 24/01/2017
 
 		param[in] pOutputColor - A Debug Color value describing the color to 
 								 output the message to the console in
@@ -200,7 +163,7 @@ namespace SDL2_Engine {
 							http://www.cplusplus.com/reference/cstdio/fprintf/
 		param[in] Additional Values - The values to be formatted into the c-string
 	*/
-	void Debug::log(const DebugColor& pOutputColor, const char* pFormat, ...) {
+	void Logger::logFormatted(const DebugColor& pOutputColor, const char* pFormat, ...) {
 		//Create a char buffer to hold the compiled string
 		char buffer[MAX_DEBUG_MSG_SIZE] = { '\0' };
 
@@ -219,16 +182,16 @@ namespace SDL2_Engine {
 	}
 
 	/*
-		Debug : logWarning - Log a formatted warning string to the set up output locations
+		Logger : logWarning - Log a formatted warning string to the set up output locations
 		Author: Mitchell Croft
 		Created: 23/01/2017
-		Modified: 23/01/2017
+		Modified: 24/01/2017
 
 		param[in] pFormat - A c-string with the format symbols defined in
 							http://www.cplusplus.com/reference/cstdio/fprintf/
 		param[in] Additional Values - The values to be formatted into the c-string
 	*/
-	void Debug::logWarning(const char* pFormat, ...) {
+	void Logger::logWarning(const char* pFormat, ...) {
 		// Create a char buffer to hold the compiled string
 		char buffer[MAX_DEBUG_MSG_SIZE] = { "WARNING: " };
 
@@ -254,16 +217,16 @@ namespace SDL2_Engine {
 	}
 
 	/*
-		Debug : logError - Log a formatted error string to the set up output locations
+		Logger : logError - Log a formatted error string to the set up output locations
 		Author: Mitchell Croft
 		Created: 23/01/2017
-		Modified: 23/01/2017
+		Modified: 24/01/2017
 
 		param[in] pFormat - A c-string with the format symbols defined in
 							http://www.cplusplus.com/reference/cstdio/fprintf/
 		param[in] Additional Values - The values to be formatted into the c-string
 	*/
-	void Debug::logError(const char* pFormat, ...) {
+	void Logger::logError(const char* pFormat, ...) {
 		// Create a char buffer to hold the compiled string
 		char buffer[MAX_DEBUG_MSG_SIZE] = { "ERROR: " };
 

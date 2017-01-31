@@ -72,28 +72,28 @@
     <OutDir>$(SolutionDir)\bin\exes\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)\int\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)_32d</TargetName>
-    <IncludePath>$(SolutionDir)dep\RakNet\include;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\include;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\include;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\include;$(SolutionDir)dep\SDL2\SDL2-2.0.5\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dep\glm;$(SolutionDir)\dep\dirent;$(SolutionDir)dep\RakNet\include;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\include;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\include;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\include;$(SolutionDir)dep\SDL2\SDL2-2.0.5\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)dep\RakNet\lib\$(PlatformTarget)\$(Configuration);$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)\bin\exes\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)\int\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)_32</TargetName>
-    <IncludePath>$(SolutionDir)dep\RakNet\include;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\include;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\include;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\include;$(SolutionDir)dep\SDL2\SDL2-2.0.5\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dep\glm;$(SolutionDir)\dep\dirent;$(SolutionDir)dep\RakNet\include;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\include;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\include;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\include;$(SolutionDir)dep\SDL2\SDL2-2.0.5\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)dep\RakNet\lib\$(PlatformTarget)\$(Configuration);$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)\bin\exes\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)\int\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)_64d</TargetName>
-    <IncludePath>$(SolutionDir)dep\RakNet\include;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\include;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\include;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\include;$(SolutionDir)dep\SDL2\SDL2-2.0.5\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dep\glm;$(SolutionDir)\dep\dirent;$(SolutionDir)dep\RakNet\include;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\include;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\include;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\include;$(SolutionDir)dep\SDL2\SDL2-2.0.5\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)dep\RakNet\lib\$(PlatformTarget)\$(Configuration);$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)\bin\exes\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)\int\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)_64</TargetName>
-    <IncludePath>$(SolutionDir)dep\RakNet\include;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\include;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\include;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\include;$(SolutionDir)dep\SDL2\SDL2-2.0.5\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dep\glm;$(SolutionDir)\dep\dirent;$(SolutionDir)dep\RakNet\include;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\include;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\include;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\include;$(SolutionDir)dep\SDL2\SDL2-2.0.5\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)dep\RakNet\lib\$(PlatformTarget)\$(Configuration);$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -101,7 +101,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\dep\dirent;$(SolutionDir)\dep\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions);$(PlatformName)</PreprocessorDefinitions>
     </ClCompile>
@@ -115,7 +116,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\dep\dirent;$(SolutionDir)\dep\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions);$(PlatformName)</PreprocessorDefinitions>
     </ClCompile>
@@ -131,7 +133,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\dep\dirent;$(SolutionDir)\dep\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);$(PlatformName)</PreprocessorDefinitions>
     </ClCompile>
@@ -149,7 +152,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\dep\dirent;$(SolutionDir)\dep\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);$(PlatformName)</PreprocessorDefinitions>
     </ClCompile>

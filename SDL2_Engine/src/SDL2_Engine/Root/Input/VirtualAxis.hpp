@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "InputValues.h"
+#include "InputValues.hpp"
 
 namespace SDL2_Engine {
 	/*

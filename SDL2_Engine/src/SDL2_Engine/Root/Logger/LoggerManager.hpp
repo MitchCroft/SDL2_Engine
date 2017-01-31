@@ -1,6 +1,6 @@
 #pragma once
 
-#include "LoggerForwardDeclares.h"
+#include "LoggerForwardDeclares.hpp"
 
 //! Allow for string streams in order to construct the log messages
 #include <sstream>

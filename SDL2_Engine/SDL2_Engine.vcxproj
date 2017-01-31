@@ -167,24 +167,24 @@
     <ClCompile Include="src\SDL2_Engine\Root\Time\TimeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\SDL2_Engine\Root\Input.h" />
-    <ClInclude Include="src\SDL2_Engine\Root\Input\InputForwardDeclares.h" />
-    <ClInclude Include="src\SDL2_Engine\Root\Input\InputValues.h" />
-    <ClInclude Include="src\SDL2_Engine\Root\Input\InputManager.h" />
-    <ClInclude Include="src\SDL2_Engine\Root\Input\VirtualAxis.h" />
-    <ClInclude Include="src\SDL2_Engine\Root\Logger.h" />
-    <ClInclude Include="src\SDL2_Engine\Root\Logger\DebugColor.h" />
-    <ClInclude Include="src\SDL2_Engine\Root\Logger\LoggerManager.h" />
-    <ClInclude Include="src\SDL2_Engine\Root\Logger\LoggerForwardDeclares.h" />
-    <ClInclude Include="src\SDL2_Engine\Root\RootForwardDeclares.h" />
-    <ClInclude Include="src\SDL2_Engine\Root\Time.h" />
-    <ClInclude Include="src\SDL2_Engine\Root\Time\TimeManager.h" />
-    <ClInclude Include="src\SDL2_Engine\Root\Time\TimeForwardDeclares.h" />
-    <ClInclude Include="src\SDL2_Engine\Types.h" />
-    <ClInclude Include="src\SDL2_Engine\SDL2_Engine.h" />
-    <ClInclude Include="src\SDL2_Engine\Utilities\Properties.h" />
-    <ClInclude Include="src\SDL2_Engine\Utilities\Properties\ReadOnlyProperty.h" />
-    <ClInclude Include="src\SDL2_Engine\Utilities\Properties\ValidatedProperty.h" />
+    <ClInclude Include="src\SDL2_Engine\Root\Input.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Root\Input\InputForwardDeclares.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Root\Input\InputValues.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Root\Input\InputManager.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Root\Input\VirtualAxis.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Root\Logger.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Root\Logger\DebugColor.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Root\Logger\LoggerManager.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Root\Logger\LoggerForwardDeclares.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Root\RootForwardDeclares.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Root\Time.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Root\Time\TimeManager.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Root\Time\TimeForwardDeclares.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Types.hpp" />
+    <ClInclude Include="src\SDL2_Engine\SDL2_Engine.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Utilities\Properties.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Utilities\Properties\ReadOnlyProperty.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Utilities\Properties\ValidatedProperty.hpp" />
     <ClInclude Include="src\main\dirent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

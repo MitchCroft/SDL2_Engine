@@ -9,7 +9,7 @@
 
 #include <dirent.h>
 
-#include "SDL2_Engine/SDL2_Engine.h"
+#include "SDL2_Engine/SDL2_Engine.hpp"
 
 int main(int pArgCount, char* pArgs[]) {
 

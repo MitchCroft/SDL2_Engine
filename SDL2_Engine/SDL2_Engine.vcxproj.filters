@@ -60,59 +60,59 @@
     <ClInclude Include="src\main\dirent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Utilities\Properties\ValidatedProperty.h">
-      <Filter>Header Files\SDL2_Engine\Utilities\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Utilities\Properties\ReadOnlyProperty.h">
-      <Filter>Header Files\SDL2_Engine\Utilities\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\SDL2_Engine.h">
+    <ClInclude Include="src\SDL2_Engine\SDL2_Engine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Utilities\Properties.h">
-      <Filter>Header Files\SDL2_Engine\Utilities\Properties</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Types.h">
+    <ClInclude Include="src\SDL2_Engine\Types.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Root\Input.h">
-      <Filter>Header Files\SDL2_Engine\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Root\Logger.h">
-      <Filter>Header Files\SDL2_Engine\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Root\RootForwardDeclares.h">
-      <Filter>Header Files\SDL2_Engine\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Root\Time.h">
-      <Filter>Header Files\SDL2_Engine\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Root\Input\InputValues.h">
+    <ClInclude Include="src\SDL2_Engine\Root\Input\InputForwardDeclares.hpp">
       <Filter>Header Files\SDL2_Engine\Root\Input</Filter>
     </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Root\Input\InputForwardDeclares.h">
+    <ClInclude Include="src\SDL2_Engine\Root\Input\InputManager.hpp">
       <Filter>Header Files\SDL2_Engine\Root\Input</Filter>
     </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Root\Input\InputManager.h">
+    <ClInclude Include="src\SDL2_Engine\Root\Input\InputValues.hpp">
       <Filter>Header Files\SDL2_Engine\Root\Input</Filter>
     </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Root\Input\VirtualAxis.h">
+    <ClInclude Include="src\SDL2_Engine\Root\Input\VirtualAxis.hpp">
       <Filter>Header Files\SDL2_Engine\Root\Input</Filter>
     </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Root\Logger\DebugColor.h">
+    <ClInclude Include="src\SDL2_Engine\Root\Logger\DebugColor.hpp">
       <Filter>Header Files\SDL2_Engine\Root\Logger</Filter>
     </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Root\Logger\LoggerManager.h">
+    <ClInclude Include="src\SDL2_Engine\Root\Logger\LoggerForwardDeclares.hpp">
       <Filter>Header Files\SDL2_Engine\Root\Logger</Filter>
     </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Root\Logger\LoggerForwardDeclares.h">
+    <ClInclude Include="src\SDL2_Engine\Root\Logger\LoggerManager.hpp">
       <Filter>Header Files\SDL2_Engine\Root\Logger</Filter>
     </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Root\Time\TimeManager.h">
+    <ClInclude Include="src\SDL2_Engine\Root\Time\TimeForwardDeclares.hpp">
       <Filter>Header Files\SDL2_Engine\Root\Time</Filter>
     </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Root\Time\TimeForwardDeclares.h">
+    <ClInclude Include="src\SDL2_Engine\Root\Time\TimeManager.hpp">
       <Filter>Header Files\SDL2_Engine\Root\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\Input.hpp">
+      <Filter>Header Files\SDL2_Engine\Root</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\Logger.hpp">
+      <Filter>Header Files\SDL2_Engine\Root</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\RootForwardDeclares.hpp">
+      <Filter>Header Files\SDL2_Engine\Root</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\Time.hpp">
+      <Filter>Header Files\SDL2_Engine\Root</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Utilities\Properties.hpp">
+      <Filter>Header Files\SDL2_Engine\Utilities\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Utilities\Properties\ReadOnlyProperty.hpp">
+      <Filter>Header Files\SDL2_Engine\Utilities\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Utilities\Properties\ValidatedProperty.hpp">
+      <Filter>Header Files\SDL2_Engine\Utilities\Properties</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

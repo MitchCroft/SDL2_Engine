@@ -1,11 +1,11 @@
-#include "InputManager.h"
+#include "InputManager.hpp"
 
 #include <windows.h>
 #include <Xinput.h>
 
-#include "../Time.h"
+#include "../Time.hpp"
 
-#include "VirtualAxis.h"
+#include "VirtualAxis.hpp"
 
 //! Define the two different states
 #define CURRENT_STATE 0

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../../Types.h"
+#include "../../Types.hpp"
 
-#include "InputForwardDeclares.h"
-#include "../Time/TimeForwardDeclares.h"
+#include "InputForwardDeclares.hpp"
+#include "../Time/TimeForwardDeclares.hpp"
 
-#include "InputValues.h"
+#include "InputValues.hpp"
 
 #include <unordered_map>
 

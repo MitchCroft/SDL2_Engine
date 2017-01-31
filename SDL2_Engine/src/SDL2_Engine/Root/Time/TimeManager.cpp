@@ -1,4 +1,4 @@
-#include "TimeManager.h"
+#include "TimeManager.hpp"
 
 /*
 	validateScale - Simple function used for ensuring the time scale value is always >= 0

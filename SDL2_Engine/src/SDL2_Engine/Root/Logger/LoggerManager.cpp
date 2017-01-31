@@ -1,4 +1,4 @@
-#include "LoggerManager.h"
+#include "LoggerManager.hpp"
 
 #include <windows.h>
 #include <stdio.h>
@@ -7,7 +7,7 @@
 
 #include <time.h>
 
-#include "DebugColor.h"
+#include "DebugColor.hpp"
 
 namespace SDL2_Engine {
 	#if defined(_DEBUG) || defined(GENERATE_BEBUG_REPORT)

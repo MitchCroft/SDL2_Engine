@@ -4,7 +4,7 @@
 #include <windows.h>
 
 //! Include the properties to allow for managed property values
-#include "Utilities/Properties/Properties.h"
+#include "../../Utilities/Properties.h"
 
 namespace SDL2_Engine {
 

@@ -1,15 +1,16 @@
-#include "Logger.h"
+#include "LoggerManager.h"
 
-#include <Windows.h>
+#include <windows.h>
 #include <stdio.h>
 #include <fstream>
 #include <mutex>
 
 #include <time.h>
 
+#include "DebugColor.h"
+
 namespace SDL2_Engine {
 	#if defined(_DEBUG) || defined(GENERATE_BEBUG_REPORT)
-
 	#ifdef _DEBUG
 	/*
 		outputToConsole - Output a c-string to the standard output
@@ -40,7 +41,6 @@ namespace SDL2_Engine {
 		SetConsoleTextAttribute(hnd, DebugColor::WHITE);
 	}
 	#endif
-
 	#ifdef GENERATE_BEBUG_REPORT
 	/*
 		outputToFile - Output a c-string to the log text file

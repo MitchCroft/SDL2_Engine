@@ -31,13 +31,34 @@
     <Filter Include="Source Files\SDL2_Engine\Utilities\Properties">
       <UniqueIdentifier>{92219c60-43af-4402-b14a-58205eed4474}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\SDL2_Engine\Root">
+      <UniqueIdentifier>{54b66015-0765-4a74-982a-55c0d6c76b4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SDL2_Engine\Root\Input">
+      <UniqueIdentifier>{1666eef8-5a95-4220-a3d4-0229fa8e561f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SDL2_Engine\Root\Logger">
+      <UniqueIdentifier>{5eaa5b14-e775-40a8-bd2b-8a3eea378fb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SDL2_Engine\Root\Time">
+      <UniqueIdentifier>{f65393b2-558e-48fb-b224-ac5c7c156394}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SDL2_Engine\Root">
+      <UniqueIdentifier>{cc28c917-c971-4e48-8913-4205ec0bd14c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SDL2_Engine\Root\Input">
+      <UniqueIdentifier>{613d3b64-1867-44e7-94cd-e71965e415d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SDL2_Engine\Root\Logger">
+      <UniqueIdentifier>{12442c1f-912a-4cec-9461-eb1715c9a6df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SDL2_Engine\Root\Time">
+      <UniqueIdentifier>{8d87f821-4d97-4990-8cfa-6970197a2968}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\main\dirent.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Utilities\Properties\Properties.h">
-      <Filter>Header Files\SDL2_Engine\Utilities\Properties</Filter>
     </ClInclude>
     <ClInclude Include="src\SDL2_Engine\Utilities\Properties\ValidatedProperty.h">
       <Filter>Header Files\SDL2_Engine\Utilities\Properties</Filter>
@@ -45,25 +66,67 @@
     <ClInclude Include="src\SDL2_Engine\Utilities\Properties\ReadOnlyProperty.h">
       <Filter>Header Files\SDL2_Engine\Utilities\Properties</Filter>
     </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Time.h">
-      <Filter>Header Files\SDL2_Engine</Filter>
+    <ClInclude Include="src\SDL2_Engine\SDL2_Engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Utilities\Properties.h">
+      <Filter>Header Files\SDL2_Engine\Utilities\Properties</Filter>
     </ClInclude>
     <ClInclude Include="src\SDL2_Engine\Types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Logger.h">
-      <Filter>Header Files\SDL2_Engine</Filter>
+    <ClInclude Include="src\SDL2_Engine\Root\Input.h">
+      <Filter>Header Files\SDL2_Engine\Root</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\Logger.h">
+      <Filter>Header Files\SDL2_Engine\Root</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\RootForwardDeclares.h">
+      <Filter>Header Files\SDL2_Engine\Root</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\Time.h">
+      <Filter>Header Files\SDL2_Engine\Root</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\Input\InputValues.h">
+      <Filter>Header Files\SDL2_Engine\Root\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\Input\InputForwardDeclares.h">
+      <Filter>Header Files\SDL2_Engine\Root\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\Input\InputManager.h">
+      <Filter>Header Files\SDL2_Engine\Root\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\Input\VirtualAxis.h">
+      <Filter>Header Files\SDL2_Engine\Root\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\Logger\DebugColor.h">
+      <Filter>Header Files\SDL2_Engine\Root\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\Logger\LoggerManager.h">
+      <Filter>Header Files\SDL2_Engine\Root\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\Logger\LoggerForwardDeclares.h">
+      <Filter>Header Files\SDL2_Engine\Root\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\Time\TimeManager.h">
+      <Filter>Header Files\SDL2_Engine\Root\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\Time\TimeForwardDeclares.h">
+      <Filter>Header Files\SDL2_Engine\Root\Time</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\SDL2_Engine\Time.cpp">
-      <Filter>Source Files\SDL2_Engine</Filter>
+    <ClCompile Include="src\SDL2_Engine\Root\Input\InputManager.cpp">
+      <Filter>Source Files\SDL2_Engine\Root\Input</Filter>
     </ClCompile>
-    <ClCompile Include="src\SDL2_Engine\Logger.cpp">
-      <Filter>Source Files\SDL2_Engine</Filter>
+    <ClCompile Include="src\SDL2_Engine\Root\Logger\LoggerManager.cpp">
+      <Filter>Source Files\SDL2_Engine\Root\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SDL2_Engine\Root\Time\TimeManager.cpp">
+      <Filter>Source Files\SDL2_Engine\Root\Time</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

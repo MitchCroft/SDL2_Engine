@@ -72,6 +72,7 @@ int main(int pArgCount, char* pArgs[]) {
 
 	//Try to initialise the Input manager
 	if (SDL2_Engine::Input::init()) {
+		//This shouldn't happen execute
 		if (SDL2_Engine::Input::init()) return -1;
 
 		//Loop until loop is left		
@@ -81,7 +82,7 @@ int main(int pArgCount, char* pArgs[]) {
 			time.update();
 
 			//Update the input manager
-			SDL2_Engine::Input::update(time);
+			SDL2_Engine::Input::update(time.deltaTime, time.realDeltaTime);
 
 			SDL2_Engine::Logger::log("Controllers ", (SDL2_Engine::Input::getKey(SDL2_Engine::EControllerKeyCodes::A) ? "have" : "have not") , " pressed the 'A' button");
 		}

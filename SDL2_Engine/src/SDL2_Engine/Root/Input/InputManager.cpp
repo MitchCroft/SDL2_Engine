@@ -1,9 +1,10 @@
 #include "InputManager.hpp"
 
+#define NOMINMAX
 #include <windows.h>
-#include <Xinput.h>
 
-#include "../Time.hpp"
+#include <Xinput.h>
+#include <limits>
 
 #include "VirtualAxis.hpp"
 
@@ -12,8 +13,14 @@
 #define PREVIOUS_STATE 1
 #define STATE_TOTAL 2
 
+//! Provide a macro for converting to controller state index's
+#define GET_IND(ID, STATE) (ID * STATE_TOTAL + STATE)
+
 //! Define the total number of axis
 #define AXIS_TOTAL ((int)EControllerAxisCodes::Right_Y + 1)
+
+//! Define the ID for all controllers connected
+#define MAX_CONNECTED_CONTROLLER_ID 15
 
 namespace SDL2_Engine {
 
@@ -30,7 +37,8 @@ namespace SDL2_Engine {
 	 *		Store a state for the connected controllers, in
 	 *		order for the polling of different
 	**/
-	struct Input::ControllerState {
+	class Input::ControllerState {
+	public:
 		//! Store the current input ID for this state
 		DWORD packetNumber;
 
@@ -39,15 +47,56 @@ namespace SDL2_Engine {
 
 		//! Store the bitmask for the controller buttons
 		WORD buttonMask;
+
+		//! Setup as blank
+		ControllerState() : packetNumber(0), buttonMask(0) { memset(axisValues, 0, sizeof(float) * AXIS_TOTAL); }
+
+		//! Remove the copy constructor
+		ControllerState(const ControllerState&) = delete;
+
+		//! Reset all state values back to default
+		inline ControllerState& reset() { packetNumber = 0; buttonMask = 0; memset(axisValues, 0, sizeof(float) * AXIS_TOTAL); return *this; }
+
+		//! Copy the values of another state
+		ControllerState& operator=(const ControllerState& pCopy) {
+			packetNumber = pCopy.packetNumber;
+			memcpy_s(axisValues, sizeof(float) * AXIS_TOTAL, pCopy.axisValues, sizeof(float) * AXIS_TOTAL);
+			buttonMask = pCopy.buttonMask;
+			return *this;
+		}
+
+		//! Copy the values of a XINPUT_STATE
+		ControllerState& operator=(const XINPUT_STATE& pState) {
+			packetNumber = pState.dwPacketNumber;
+			buttonMask = pState.Gamepad.wButtons;
+
+			//Get the maximum value for the trigger values
+			const float TRIGGER_MAX = (float)std::numeric_limits<BYTE>::max();
+
+			// Convert the trigger values
+			axisValues[(int)EControllerAxisCodes::Left_Trigger] = (float)pState.Gamepad.bLeftTrigger / TRIGGER_MAX;
+			axisValues[(int)EControllerAxisCodes::Right_Trigger] = (float)pState.Gamepad.bRightTrigger / TRIGGER_MAX;
+
+			//Get the maximum value for the thumbstick values
+			const float THUMBSTICK_MAX = (float)std::numeric_limits<SHORT>::max();
+
+			//Convert the thumbstick values
+			axisValues[(int)EControllerAxisCodes::Left_X] = (float)pState.Gamepad.sThumbLX / THUMBSTICK_MAX;
+			axisValues[(int)EControllerAxisCodes::Left_Y] = (float)pState.Gamepad.sThumbLY / THUMBSTICK_MAX;
+			axisValues[(int)EControllerAxisCodes::Right_X] = (float)pState.Gamepad.sThumbRX / THUMBSTICK_MAX;
+			axisValues[(int)EControllerAxisCodes::Right_Y] = (float)pState.Gamepad.sThumbRY / THUMBSTICK_MAX;
+
+			return *this;
+		}
 	};
 
 	/*
 		Input : Constructor - Initialise with default values
 		Author: Mitchell Croft
 		Created: 31/01/2017
-		Modified: 31/01/2017
+		Modified: 01/02/2017
 	*/
-	Input::Input() : mConnectedControllers(0), mControllerStates(nullptr) { mControllerStates = new ControllerState[(int)EControllerID::TOTAL * STATE_TOTAL]; }
+	Input::Input() : mConnectedControllers(0), mControllerStates(nullptr), mPollTimer(5.f), mPollInterval(5.f) { mControllerStates = new ControllerState[(int)EControllerID::TOTAL * STATE_TOTAL]; }
 
 	/*
 		Input : Destructor - Clear allocated memory
@@ -78,14 +127,85 @@ namespace SDL2_Engine {
 	/*
 		Input : update - Update the internal controller states and update the virtual axis
 		Author: Mitchell Croft
-		Created: 31/01/2017
-		Modified: 31/01/2017
+		Created: 01/02/2017
+		Modified: 01/02/2017
 
-		param[in] pTime - A constant reference to an SDL2_Engine::Time object, for use in updating
-						  the virtual axis values
+		param[in] pDelta - The delta time that is used to adjust the virtual axis values.
+						   This can be scaled to replicate bullet time effects
+		param[in] pRealDeltaTime - The unscaled delta time that is used to poll for new 
+								   connected controllers at set intervals
 	*/
-	void Input::update(const Time& pTime) {
-		pTime.realDeltaTime;
+	void Input::update(const float& pDelta, const float& pRealDelta) {
+		#pragma region Find Connected Controllers
+		//Check if there are disconnected controllers
+		if (mInstance->mConnectedControllers != MAX_CONNECTED_CONTROLLER_ID) {
+			//Add onto the timer value
+			mInstance->mPollTimer += pRealDelta;
+
+			//Check if polling should occur
+			if (mInstance->mPollTimer >= mInstance->mPollInterval) {
+				//Reset the poll timer
+				mInstance->mPollTimer = 0.f;
+
+				//Loop through to search for connected controllers
+				DWORD result;
+				for (DWORD i = 0; i < (int)EControllerID::TOTAL; i++) {
+					//Check if there is already a controller connected
+					if (mInstance->mConnectedControllers & (1 << i)) continue;
+
+					//Clear previously stored struct information
+					XINPUT_STATE state;
+					ZeroMemory(&state, sizeof(XINPUT_STATE));
+
+					//Get the current controller index's state
+					result = XInputGetState(i, &state);
+
+					//If a controller was found add it to the list
+					if (result == ERROR_SUCCESS) mInstance->mConnectedControllers |= (1 << i);
+				}
+			}
+		}
+		#pragma endregion
+
+		#pragma region Update State Information
+		//Loop through all connected controllers
+		DWORD result;
+ 		for (DWORD i = 0; i < (int)EControllerID::TOTAL; i++) {
+			//Transfer the current state values to the previous states
+			if (mInstance->mControllerStates[GET_IND(i, PREVIOUS_STATE)].packetNumber != mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)].packetNumber)
+				mInstance->mControllerStates[GET_IND(i, PREVIOUS_STATE)] = mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)];
+
+			//Check if the controller is connected
+			if (mInstance->mConnectedControllers & (1 << i)) {
+				//Clear the previously stored struct information
+				XINPUT_STATE state;
+				ZeroMemory(&state, sizeof(XINPUT_STATE));
+
+				//Get the current controller index's state
+				result = XInputGetState(i, &state);
+
+				//Check if the controller has been disconnected
+				if (result != ERROR_SUCCESS) {
+					//Reset the current controller state
+					mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)].reset();
+
+					//Remove the current controllers bit from the connected controllers
+					mInstance->mConnectedControllers ^= (1 << i);
+
+					//Update the next controller
+					continue;
+				}
+
+				//Update the current state information
+				if (mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)].packetNumber != state.dwPacketNumber)
+					mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)] = state;
+			}
+		}
+		#pragma endregion
+
+		#pragma region Update Virtual Axis
+
+		#pragma endregion
 	}
 
 	/*
@@ -104,7 +224,7 @@ namespace SDL2_Engine {
 		Input : getAxisRaw - Get the raw axis value	from a connected controller, or the average across all connected
 		Author: Mitchell Croft
 		Created: 31/01/2017
-		Modified: 31/01/2017
+		Modified: 01/02/2017
 
 		param[in] pAxis - A EControllerAxisCode value representing the controller axis to retrieve
 		param[in] pID - The ID of the controller to check for input from (Default All)
@@ -122,7 +242,7 @@ namespace SDL2_Engine {
 		if (pID != EControllerID::All && pID != EControllerID::TOTAL) {
 			//Check the specified controller is connected
 			if (mInstance->mConnectedControllers & (1 << (int)pID))
-				return mInstance->mControllerStates[(int)pID * STATE_TOTAL + CURRENT_STATE].axisValues[(int)pAxis];
+				return mInstance->mControllerStates[GET_IND((int)pID, CURRENT_STATE)].axisValues[(int)pAxis];
 
 			//If controller is not connected return 0
 			else return 0.f;
@@ -144,7 +264,7 @@ namespace SDL2_Engine {
 					connectedControllers++;
 
 					//Add onto the total
-					total += mInstance->mControllerStates[i * STATE_TOTAL + CURRENT_STATE].axisValues[(int)pAxis];
+					total += mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)].axisValues[(int)pAxis];
 				}
 			}
 			
@@ -193,7 +313,7 @@ namespace SDL2_Engine {
 		Input : getKey - Check if a controller button is down across one or all connected controllers
 		Author: Mitchell Croft
 		Created: 31/01/2017
-		Modified: 31/01/2017
+		Modified: 01/02/2017
 
 		param[in] pCode - An EControllerKeyCode value representing the controller button to test
 		param[in] pID - The ID of the controller to check for input from (Default All)
@@ -211,7 +331,7 @@ namespace SDL2_Engine {
 		if (pID != EControllerID::All && pID != EControllerID::TOTAL) {
 			//Check if the specified controller is connected
 			if (mInstance->mConnectedControllers & (1 << (int)pID))
-				return (mInstance->mControllerStates[(int)pID * STATE_TOTAL + CURRENT_STATE].buttonMask & (int)pCode) == 1;
+				return (mInstance->mControllerStates[GET_IND((int)pID, CURRENT_STATE)].buttonMask & (int)pCode) != 0;
 			
 			//If controller is not connected return false
 			else return false;
@@ -224,7 +344,7 @@ namespace SDL2_Engine {
 				//Check if the controller is connected
 				if (mInstance->mConnectedControllers & (1 << i)) {
 					//Check if the button has been pressed
-					if (mInstance->mControllerStates[i * STATE_TOTAL + CURRENT_STATE].buttonMask & (int)pCode)
+					if (mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)].buttonMask & (int)pCode)
 						return true;
 				}
 			}
@@ -238,7 +358,7 @@ namespace SDL2_Engine {
 		Input : getKeyDown - Check if a controller has been pressed across one or all connected controllers
 		Author: Mitchell Croft
 		Created: 31/01/2017
-		Modified: 31/01/2017
+		Modified: 01/02/2017
 
 		param[in] pCode - An EControllerKeyCode value representing the controller button to test
 		param[in] pID - The ID of the controller to check for input from (Default All)
@@ -256,8 +376,8 @@ namespace SDL2_Engine {
 		if (pID != EControllerID::All && pID != EControllerID::TOTAL) {
 			//Check if the specified controller is connected
 			if (mInstance->mConnectedControllers & (1 << (int)pID))
-				return (mInstance->mControllerStates[(int)pID * STATE_TOTAL + CURRENT_STATE].buttonMask & (int)pCode &&
-					    !(mInstance->mControllerStates[(int)pID * STATE_TOTAL + PREVIOUS_STATE].buttonMask & (int)pCode));
+				return (mInstance->mControllerStates[GET_IND((int)pID, CURRENT_STATE)].buttonMask & (int)pCode &&
+					    !(mInstance->mControllerStates[GET_IND((int)pID, PREVIOUS_STATE)].buttonMask & (int)pCode));
 
 			//If controller is not connected return false
 			else return false;
@@ -270,8 +390,8 @@ namespace SDL2_Engine {
 				//Check if the controller is connected
 				if (mInstance->mConnectedControllers & (1 << i)) {
 					//Check if the button has been pressed
-					if (mInstance->mControllerStates[i * STATE_TOTAL + CURRENT_STATE].buttonMask & (int)pCode &&
-						!(mInstance->mControllerStates[i * STATE_TOTAL + PREVIOUS_STATE].buttonMask & (int)pCode))
+					if (mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)].buttonMask & (int)pCode &&
+						!(mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)].buttonMask & (int)pCode))
 						return true;
 				}
 			}
@@ -285,7 +405,7 @@ namespace SDL2_Engine {
 		Input : getKeyUp - Check for a controller button release across one or all connected controllers
 		Author: Mitchell Croft
 		Created: 31/01/2017
-		Modified: 31/01/2017
+		Modified: 01/02/2017
 
 		param[in] pCode - An EControllerKeyCode value representing the controller button to test
 		param[in] pID - The ID of the controller to check for input from (Default All)
@@ -303,8 +423,8 @@ namespace SDL2_Engine {
 		if (pID != EControllerID::All && pID != EControllerID::TOTAL) {
 			//Check if the specified controller is connected
 			if (mInstance->mConnectedControllers & (1 << (int)pID))
-				return (!(mInstance->mControllerStates[(int)pID * STATE_TOTAL + CURRENT_STATE].buttonMask & (int)pCode) &&
-					mInstance->mControllerStates[(int)pID * STATE_TOTAL + PREVIOUS_STATE].buttonMask & (int)pCode);
+				return (!(mInstance->mControllerStates[GET_IND((int)pID, CURRENT_STATE)].buttonMask & (int)pCode) &&
+					mInstance->mControllerStates[GET_IND((int)pID, PREVIOUS_STATE)].buttonMask & (int)pCode);
 
 			//If controller is not connected return false
 			else return false;
@@ -317,8 +437,8 @@ namespace SDL2_Engine {
 				//Check if the controller is connected
 				if (mInstance->mConnectedControllers & (1 << i)) {
 					//Check if the button has been released
-					if (!(mInstance->mControllerStates[i * STATE_TOTAL + CURRENT_STATE].buttonMask & (int)pCode) &&
-						mInstance->mControllerStates[i * STATE_TOTAL + PREVIOUS_STATE].buttonMask & (int)pCode)
+					if (!(mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)].buttonMask & (int)pCode) &&
+						mInstance->mControllerStates[GET_IND(i, PREVIOUS_STATE)].buttonMask & (int)pCode)
 						return true;
 				}
 			}
@@ -339,20 +459,30 @@ namespace SDL2_Engine {
 	void Input::addAxis(const VirtualAxis& pAxis) { mInstance->mMonitorAxis.insert(std::pair<const char*, VirtualAxis>(pAxis.name.c_str(), pAxis)); }
 
 	/*
-	Input : removeAxis - Remove all virtual axis with a specific name
-	Author: Mitchell Croft
-	Created: 31/01/2017
-	Modified: 31/01/2017
+		Input : removeAxis - Remove all virtual axis with a specific name
+		Author: Mitchell Croft
+		Created: 31/01/2017
+		Modified: 31/01/2017
 
-	param[in] pAxis - A c-string representing the name of the virtual axis to remove
+		param[in] pAxis - A c-string representing the name of the virtual axis to remove
 	*/
 	void Input::removeAxis(const char* pAxis) { mInstance->mMonitorAxis.erase(pAxis); mInstance->mCurInputAxis.erase(pAxis); }
 
 	/*
-	Input : removeAxis - Remove all virtual axis' defined within the Input Manager
-	Author: Mitchell Croft
-	Created: 31/01/2017
-	Modified: 31/01/2017
+		Input : removeAxis - Remove all virtual axis' defined within the Input Manager
+		Author: Mitchell Croft
+		Created: 31/01/2017
+		Modified: 31/01/2017
 	*/
 	void Input::removeAxis() { mInstance->mMonitorAxis.clear(); mInstance->mCurInputAxis.clear(); }
+
+	/*
+		Input : setPollInterval - Set the time between polls for new connected controllers
+		Author: Mitchell Croft
+		Created: 01/02/2017
+		Modified: 01/02/2017
+
+		param[in] pInterval - The time in seconds between poll events
+	*/
+	void Input::setPollInterval(const float& pInterval) { mInstance->mPollInterval = pInterval; }
 }

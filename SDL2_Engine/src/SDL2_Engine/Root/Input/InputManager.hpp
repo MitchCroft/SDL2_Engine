@@ -3,8 +3,6 @@
 #include "../../Types.hpp"
 
 #include "InputForwardDeclares.hpp"
-#include "../Time/TimeForwardDeclares.hpp"
-
 #include "InputValues.hpp"
 
 #include <unordered_map>
@@ -15,7 +13,7 @@ namespace SDL2_Engine {
 	*		Name: Input
 	*		Author: Mitchell Croft
 	*		Created: 30/01/2017
-	*		Modified: 31/01/2017
+	*		Modified: 01/02/2017
 	*
 	*		Purpose:
 	*		Monitor and store input values involving controller's connected
@@ -28,7 +26,7 @@ namespace SDL2_Engine {
 		~Input();
 
 		//! Prototype a container for controller information
-		struct ControllerState;
+		class ControllerState;
 
 		//! Store a bitmask to store the connected controllers
 		byte mConnectedControllers;
@@ -39,9 +37,13 @@ namespace SDL2_Engine {
 		//! Store a map of the different axis' objects to monitor and update
 		std::unordered_multimap<const char*, VirtualAxis> mMonitorAxis;
 
-		//! Store the axis values as they have been modified by the InputAxis values
+		//! Store the virtual axis values as they have been modified by the InputAxis values
 		std::unordered_map<const char*, float> mPreInputAxis;
 		std::unordered_map<const char*, float> mCurInputAxis;
+
+		//! Store controller poll timer values
+		float mPollTimer;
+		float mPollInterval;
 
 	public:
 		//! Initialisation / Destruction
@@ -49,7 +51,7 @@ namespace SDL2_Engine {
 		static void destroy();
 
 		//! Main function
-		static void update(const Time& pTime);
+		static void update(const float& pDelta, const float& pRealDelta);
 
 		//! Getters
 		static const float& getVAxis(const char* pAxis);
@@ -68,5 +70,7 @@ namespace SDL2_Engine {
 		static void addAxis(const VirtualAxis& pAxis);
 		static void removeAxis(const char* pAxis);
 		static void removeAxis();
+
+		static void setPollInterval(const float& pInterval);
 	};
 }

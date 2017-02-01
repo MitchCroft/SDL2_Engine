@@ -60,12 +60,6 @@
     <ClInclude Include="src\main\dirent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\SDL2_Engine.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Types.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\SDL2_Engine\Root\Input\InputForwardDeclares.hpp">
       <Filter>Header Files\SDL2_Engine\Root\Input</Filter>
     </ClInclude>
@@ -113,6 +107,15 @@
     </ClInclude>
     <ClInclude Include="src\SDL2_Engine\Utilities\Properties\ValidatedProperty.hpp">
       <Filter>Header Files\SDL2_Engine\Utilities\Properties</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Math.hpp">
+      <Filter>Header Files\SDL2_Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\SDL2_Engine.hpp">
+      <Filter>Header Files\SDL2_Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Types.hpp">
+      <Filter>Header Files\SDL2_Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

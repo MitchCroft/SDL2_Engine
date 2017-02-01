@@ -171,6 +171,7 @@
     <ClCompile Include="src\SDL2_Engine\Root\Time\TimeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SDL2_Engine\Math.hpp" />
     <ClInclude Include="src\SDL2_Engine\Root\Input.hpp" />
     <ClInclude Include="src\SDL2_Engine\Root\Input\InputForwardDeclares.hpp" />
     <ClInclude Include="src\SDL2_Engine\Root\Input\InputValues.hpp" />

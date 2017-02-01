@@ -6,6 +6,7 @@
 #include "InputValues.hpp"
 
 #include <unordered_map>
+#include <string>
 
 namespace SDL2_Engine {
 
@@ -35,11 +36,11 @@ namespace SDL2_Engine {
 		ControllerState* mControllerStates;
 
 		//! Store a map of the different axis' objects to monitor and update
-		std::unordered_multimap<const char*, VirtualAxis> mMonitorAxis;
+		std::unordered_multimap<std::string, VirtualAxis> mMonitorAxis;
 
 		//! Store the virtual axis values as they have been modified by the InputAxis values
-		std::unordered_map<const char*, float> mPreInputAxis;
-		std::unordered_map<const char*, float> mCurInputAxis;
+		std::unordered_map<std::string, float> mPreInputAxis;
+		std::unordered_map<std::string, float> mCurInputAxis;
 
 		//! Store controller poll timer values
 		float mPollTimer;
@@ -56,7 +57,7 @@ namespace SDL2_Engine {
 		//! Getters
 		static const float& getVAxis(const char* pAxis);
 
-		static const float getAxisRaw(const EControllerAxisCodes& pAxis, const EControllerID& pID = EControllerID::All);
+		static const float getAxisRaw(const EControllerAxisCodes& pAxis, const EControllerID& pID = EControllerID::All, const bool& pAverage = false);
 
 		static bool getButton(const char* pAxis);
 		static bool getButtonDown(const char* pAxis);
@@ -67,7 +68,8 @@ namespace SDL2_Engine {
 		static bool getKeyUp(const EControllerKeyCodes& pCode, const EControllerID& pID = EControllerID::All);
 
 		//! Setters
-		static void addAxis(const VirtualAxis& pAxis);
+		static void addVirtualAxis(const VirtualAxis& pAxis);
+		static void addVirtualAxis(const VirtualAxis* pArray, const uint& pCount);
 		static void removeAxis(const char* pAxis);
 		static void removeAxis();
 

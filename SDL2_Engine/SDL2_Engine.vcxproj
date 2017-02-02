@@ -166,12 +166,29 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\SDL2_Engine\Resources\Manager\ResourceManager.cpp" />
+    <ClCompile Include="src\SDL2_Engine\Resources\Resource Types\SDL2CursorResource.cpp" />
+    <ClCompile Include="src\SDL2_Engine\Resources\Resource Types\SDL2MusicResource.cpp" />
+    <ClCompile Include="src\SDL2_Engine\Resources\Resource Types\SDL2SFXResource.cpp" />
+    <ClCompile Include="src\SDL2_Engine\Resources\Resource Types\SDL2TextureResource.cpp" />
     <ClCompile Include="src\SDL2_Engine\Root\Input\InputManager.cpp" />
     <ClCompile Include="src\SDL2_Engine\Root\Logger\LoggerManager.cpp" />
     <ClCompile Include="src\SDL2_Engine\Root\Time\TimeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\SDL2_Engine\Math.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Resources\Manager\ResourceManager.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Resources\Resource Types\Custom Resources\Cursor_Container.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Resources\Resource Types\ResourceBase.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Resources\Resource Types\SDL2CursorResource.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Resources\ResourceTypePrototypes.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Resources\Resource Types\SDL2GenericResource.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Resources\Resource Types\SDL2MusicResource.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Resources\Resource Types\SDL2Resource.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Resources\Resource Types\SDL2SFXResource.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Resources\Resource Types\SDL2TextureResource.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Resources\ResourceTypes.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Resources\ResourceValues.hpp" />
     <ClInclude Include="src\SDL2_Engine\Root\Input.hpp" />
     <ClInclude Include="src\SDL2_Engine\Root\Input\InputForwardDeclares.hpp" />
     <ClInclude Include="src\SDL2_Engine\Root\Input\InputValues.hpp" />

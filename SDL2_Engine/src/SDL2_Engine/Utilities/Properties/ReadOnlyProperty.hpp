@@ -21,14 +21,14 @@ namespace SDL2_Engine {
 			template<class T> 
 			class ReadOnlyProperty {
 				//! Store a reference to the property that is being managed
-				T& mValue;
+				const T& mValue;
 
 			public:
 				//! Delete the default constructor to prevent NULL setup
 				ReadOnlyProperty() = delete;
 
 				//! Allow for simple construction, pointing the reference at a value
-				inline ReadOnlyProperty(T& pValue) : mValue(pValue) {}
+				inline ReadOnlyProperty(const T& pValue) : mValue(pValue) {}
 
 				//! Delete the copy constructor
 				ReadOnlyProperty(const ReadOnlyProperty<T>& pCopy) = delete;

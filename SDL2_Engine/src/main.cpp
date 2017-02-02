@@ -16,8 +16,6 @@
 
 int main(int pArgCount, char* pArgs[]) {
 
-	glm::mat4 test;
-
 	// Get current directory of the current file
 	char result[MAX_PATH];
 	GetModuleFileName(NULL, result, MAX_PATH);

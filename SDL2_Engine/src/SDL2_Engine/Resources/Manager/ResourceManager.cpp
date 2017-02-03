@@ -115,6 +115,13 @@ namespace SDL2_Engine {
 			//Get the file that is to be loaded
 			const std::string& TO_LOAD = mResourcesDir + mResourceOrigin[pResource->mID];
 
+			//Check the file exists
+			if (mFileLookup.find(TO_LOAD) == mFileLookup.end()) {
+				pResource->mStatus = EResourceLoadStatus::Error;
+				mErrorCB("'%s' could not be found for loading. Try calling Resources::scanResources() to re-scan the '%s' directory", TO_LOAD.c_str(), mResourcesDir.c_str());
+				return;
+			}
+
 			//Switch based on the type of the resource
 			switch (pResource->mType) {
 				#pragma region Texture

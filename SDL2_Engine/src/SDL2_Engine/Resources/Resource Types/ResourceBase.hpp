@@ -18,6 +18,9 @@ namespace SDL2_Engine {
 		**/
 		class ResourceBase {
 		protected:
+			//! Assign as a friend of the Resource Manager
+			friend class Resources;
+
 			//! Store a resource ID for the current resource
 			const resourceID mID;
 
@@ -40,7 +43,7 @@ namespace SDL2_Engine {
 			Utilities::Properties::ReadOnlyProperty<EResourceType> type;
 
 			//! Abstract function used to force memory to be freed
-			virtual void freeMemory() = 0;
+			virtual void freeMemory() {}
 		};
 	}
 }

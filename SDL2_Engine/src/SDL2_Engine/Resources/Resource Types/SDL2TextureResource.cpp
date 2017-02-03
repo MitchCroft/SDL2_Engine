@@ -6,12 +6,12 @@
 namespace SDL2_Engine {
 	namespace Resources {
 		/*
-			SDL2Resource (Texture) : freeMemory - Clear the managed Texture resource
+			__SDL2Resource (Texture) : freeMemory - Clear the managed Texture resource
 			Author: Mitchell Croft
 			Created: 02/02/2017
-			Modified: 02/02/2017
+			Modified: 03/02/2017
 		*/
-		void SDL2Resource<Texture>::freeMemory() { 
+		void __SDL2Resource<Texture>::freeMemory() {
 			//Check texture exists before removing it
 			if (mTexture) {
 				//Destroy the texture

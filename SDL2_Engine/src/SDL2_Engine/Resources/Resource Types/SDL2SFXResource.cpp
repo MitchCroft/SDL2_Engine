@@ -6,12 +6,12 @@
 namespace SDL2_Engine {
 	namespace Resources {
 		/*
-			SDL2Resource (SFX) : freeMemory - Clear the managed Mix Chunk resource
+			__SDL2Resource (SFX) : freeMemory - Clear the managed Mix Chunk resource
 			Author: Mitchell Croft
 			Created: 02/02/2017
-			Modified: 02/02/2017
+			Modified: 03/02/2017
 		*/
-		void SDL2Resource<SFX>::freeMemory() {
+		void __SDL2Resource<SFX>::freeMemory() {
 			//Check the SFX exists before removing it
 			if (mSFX) {
 				//Destroy the audio chunk

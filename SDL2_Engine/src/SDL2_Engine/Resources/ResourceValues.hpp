@@ -4,10 +4,10 @@ namespace SDL2_Engine {
 	namespace Resources {
 		//! Store enumeration values for tracking the status of a SDL2Resource 
 		enum class EResourceLoadStatus {
-			ERROR = -1,
-			Unloaded,
-			Loaded,
-			Freed,
+			Error = 1,
+			Unloaded = 2,
+			Loaded = 4,
+			Freed = 8,
 		};
 
 		//! Store enumeration values for tracking the type of resource that is currently in use

@@ -19,9 +19,6 @@ namespace SDL2_Engine {
 			 *		cursor through SDL
 			**/
 			struct Cursor_Container {
-				//! Store the dimensions of the frames
-				unsigned int width, height;
-
 				//! Store the current progress through the animation
 				unsigned int currentFrame;
 
@@ -38,8 +35,7 @@ namespace SDL2_Engine {
 				std::vector<SDL_Cursor*> frameList;
 
 				//! Constructor
-				inline Cursor_Container() : width(0), height(0), currentFrame(0), totalFrames(0), fps(0.f), animationTimer(0.f) {}
-
+				inline Cursor_Container() : currentFrame(0), totalFrames(0), fps(0.f), animationTimer(0.f) {}
 			};
 		}
 	}

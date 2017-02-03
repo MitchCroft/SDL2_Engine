@@ -9,9 +9,9 @@ namespace SDL2_Engine {
 			SDL2Resource (Music) : freeMemory - Clear the managed Mix Music resource
 			Author: Mitchell Croft
 			Created: 02/02/2017
-			Modified: 02/02/2017
+			Modified: 03/02/2017
 		*/
-		void SDL2Resource<Music>::freeMemory() {
+		void __SDL2Resource<Music>::freeMemory() {
 			//Check the music exists before removing it
 			if (mMusic) {
 				//Destroy the music

@@ -9,14 +9,14 @@
 namespace SDL2_Engine {
 	namespace Resources {
 		/*
-			SDL2Resource (Cursor) : update - Update the animation of the current Cursor resource
+			__SDL2Resource (Cursor) : update - Update the animation of the current Cursor resource
 			Author: Mitchell Croft
 			Created: 02/02/2017
-			Modified: 02/02/2017
+			Modified: 03/02/2017
 
 			param[in] pDelta - The delta time to update this cursor with
 		*/
-		void SDL2Resource<Cursor>::update(const float& pDelta) {
+		void __SDL2Resource<Cursor>::update(const float& pDelta) {
 			//Check the resource has been loaded
 			if (mStatus != EResourceLoadStatus::Loaded) return;
 
@@ -40,14 +40,14 @@ namespace SDL2_Engine {
 		}
 
 		/*
-			SDL2Resource (Cursor) : getCurrentFrame - Get the currently active frame of the Cursor animation
+			__SDL2Resource (Cursor) : getCurrentFrame - Get the currently active frame of the Cursor animation
 			Author: Mitchell Croft
 			Created: 02/02/2017
-			Modified: 02/02/2017
+			Modified: 03/02/2017
 
 			return const SDL_Cursor* - Returns a constant pointer to the current frame for this Cursor
 		*/
-		const SDL_Cursor* SDL2Resource<Cursor>::getCurrentFrame() const {
+		const SDL_Cursor* __SDL2Resource<Cursor>::getCurrentFrame() const {
 			//Check the status of the resource
 			if (mStatus != EResourceLoadStatus::Loaded) return nullptr;
 
@@ -56,12 +56,12 @@ namespace SDL2_Engine {
 		}
 
 		/*
-			SDL2Resource (Cursor) : freeMemory - Clear the managed SDL_Cursor resources
+			__SDL2Resource (Cursor) : freeMemory - Clear the managed SDL_Cursor resources
 			Author: Mitchell Croft
 			Created: 02/02/2016
-			Modified: 02/02/2016
+			Modified: 03/02/2016
 		*/
-		void SDL2Resource<Cursor>::freeMemory() {
+		void __SDL2Resource<Cursor>::freeMemory() {
 			//Check the cursor exists before removing it
 			if (mCursor) {
 				//Loop through the Cursor frames

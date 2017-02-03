@@ -14,6 +14,8 @@
 
 #include "SDL2_Engine/SDL2_Engine.hpp"
 
+#include "SDL2_Engine/Resources/Resources.hpp"
+
 int main(int pArgCount, char* pArgs[]) {
 
 	// Get current directory of the current file
@@ -71,7 +73,7 @@ int main(int pArgCount, char* pArgs[]) {
 		}
 	}*/
 
-	//Try to initialise the Input manager
+	/*//Try to initialise the Input manager
 	if (SDL2_Engine::Input::init()) {
 		//This shouldn't happen execute
 		if (SDL2_Engine::Input::init()) return -1;
@@ -114,7 +116,46 @@ int main(int pArgCount, char* pArgs[]) {
 	}
 
 	//Destroy the input manager
-	SDL2_Engine::Input::destroy();
+	SDL2_Engine::Input::destroy();*/
+
+	/*std::string test;
+	test.reserve(256);
+
+	std::cin.getline((char*)test.c_str(), 256);
+
+	Json::Value root;
+	Json::Reader reader;
+	bool success = reader.parse(test.c_str(), root);
+
+	if (!success)
+		throw std::runtime_error(reader.getFormattedErrorMessages());
+
+	for (auto& val : root["test"]) {
+		std::cout << val.asInt() << '\n';
+	}*/
+
+if (SDL2_Engine::Resources::Resources::init("resources", (const SDL_Renderer*)result, SDL2_Engine::Logger::logWarning, SDL2_Engine::Logger::logError)) {
+	{
+		bool pressed = GetKeyState(VK_ESCAPE) < 0;
+		bool pressed2 = GetKeyState(VK_SPACE) < 0;
+		bool pressed3 = GetKeyState(VK_BACK) < 0;
+
+		SDL2_Engine::Resources::SDL2Resource<SDL2_Engine::Resources::Generic> resource;
+
+		while (pressed == GetKeyState(VK_ESCAPE) < 0) {
+			//Update the resources
+			SDL2_Engine::Resources::Resources::update();
+
+			if (GetKeyState(VK_SPACE) < 0 != pressed2)
+				resource = SDL2_Engine::Resources::Resources::load<SDL2_Engine::Resources::Generic>("test.txt");
+			if (resource && GetKeyState(VK_BACK) < 0 != pressed3)
+				SDL2_Engine::Logger::log(SDL2_Engine::Resources::Resources::idToFilepath(resource->id));
+		}
+	}
+
+	//Unload the resource manager
+	SDL2_Engine::Resources::Resources::destroy();
+}
 
 	system("PAUSE");
 	return 0;

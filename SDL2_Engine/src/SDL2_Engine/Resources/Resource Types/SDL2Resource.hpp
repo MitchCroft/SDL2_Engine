@@ -16,10 +16,10 @@ namespace SDL2_Engine {
 		 *		be created from this.
 		**/
 		template<typename T>
-		class SDL2Resource : public ResourceBase { 
-			static_assert(false, "Can not create a ResourceBase object that " \
+		class __SDL2Resource : public ResourceBase { 
+			/*static_assert(false, "Can not create a ResourceBase object that " \
 								 "is not based on the prototypes listed in " \
-								 "the ResourceTypePrototypes.hpp file"); 
+								 "the ResourceTypePrototypes.hpp file");*/ 
 		};
 	}
 }

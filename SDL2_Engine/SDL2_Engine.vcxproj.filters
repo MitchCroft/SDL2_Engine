@@ -67,6 +67,18 @@
     <Filter Include="Header Files\SDL2_Engine\Resources\Resource Types\Custom Resources">
       <UniqueIdentifier>{c6bae792-0584-4717-96e1-6d14740a8555}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\SDL2_Engine\Resources">
+      <UniqueIdentifier>{41407709-3bf2-451a-86d8-9acf2c2d112d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SDL2_Engine\Resources\Manager">
+      <UniqueIdentifier>{88af0250-15bc-43a1-b540-eac34dc47eb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SDL2_Engine\Resources\Resource Types">
+      <UniqueIdentifier>{88c4f601-a22a-4a2a-9143-d3c97d355363}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SDL2_Engine\Resources\Resource Types\Custom Resources">
+      <UniqueIdentifier>{88b0ce10-ac53-4862-abc6-3bc768e286a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\main\dirent.h">
@@ -165,6 +177,15 @@
     <ClInclude Include="src\SDL2_Engine\Resources\ResourceTypes.hpp">
       <Filter>Header Files\SDL2_Engine\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="src\jsoncpp\json\json.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jsoncpp\json\json-forwards.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Resources\Resources.hpp">
+      <Filter>Header Files\SDL2_Engine\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -179,20 +200,23 @@
     <ClCompile Include="src\SDL2_Engine\Root\Time\TimeManager.cpp">
       <Filter>Source Files\SDL2_Engine\Root\Time</Filter>
     </ClCompile>
+    <ClCompile Include="src\jsoncpp\jsoncpp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\SDL2_Engine\Resources\Manager\ResourceManager.cpp">
-      <Filter>Header Files\SDL2_Engine\Resources\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="src\SDL2_Engine\Resources\Resource Types\SDL2TextureResource.cpp">
-      <Filter>Header Files\SDL2_Engine\Resources\Resource Types</Filter>
-    </ClCompile>
-    <ClCompile Include="src\SDL2_Engine\Resources\Resource Types\SDL2SFXResource.cpp">
-      <Filter>Header Files\SDL2_Engine\Resources\Resource Types</Filter>
-    </ClCompile>
-    <ClCompile Include="src\SDL2_Engine\Resources\Resource Types\SDL2MusicResource.cpp">
-      <Filter>Header Files\SDL2_Engine\Resources\Resource Types</Filter>
+      <Filter>Source Files\SDL2_Engine\Resources\Manager</Filter>
     </ClCompile>
     <ClCompile Include="src\SDL2_Engine\Resources\Resource Types\SDL2CursorResource.cpp">
-      <Filter>Header Files\SDL2_Engine\Resources\Resource Types</Filter>
+      <Filter>Source Files\SDL2_Engine\Resources\Resource Types</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SDL2_Engine\Resources\Resource Types\SDL2MusicResource.cpp">
+      <Filter>Source Files\SDL2_Engine\Resources\Resource Types</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SDL2_Engine\Resources\Resource Types\SDL2SFXResource.cpp">
+      <Filter>Source Files\SDL2_Engine\Resources\Resource Types</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SDL2_Engine\Resources\Resource Types\SDL2TextureResource.cpp">
+      <Filter>Source Files\SDL2_Engine\Resources\Resource Types</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

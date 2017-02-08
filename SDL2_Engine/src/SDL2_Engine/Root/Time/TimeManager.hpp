@@ -12,7 +12,7 @@ namespace SDL2_Engine {
 	 *		Name: Time
 	 *		Author: Mitchell Croft
 	 *		Created: 20/01/2017
-	 *		Modified: 20/01/2017
+	 *		Modified: 08/02/2017
 	 *		
 	 *		Purpose:
 	 *		Store and track values related to time. Time values
@@ -22,19 +22,25 @@ namespace SDL2_Engine {
 	 *		values accurate. 
 	**/
 	class Time {
-		//! Store the singleton instance
-		static Time mInstance;
+		//! Store the performance frequency of the CPU
+		LARGE_INTEGER mPerformanceFrequency;
 
-		//! Prototype a struct to hold Time information
-		struct TimeInformation;
+		//! Store the start and ending times for tracking delta time
+		LARGE_INTEGER mStartTime, mEndTime;
 
-		//! Store a pointer to a TimeInformation struct
-		TimeInformation* mData;
+		//! Store the various delta time values
+		float mDeltaTime, mRealDeltaTime;
+
+		//! Store the time scale to apply to delta time
+		float mTimeScale;
+
+		//! Store the time that has passed accumulatively
+		double mElapsedTime, mRealElapsedTime;
 
 	public:
 		//! Constructor / Destructor
 		Time();
-		~Time();
+		~Time() = default;
 
 		//! Update function, updates the time since the last cycle
 		void update();
@@ -47,33 +53,5 @@ namespace SDL2_Engine {
 
 		Utilities::Properties::ReadOnlyProperty<double> elapsedTime;
 		Utilities::Properties::ReadOnlyProperty<double> realElapsedTime;
-	};
-
-	/*
-	 *		Name: TimeInformation
-	 *		Author: Mitchell Croft
-	 *		Created: 20/01/2017
-	 *		Modified: 20/01/2017
-	 *		
-	 *		Purpose:
-	 *		Store time values separate from the main Time class
-	 *		to reduce the size of the object whenever a new instance
-	 *		is created in order to gain access to the time information
-	**/
-	struct Time::TimeInformation {
-		//! Store the performance frequency of the CPU
-		LARGE_INTEGER performanceFrequency;
-
-		//! Store the start and ending times for tracking delta time
-		LARGE_INTEGER startTime, endTime;
-
-		//! Store the various delta time values
-		float deltaTime, realDeltaTime;
-
-		//! Store the time scale to apply to delta time
-		float timeScale;
-
-		//! Store the time that has passed accumulatively
-		double elapsedTime, realElapsedTime;
 	};
 }

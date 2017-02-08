@@ -79,6 +79,21 @@
     <Filter Include="Source Files\SDL2_Engine\Resources\Resource Types\Custom Resources">
       <UniqueIdentifier>{88b0ce10-ac53-4862-abc6-3bc768e286a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\SDL2_Engine\Screen Management">
+      <UniqueIdentifier>{95345ba1-b7a6-47cc-a60f-121e5fb8d451}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SDL2_Engine\State Manager">
+      <UniqueIdentifier>{bd51beec-e78f-4805-b91a-3bd85ac9d73f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SDL2_Engine\State Manager\Objects">
+      <UniqueIdentifier>{10e5e636-2423-478e-8b3c-ca5361c64eb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SDL2_Engine\State Manager">
+      <UniqueIdentifier>{ab313436-f7c9-4f52-9003-4b874bd65a90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SDL2_Engine\State Manager\Objects">
+      <UniqueIdentifier>{0fa05489-9d67-4eec-88e4-e2390505435d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\main\dirent.h">
@@ -186,6 +201,30 @@
     <ClInclude Include="src\SDL2_Engine\Resources\Resources.hpp">
       <Filter>Header Files\SDL2_Engine\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Screen Management\BaseScreen.hpp">
+      <Filter>Header Files\SDL2_Engine\Screen Management</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Screen Management\ManagementValues.hpp">
+      <Filter>Header Files\SDL2_Engine\Screen Management</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_EngineInit.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\State Manager\Objects\StateManager.hpp">
+      <Filter>Header Files\SDL2_Engine\State Manager\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\State Manager\Objects\StateManagerInitValues.hpp">
+      <Filter>Header Files\SDL2_Engine\State Manager\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\State Manager\StateManagerForwardDeclares.hpp">
+      <Filter>Header Files\SDL2_Engine\State Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\State Manager\StateManagerValues.hpp">
+      <Filter>Header Files\SDL2_Engine\State Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\State Manager\StateManager.hpp">
+      <Filter>Header Files\SDL2_Engine\State Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -217,6 +256,12 @@
     </ClCompile>
     <ClCompile Include="src\SDL2_Engine\Resources\Resource Types\SDL2TextureResource.cpp">
       <Filter>Source Files\SDL2_Engine\Resources\Resource Types</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SDL2_EngineInit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SDL2_Engine\State Manager\Objects\StateManager.cpp">
+      <Filter>Source Files\SDL2_Engine\State Manager\Objects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

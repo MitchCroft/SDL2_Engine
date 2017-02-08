@@ -16,18 +16,12 @@ namespace SDL2_Engine {
 		outputToConsole - Output a c-string to the standard output
 		Author: Mitchell Croft
 		Created: 23/01/2017
-		Modified: 23/01/2017
+		Modified: 08/02/2017
 
 		param[in] pColor - The DebugColor to output the text in
 		param[in] pMessage - The c-string message to output
 	*/
 	inline void outputToConsole(const DebugColor& pColor, const char* pMessage) {
-		//Keep a mutex to prevent multiple threads clashing over write access
-		static std::mutex lock;
-
-		//Create a lock guard to control the mutex
-		std::lock_guard<std::mutex> guard(lock);
-
 		//Get a handle to the standard output
 		HANDLE hnd = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -46,17 +40,11 @@ namespace SDL2_Engine {
 		outputToFile - Output a c-string to the log text file
 		Author: Mitchell Croft
 		Created: 23/01/2017
-		Modified: 23/01/2017
+		Modified: 08/02/2017
 
 		param[in] pMessage - The c-string message to output
 	*/
 	inline void outputToFile(const char* pMessage) {
-		//Keep a mutex to prevent multiple threads clashing over write access
-		static std::mutex lock;
-
-		//Create a lock guard to control the mutex
-		std::lock_guard<std::mutex> guard(lock);
-
 		//Try to open the log file
 		std::ofstream file(DEBUG_LOG_FILE_PATH, std::ios::out | std::ios::app);
 
@@ -106,12 +94,18 @@ namespace SDL2_Engine {
 		Logger : outputMessage - Timestamp the supplied message and pass the information to the output functions
 		Author: Mitchell Croft
 		Created: 23/01/2017
-		Modified: 24/01/2017
+		Modified: 08/02/2017
 
 		param[in] pColor - The Debug Color to apply to the console output
 		param[in] pMessage - The c-string to output to the different paths
 	*/
 	void Logger::outputMessage(const DebugColor& pColor, char* pMessage) {
+		//Keep a mutex to prevent multiple threads clashing over write access
+		static std::mutex lock;
+
+		//Create a lock guard to control the mutex
+		std::lock_guard<std::mutex> guard(lock);
+
 		//Apply the time stamping to the message
 		timeStampString(pMessage);
 

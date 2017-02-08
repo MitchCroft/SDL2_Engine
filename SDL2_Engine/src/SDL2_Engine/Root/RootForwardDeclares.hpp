@@ -10,6 +10,6 @@
 *		Forward declare all values and objects included in the root
 *		of the SDL2_Engine namespace
 **/
-#include "Input/InputForwardDeclares.h"
-#include "Logger/LoggerForwardDeclares.h"
-#include "Time/TimeForwardDeclares.h"
+#include "Input/InputForwardDeclares.hpp"
+#include "Logger/LoggerForwardDeclares.hpp"
+#include "Time/TimeForwardDeclares.hpp"

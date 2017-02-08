@@ -1,162 +1,36 @@
 #include <iostream>
 
-#define NOMINMAX
-#include "SDL2_Engine/Math.hpp"
+#include "SDL2_Engine/State Manager/StateManager.hpp"
+
+#include "SDL2_EngineInit.hpp"
+
+#include "SDL2_Engine/Root/Logger.hpp"
 
 #include <SDL.h>
-#include <glm/glm.hpp>
-
-#include <RakPeerInterface.h>
-
-#include <string.h>
-
-#include <dirent.h>
-
-#include "SDL2_Engine/SDL2_Engine.hpp"
-
-#include "SDL2_Engine/Resources/Resources.hpp"
 
 int main(int pArgCount, char* pArgs[]) {
+	//Create the StateManager settings object
+	SDL2_Engine::StateManager::StateManagerInitValues vals;
 
-	// Get current directory of the current file
-	char result[MAX_PATH];
-	GetModuleFileName(NULL, result, MAX_PATH);
-	std::cout << result << '\n';
+	//Setup with values
+	vals.commandArgs = pArgs;
+	vals.commandArgsCount = pArgCount;
+	vals.initFunc = init;
+	vals.mainFunc = drawLoop;
+	vals.threadFunc = updateLoop;
+	vals.destroyFunc = destroy;
+	vals.warningCallback = SDL2_Engine::Logger::logWarning;
+	vals.errorCallback = SDL2_Engine::Logger::logError;
 
-	//Test the time object
-	SDL2_Engine::Time time;
+	//Initialise the State Manager
+	if (SDL2_Engine::StateManager::StateManager::init(vals))
+		SDL2_Engine::StateManager::StateManager::run();
 
-	/*bool pressed = GetKeyState(VK_SPACE) < 0;
-	while (pressed == GetKeyState(VK_SPACE) < 0) {
-		time.update();
+	//Destroy the State Manager
+	SDL2_Engine::StateManager::StateManager::destroy();
 
-		if (time.realElapsedTime > 5.0) time.timeScale = sinf(time.realElapsedTime);
-
-		//Output Values
-		SDL2_Engine::Logger::log("---------- Time Values ----------\n" \
-			"Time Scale: %f\n" \
-			"Delta Time: %f (%i fps)\n" \
-			"Real Delta Time: %f (%i fps)\n" \
-			"Elapsed Time: %f\n" \
-			"Real Elapsed Time: %f\n\n\n", time.timeScale.value(), time.deltaTime.value(), (int)(1.f / time.deltaTime), time.realDeltaTime.value(), (int)(1.f / time.realDeltaTime), time.elapsedTime.value(), time.realElapsedTime.value());
-	}*/
-
-	/*std::string testString = " test to see if the log works";
-
-	SDL2_Engine::Logger::log("This is the ", 1, testString);
-	SDL2_Engine::Logger::logFormatted("Test Log %s", result);
-	SDL2_Engine::Logger::logFormatted(SDL2_Engine::DebugColor::CYAN | SDL2_Engine::DebugColor::MAGENTA_FILL, "Test Log with color %s", result);
-	SDL2_Engine::Logger::logWarning("Test Warning %s", result);
-	SDL2_Engine::Logger::logError("Test Error %s", result);*/
-
-	/*//Loop through all possible controller inputs
-	DWORD dwResult;
-	for (DWORD i = 0; i < XUSER_MAX_COUNT; i++) {
-		//Clear previously stored struct information
-		XINPUT_STATE state;
-		ZeroMemory(&state, sizeof(XINPUT_STATE));
-
-		//Get the current controller index's state
-		dwResult = XInputGetState(i, &state);
-
-		//Check the controllers connection
-		SDL2_Engine::Logger::logFormatted(dwResult == ERROR_SUCCESS ? SDL2_Engine::DebugColor::GREEN : SDL2_Engine::DebugColor::RED,
-			"Controller index %i is %s...\n",
-			i, dwResult == ERROR_SUCCESS ? "connected" : "not connected");
-
-		if (dwResult == ERROR_SUCCESS) {
-			XINPUT_VIBRATION vibration;
-			ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
-			vibration.wLeftMotorSpeed = 65535;
-			vibration.wRightMotorSpeed = 65535;
-			XInputSetState(i, &vibration);
-		}
-	}*/
-
-	/*//Try to initialise the Input manager
-	if (SDL2_Engine::Input::init()) {
-		//This shouldn't happen execute
-		if (SDL2_Engine::Input::init()) return -1;
-
-		//Create a virtual axis
-		SDL2_Engine::VirtualAxis axis[2];
-
-		//Set up the virtual axis
-		axis[0].name = axis[1].name = "Test";
-		axis[0].sensitivity = 2.5f;
-		axis[0].gravity = 5.f;
-
-		axis[0].inputType = SDL2_Engine::EAxisInputType::Axis;
-
-		axis[0].aAxis = SDL2_Engine::EControllerAxisCodes::Right_Y;
-		axis[0].aDeadZone = 0.1f;
-
-		axis[1].controller = SDL2_Engine::EControllerID::Two;
-		axis[1].inputType = SDL2_Engine::EAxisInputType::Button;
-
-		axis[1].bPosBtn = SDL2_Engine::EControllerKeyCodes::Y;
-		axis[1].bAltPosBtn = SDL2_Engine::EControllerKeyCodes::B;
-		axis[1].bNegBtn = SDL2_Engine::EControllerKeyCodes::A;
-		axis[1].bAltNegBtn = SDL2_Engine::EControllerKeyCodes::X;
-
-		//Add the virtual axis to Input Manager
-		SDL2_Engine::Input::addVirtualAxis(axis, 2);
-
-		//Loop until loop is left		
-		while (!SDL2_Engine::Input::getKeyDown(SDL2_Engine::EControllerKeyCodes::Start)) {
-			//Update the current time
-			time.update();
-
-			//Update the input manager
-			SDL2_Engine::Input::update(time.deltaTime, time.realDeltaTime);
-
-			//Output axis value
-			SDL2_Engine::Logger::log("Virtual Axis 'Test' has a value of ", SDL2_Engine::Input::getVAxis("Test"), " FPS: ", 1.f /  time.realDeltaTime);
-		}
-	}
-
-	//Destroy the input manager
-	SDL2_Engine::Input::destroy();*/
-
-	/*std::string test;
-	test.reserve(256);
-
-	std::cin.getline((char*)test.c_str(), 256);
-
-	Json::Value root;
-	Json::Reader reader;
-	bool success = reader.parse(test.c_str(), root);
-
-	if (!success)
-		throw std::runtime_error(reader.getFormattedErrorMessages());
-
-	for (auto& val : root["test"]) {
-		std::cout << val.asInt() << '\n';
-	}*/
-
-if (SDL2_Engine::Resources::Resources::init("resources", (const SDL_Renderer*)result, SDL2_Engine::Logger::logWarning, SDL2_Engine::Logger::logError)) {
-	{
-		bool pressed = GetKeyState(VK_ESCAPE) < 0;
-		bool pressed2 = GetKeyState(VK_SPACE) < 0;
-		bool pressed3 = GetKeyState(VK_BACK) < 0;
-
-		SDL2_Engine::Resources::SDL2Resource<SDL2_Engine::Resources::Generic> resource;
-
-		while (pressed == GetKeyState(VK_ESCAPE) < 0) {
-			//Update the resources
-			SDL2_Engine::Resources::Resources::update();
-
-			if (GetKeyState(VK_SPACE) < 0 != pressed2)
-				resource = SDL2_Engine::Resources::Resources::load<SDL2_Engine::Resources::Generic>("test.txt");
-			if (resource && GetKeyState(VK_BACK) < 0 != pressed3)
-				SDL2_Engine::Logger::log(SDL2_Engine::Resources::Resources::idToFilepath(resource->id));
-		}
-	}
-
-	//Unload the resource manager
-	SDL2_Engine::Resources::Resources::destroy();
-}
-
+	#ifdef _DEBUG
 	system("PAUSE");
+	#endif
 	return 0;
 }

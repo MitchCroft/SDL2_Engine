@@ -8,7 +8,9 @@
 #include <limits>
 
 #include "../../Math.hpp"
+
 #include "VirtualAxis.hpp"
+#include "VibrationSetting.hpp"
 
 //! Define the two different states
 #define CURRENT_STATE 0
@@ -93,12 +95,63 @@ namespace SDL2_Engine {
 	};
 
 	/*
+	 *		Name: VibrationValues
+	 *		Author: Mitchell Croft
+	 *		Created: 10/02/2017
+	 *		Modified: 10/02/2017
+	 *		
+	 *		Purpose:
+	 *		Store additional information that can be abstracted away 
+	 *		from the user in the regular VibrationSetting struct object.
+	**/
+	class Input::VibrationValues {
+	public:
+		//! Store the vibration strength scale values (0 - 1)
+		float leftVibration;
+		float rightVibration;
+
+		//! Store the duration for which the vibration should occur	(Seconds)
+		float vibrationLength;
+
+		//! Store a timer to track the time spent vibrating
+		float vibrationTimer;
+
+		//! Store a function pointer for optional scaling of value over time
+		VibrationScaleFunc scaleFunc;
+
+		//! Quick assignment values
+		inline VibrationValues() : leftVibration(0.f), rightVibration(0.f), vibrationLength(0.f), vibrationTimer(0.f), scaleFunc(nullptr) {}
+		inline VibrationValues(const VibrationSetting& pCopy) { *this = pCopy; }
+		VibrationValues& operator=(const VibrationSetting& pCopy) {
+			//Copy the vibration scales
+			leftVibration = Math::clamp01(pCopy.leftVibration);
+			rightVibration = Math::clamp01(pCopy.rightVibration);
+
+			//Copy the duration value
+			vibrationLength = Math::max(0.f, pCopy.vibrationLength);
+
+			//Copy the scaling function
+			scaleFunc = pCopy.scaleFunc;
+
+			//Reset the timer
+			vibrationTimer = 0.f;
+
+			//Return itself
+			return *this;
+		}
+
+		//! Delete unused values
+		inline VibrationValues(const VibrationValues&) = delete;
+		inline VibrationValues& operator=(const VibrationValues&) = delete;
+	};
+
+	/*
 		Input : Constructor - Initialise with default values
 		Author: Mitchell Croft
 		Created: 31/01/2017
 		Modified: 01/02/2017
 	*/
-	Input::Input() : mConnectedControllers(0), mControllerStates(nullptr), mPollTimer(5.f), mPollInterval(5.f) { mControllerStates = new ControllerState[(int)EControllerID::TOTAL * STATE_TOTAL]; }
+	Input::Input() : mConnectedControllers(0), mControllerStates(nullptr), mVibrationValues((int)EControllerID::TOTAL), mPollTimer(5.f), mPollInterval(5.f) { mControllerStates = new ControllerState[(int)EControllerID::TOTAL * STATE_TOTAL]; }
 
 	/*
 		Input : Destructor - Clear allocated memory
@@ -311,6 +364,48 @@ namespace SDL2_Engine {
 
 				//Assign the axis value
 				mInstance->mCurInputAxis[V_AXIS] = (Math::sign(appliedVal) == INV_DIR ? 0.f : appliedVal);
+			}
+		}
+		#pragma endregion
+
+		#pragma region Update Vibration Settings
+		//Loop through all vibration values
+		if (mInstance->mVibrationValues.size()) {
+			for (auto it = mInstance->mVibrationValues.begin(); it != mInstance->mVibrationValues.end();) {
+				//Get a reference to the vibration value object
+				VibrationValues& val = it->second;
+
+				//Add the delta time to the timer
+				val.vibrationTimer += pDelta;
+
+				//Check the controller is connected
+				if (mInstance->mConnectedControllers & (1 << (int)it->first)) {
+					//Store the scale factor 
+					float scale;
+
+					//Check if time is up 
+					if (val.vibrationTimer >= val.vibrationLength) 
+						scale = 0.f;
+
+					//Otherwise get the scale from the settings
+					else scale = (val.scaleFunc ? Math::clamp01(val.scaleFunc(Math::inverseLerp(0.f, val.vibrationLength, val.vibrationTimer))) : 1.f);
+
+					//Create an XINPUT object
+					XINPUT_VIBRATION vibration;
+					ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
+
+					//Setup the motor speeds
+					vibration.wLeftMotorSpeed = (WORD)(val.leftVibration * scale * std::numeric_limits<WORD>::max());
+					vibration.wRightMotorSpeed = (WORD)(val.rightVibration * scale * std::numeric_limits<WORD>::max());
+
+					//Set the vibration state
+					DWORD state = XInputSetState((int)it->first, &vibration);
+				}
+								   
+				//Check for removal
+				if (val.vibrationTimer >= val.vibrationLength) 
+					mInstance->mVibrationValues.erase(it++);
+				else ++it;
 			}
 		}
 		#pragma endregion
@@ -590,6 +685,24 @@ namespace SDL2_Engine {
 		Modified: 31/01/2017
 	*/
 	void Input::removeAxis() { mInstance->mMonitorAxis.clear(); mInstance->mCurInputAxis.clear(); }
+
+	/*
+		Input : setVibrationSetting - Apply a range of vibration settings to 1 or all connected controllers
+		Author: Mitchell Croft
+		Created: 10/02/2017
+		Modified: 10/02/2017
+
+		param[in] pSetting - A VibrationSetting object describing the 
+	*/
+	void Input::setVibrationSetting(const VibrationSetting& pSetting) {
+		//Check if the controller is a specific index
+		if (pSetting.controller != EControllerID::All && pSetting.controller != EControllerID::TOTAL)
+			mInstance->mVibrationValues[pSetting.controller] = pSetting;
+
+		//Add the setting to all of the controllers
+		else for (int i = (int)EControllerID::One; i < (int)EControllerID::TOTAL; i++)
+			mInstance->mVibrationValues[(EControllerID)i] = pSetting;
+	}
 
 	/*
 		Input : setPollInterval - Set the time between polls for new connected controllers

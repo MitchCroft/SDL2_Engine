@@ -176,6 +176,7 @@
     <ClCompile Include="src\SDL2_Engine\Root\Input\InputManager.cpp" />
     <ClCompile Include="src\SDL2_Engine\Root\Logger\LoggerManager.cpp" />
     <ClCompile Include="src\SDL2_Engine\Root\Time\TimeManager.cpp" />
+    <ClCompile Include="src\SDL2_Engine\Screen Management\BaseScreen.cpp" />
     <ClCompile Include="src\SDL2_Engine\State Manager\Objects\StateManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +201,7 @@
     <ClInclude Include="src\SDL2_Engine\Root\Input\InputForwardDeclares.hpp" />
     <ClInclude Include="src\SDL2_Engine\Root\Input\InputValues.hpp" />
     <ClInclude Include="src\SDL2_Engine\Root\Input\InputManager.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Root\Input\VibrationSetting.hpp" />
     <ClInclude Include="src\SDL2_Engine\Root\Input\VirtualAxis.hpp" />
     <ClInclude Include="src\SDL2_Engine\Root\Logger.hpp" />
     <ClInclude Include="src\SDL2_Engine\Root\Logger\DebugColor.hpp" />

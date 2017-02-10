@@ -22,6 +22,8 @@ int main(int pArgCount, char* pArgs[]) {
 	vals.warningCallback = SDL2_Engine::Logger::logWarning;
 	vals.errorCallback = SDL2_Engine::Logger::logError;
 
+	SDL_WindowEvent;
+
 	//Initialise the State Manager
 	if (SDL2_Engine::StateManager::StateManager::init(vals))
 		SDL2_Engine::StateManager::StateManager::run();

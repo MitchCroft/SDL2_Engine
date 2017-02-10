@@ -52,4 +52,7 @@ namespace SDL2_Engine {
 
 	//! Provide flags for controller's to check for input
 	enum class EControllerID { All = -1, One, Two, Three, Four, TOTAL };
+
+	//! Define a function pointer type for scaling vibration values
+	typedef float(*VibrationScaleFunc)(const float& pT);
 }

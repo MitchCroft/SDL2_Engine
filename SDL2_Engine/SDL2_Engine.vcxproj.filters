@@ -225,6 +225,9 @@
     <ClInclude Include="src\SDL2_Engine\State Manager\StateManager.hpp">
       <Filter>Header Files\SDL2_Engine\State Manager</Filter>
     </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\Input\VibrationSetting.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -262,6 +265,9 @@
     </ClCompile>
     <ClCompile Include="src\SDL2_Engine\State Manager\Objects\StateManager.cpp">
       <Filter>Source Files\SDL2_Engine\State Manager\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SDL2_Engine\Screen Management\BaseScreen.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

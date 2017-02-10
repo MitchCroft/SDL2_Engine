@@ -14,7 +14,7 @@ namespace SDL2_Engine {
 	*		Name: Input
 	*		Author: Mitchell Croft
 	*		Created: 30/01/2017
-	*		Modified: 01/02/2017
+	*		Modified: 10/02/2017
 	*
 	*		Purpose:
 	*		Monitor and store input values involving controller's connected
@@ -29,6 +29,9 @@ namespace SDL2_Engine {
 		//! Prototype a container for controller information
 		class ControllerState;
 
+		//! Prototype a container for storing Vibration values
+		class VibrationValues;
+
 		//! Store a bitmask to store the connected controllers
 		byte mConnectedControllers;
 
@@ -41,6 +44,9 @@ namespace SDL2_Engine {
 		//! Store the virtual axis values as they have been modified by the InputAxis values
 		std::unordered_map<std::string, float> mPreInputAxis;
 		std::unordered_map<std::string, float> mCurInputAxis;
+
+		//! Store the vibration settings to apply to the controllers
+		std::unordered_map<EControllerID, VibrationValues> mVibrationValues;
 
 		//! Store controller poll timer values
 		float mPollTimer;
@@ -72,6 +78,8 @@ namespace SDL2_Engine {
 		static void addVirtualAxis(const VirtualAxis* pArray, const uint& pCount);
 		static void removeAxis(const char* pAxis);
 		static void removeAxis();
+
+		static void setVibrationSetting(const VibrationSetting& pSetting);
 
 		static void setPollInterval(const float& pInterval);
 	};

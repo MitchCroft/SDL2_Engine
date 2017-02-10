@@ -48,8 +48,8 @@ namespace SDL2_Engine {
 
 			//! Main functions
 			virtual bool startup() = 0;
-			inline virtual void update(const Time& pTime) {}
-			inline virtual void handleInput(const Time& pTime) {}
+			inline virtual void update(Time pTime);
+			inline virtual void handleInput(Time pTime);
 			inline virtual void draw(/* TODO: Add Rendering Pointer */) const {}
 			inline virtual void shutdown() {}
 

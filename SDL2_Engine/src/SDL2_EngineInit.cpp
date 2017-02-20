@@ -38,40 +38,42 @@ void updateLoop(Time& pTime) {
 	Input::update(pTime.deltaTime, pTime.realDeltaTime);
 
 	//Check for game exit
-	if (Input::getKeyDown(EControllerKeyCodes::Start))
+	if (Input::getGamePadBtnPressed(EGamePadBtnCodes::Start) || Input::getKeyboardKeyPressed(EKeyboardKeyCodes::Escape))
 		StateManager::StateManager::quit();
 
 	//Check for button press
-	if (Input::getKeyDown(EControllerKeyCodes::A)) {
+	if (int mask = Input::getGamePadBtnPressed(EGamePadBtnCodes::A)) {
 		//Create the setting
-		VibrationSetting setting;
+		VibrationDescription setting;
 
 		//Set the values
+		setting.gamePad = mask;
 		setting.leftVibration = 1.f;
 		setting.rightVibration = 1.f;
-		setting.vibrationLength = 5.f;
+		setting.vibrationLength = 2.f;
 
 		//Add to input manager
-		Input::setVibrationSetting(setting);
+		Input::applyVibration(setting);
 	}
 
-	if (Input::getKeyDown(EControllerKeyCodes::Y)) {
+	if (int mask = Input::getGamePadBtnPressed(EGamePadBtnCodes::Y)) {
 		//Create the setting
-		VibrationSetting setting;
+		VibrationDescription setting;
 
 		//Set the values
+		setting.gamePad = mask;
 		setting.leftVibration = 1.f;
-		setting.rightVibration = 0.1f;
+		setting.rightVibration = 0.5f;
 		setting.vibrationLength = 2.f;
 		setting.scaleFunc = scaler;
 
 		//Add to input manager
-		Input::setVibrationSetting(setting);
+		Input::applyVibration(setting);
 	}
 }
 
 void drawLoop(Time& pTime) {
-	
+
 }
 
 void destroy() {

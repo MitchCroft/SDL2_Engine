@@ -1,116 +1,48 @@
 #include "InputManager.hpp"
 
-#define NOMINMAX
-#include <windows.h>
-
-#include <Xinput.h>
-
-#include <limits>
+#include "GamePad.hpp"
+#include "VirtualAxis.hpp"
+#include "VibrationDescription.hpp"
 
 #include "../../Math.hpp"
 
-#include "VirtualAxis.hpp"
-#include "VibrationSetting.hpp"
+#include <windows.h>
 
-//! Define the two different states
-#define CURRENT_STATE 0
-#define PREVIOUS_STATE 1
-#define STATE_TOTAL 2
+//! Define the size of a Keyboard state
+#define KEYBOARD_STATE_SIZE 256U
 
-//! Provide a macro for converting to controller state index's
-#define GET_IND(ID, STATE) ((ID) * STATE_TOTAL + (STATE))
-
-//! Define the total number of axis
-#define AXIS_TOTAL ((int)EControllerAxisCodes::Right_Y + 1)
-
-//! Define the ID for all controllers connected
-#define MAX_CONNECTED_CONTROLLER_ID 15
+//! Define the mask value for checking keyboard input
+#define PRESSED_MASK 0x80
+#define TOGGLED_MASK 0x01
 
 namespace SDL2_Engine {
 
-	//! Define static variables
+	//! Declare a simple enum to store GamePad indexes
+	enum EGamePadIndexs { GAMEPAD_ONE, GAMEPAD_TWO, GAMEPAD_THREE, GAMEPAD_FOUR, GAMEPAD_TOTAL };
+
+	//! Define a simple enum for tracking the states
+	enum EState { STATE_CURRENT, STATE_PREVIOUS, STATE_TOTAL };
+
+	//! Declare static values
 	Input* Input::mInstance = nullptr;
-
-	/*
-	 *		Name: ControllerState
-	 *		Author: Mitchell Croft
-	 *		Created: 31/01/2017
-	 *		Modified: 31/01/2017
-	 *		
-	 *		Purpose:
-	 *		Store a state for the connected controllers, in
-	 *		order for the polling of different
-	**/
-	class Input::ControllerState {
-	public:
-		//! Store the current input ID for this state
-		DWORD packetNumber;
-
-		//! Store the axis information as separate floats
-		float axisValues[AXIS_TOTAL];
-
-		//! Store the bitmask for the controller buttons
-		WORD buttonMask;
-
-		//! Setup as blank
-		ControllerState() : packetNumber(0), buttonMask(0) { memset(axisValues, 0, sizeof(float) * AXIS_TOTAL); }
-
-		//! Remove the copy constructor
-		ControllerState(const ControllerState&) = delete;
-
-		//! Reset all state values back to default
-		inline ControllerState& reset() { packetNumber = 0; buttonMask = 0; memset(axisValues, 0, sizeof(float) * AXIS_TOTAL); return *this; }
-
-		//! Copy the values of another state
-		ControllerState& operator=(const ControllerState& pCopy) {
-			packetNumber = pCopy.packetNumber;
-			memcpy_s(axisValues, sizeof(float) * AXIS_TOTAL, pCopy.axisValues, sizeof(float) * AXIS_TOTAL);
-			buttonMask = pCopy.buttonMask;
-			return *this;
-		}
-
-		//! Copy the values of a XINPUT_STATE
-		ControllerState& operator=(const XINPUT_STATE& pState) {
-			packetNumber = pState.dwPacketNumber;
-			buttonMask = pState.Gamepad.wButtons;
-
-			//Get the maximum value for the trigger values
-			const float TRIGGER_MAX = (float)std::numeric_limits<BYTE>::max();
-
-			// Convert the trigger values
-			axisValues[(int)EControllerAxisCodes::Left_Trigger] = (float)pState.Gamepad.bLeftTrigger / TRIGGER_MAX;
-			axisValues[(int)EControllerAxisCodes::Right_Trigger] = (float)pState.Gamepad.bRightTrigger / TRIGGER_MAX;
-
-			//Get the maximum value for the thumbstick values
-			const float THUMBSTICK_MAX = (float)std::numeric_limits<SHORT>::max();
-
-			//Convert the thumbstick values
-			axisValues[(int)EControllerAxisCodes::Left_X] = (float)pState.Gamepad.sThumbLX / THUMBSTICK_MAX;
-			axisValues[(int)EControllerAxisCodes::Left_Y] = (float)pState.Gamepad.sThumbLY / THUMBSTICK_MAX;
-			axisValues[(int)EControllerAxisCodes::Right_X] = (float)pState.Gamepad.sThumbRX / THUMBSTICK_MAX;
-			axisValues[(int)EControllerAxisCodes::Right_Y] = (float)pState.Gamepad.sThumbRY / THUMBSTICK_MAX;
-
-			return *this;
-		}
-	};
 
 	/*
 	 *		Name: VibrationValues
 	 *		Author: Mitchell Croft
-	 *		Created: 10/02/2017
-	 *		Modified: 10/02/2017
-	 *		
+	 *		Created: 13/02/2017
+	 *		Modified: 13/02/2017
+	 *
 	 *		Purpose:
-	 *		Store additional information that can be abstracted away 
-	 *		from the user in the regular VibrationSetting struct object.
+	 *		 Store additional information that can be abstracted
+	 *		 from the user in the regular VibrationDescription
+	 *		 object
 	**/
-	class Input::VibrationValues {
-	public:
-		//! Store the vibration strength scale values (0 - 1)
+	struct Input::VibrationValues {
+		//! Store the vibration strength values (0 - 1)
 		float leftVibration;
 		float rightVibration;
 
-		//! Store the duration for which the vibration should occur	(Seconds)
+		//! Store the duration for which the vibration should occur (Seconds)
 		float vibrationLength;
 
 		//! Store a timer to track the time spent vibrating
@@ -119,16 +51,16 @@ namespace SDL2_Engine {
 		//! Store a function pointer for optional scaling of value over time
 		VibrationScaleFunc scaleFunc;
 
-		//! Quick assignment values
+		//! Quick use functions
 		inline VibrationValues() : leftVibration(0.f), rightVibration(0.f), vibrationLength(0.f), vibrationTimer(0.f), scaleFunc(nullptr) {}
-		inline VibrationValues(const VibrationSetting& pCopy) { *this = pCopy; }
-		VibrationValues& operator=(const VibrationSetting& pCopy) {
+		inline VibrationValues(const VibrationDescription& pCopy) { *this = pCopy; }
+		VibrationValues& operator=(const VibrationDescription& pCopy) {
 			//Copy the vibration scales
-			leftVibration = Math::clamp01(pCopy.leftVibration);
-			rightVibration = Math::clamp01(pCopy.rightVibration);
+			leftVibration = Math::clamp01(pCopy.leftVibration);		
+			rightVibration = Math::clamp01(pCopy.rightVibration);	
 
 			//Copy the duration value
-			vibrationLength = Math::max(0.f, pCopy.vibrationLength);
+			vibrationLength = pCopy.vibrationLength;
 
 			//Copy the scaling function
 			scaleFunc = pCopy.scaleFunc;
@@ -136,161 +68,242 @@ namespace SDL2_Engine {
 			//Reset the timer
 			vibrationTimer = 0.f;
 
-			//Return itself
+			//Return self
 			return *this;
 		}
-
-		//! Delete unused values
-		inline VibrationValues(const VibrationValues&) = delete;
-		inline VibrationValues& operator=(const VibrationValues&) = delete;
 	};
 
 	/*
 		Input : Constructor - Initialise with default values
 		Author: Mitchell Croft
-		Created: 31/01/2017
-		Modified: 01/02/2017
+		Created: 13/02/2017
+		Modified: 14/02/2017
 	*/
-	Input::Input() : mConnectedControllers(0), mControllerStates(nullptr), mVibrationValues((int)EControllerID::TOTAL), mPollTimer(5.f), mPollInterval(5.f) { mControllerStates = new ControllerState[(int)EControllerID::TOTAL * STATE_TOTAL]; }
+	Input::Input() :
+		mGamePads(nullptr),
+		mKeyboardStates(nullptr),
+		mPollTimer(5.f),
+		mPollInterval(5.f),
+		INPUTABLE_KEY_VALUES({
+		//! Alpha
+		EKeyboardKeyCodes::A, EKeyboardKeyCodes::B, EKeyboardKeyCodes::C, EKeyboardKeyCodes::D,
+		EKeyboardKeyCodes::E, EKeyboardKeyCodes::F, EKeyboardKeyCodes::G, EKeyboardKeyCodes::H,
+		EKeyboardKeyCodes::I, EKeyboardKeyCodes::J, EKeyboardKeyCodes::K, EKeyboardKeyCodes::L,
+		EKeyboardKeyCodes::M, EKeyboardKeyCodes::N, EKeyboardKeyCodes::O, EKeyboardKeyCodes::P,
+		EKeyboardKeyCodes::Q, EKeyboardKeyCodes::R, EKeyboardKeyCodes::S, EKeyboardKeyCodes::T,
+		EKeyboardKeyCodes::U, EKeyboardKeyCodes::V, EKeyboardKeyCodes::W, EKeyboardKeyCodes::X,
+		EKeyboardKeyCodes::Y, EKeyboardKeyCodes::Z,
+
+		//! Numerical
+		EKeyboardKeyCodes::Num0, EKeyboardKeyCodes::Num1, EKeyboardKeyCodes::Num2, EKeyboardKeyCodes::Num3,
+		EKeyboardKeyCodes::Num4, EKeyboardKeyCodes::Num5, EKeyboardKeyCodes::Num6, EKeyboardKeyCodes::Num7,
+		EKeyboardKeyCodes::Num8, EKeyboardKeyCodes::Num9, EKeyboardKeyCodes::Num_Pad0,
+		EKeyboardKeyCodes::Num_Pad1, EKeyboardKeyCodes::Num_Pad2, EKeyboardKeyCodes::Num_Pad3,
+		EKeyboardKeyCodes::Num_Pad4, EKeyboardKeyCodes::Num_Pad5, EKeyboardKeyCodes::Num_Pad6,
+		EKeyboardKeyCodes::Num_Pad7, EKeyboardKeyCodes::Num_Pad8, EKeyboardKeyCodes::Num_Pad9,
+
+		//! Special Characters
+		EKeyboardKeyCodes::Space, EKeyboardKeyCodes::Num_Pad_Multiply, EKeyboardKeyCodes::Num_Pad_Subtract, EKeyboardKeyCodes::Num_Pad_Decimal,
+		EKeyboardKeyCodes::Num_Pad_Divide, EKeyboardKeyCodes::Semi_Colon, EKeyboardKeyCodes::Plus,
+		EKeyboardKeyCodes::Comma, EKeyboardKeyCodes::Minus,	EKeyboardKeyCodes::Period,	EKeyboardKeyCodes::Slash_Forward,
+		EKeyboardKeyCodes::Slash_Backward, EKeyboardKeyCodes::Tilde, EKeyboardKeyCodes::Square_Left,
+		EKeyboardKeyCodes::Square_Right, EKeyboardKeyCodes::Quote,
+
+		//! Control
+		EKeyboardKeyCodes::Backspace,
+	})
+	{}
 
 	/*
-		Input : Destructor - Clear allocated memory
+		Input : verifyKeyboardInput - Verify the key value that is being tested for appending to the passed std:;string
 		Author: Mitchell Croft
-		Created: 31/01/2017
-		Modified: 31/01/2017
+		Created: 14/02/2017
+		Modified: 14/02/2017
+
+		param[in\out] pString - A reference to the standard string object to fill
+		param[in] pKey - The Virtual Key that is being tested for inclusion
+		param[in] pMaxLength - The maximum length that the string can be
+		param[in] pFlags - Bitmask of EKeyboardInputFlags that define what characters are allowed
+						   to be entered into the string
+
+		return bool - Returns true if the pString reference was modified was in anyway
 	*/
-	Input::~Input() { delete[] mControllerStates; }
+	bool Input::verifyKeyboardInput(std::string& pString, const EKeyboardKeyCodes& pKey, const int& pMaxLength, const Utilities::Bitmask<EKeyboardInputFlags, char>& pFlags) const {
+		//Check if the string has reached capacity
+		if (pMaxLength >= 0 && pString.size() >= (unsigned int)pMaxLength && pKey != EKeyboardKeyCodes::Backspace)
+			return false;
+
+		//Store the size of the string as it currently exists
+		const unsigned int STRING_SIZE = pString.size();
+
+		//If key is backspace
+		if (pKey == EKeyboardKeyCodes::Backspace) {
+			//Check if there are characters to remove
+			if (STRING_SIZE) pString = pString.substr(0, (int)pString.size() - 1);
+		}
+
+		//Otherwise convert the key to Ascii
+		else {
+			//Create a buffer for the new character
+			WORD buffer = 0;
+
+			//Convert the virtual key to Ascii
+			ToAscii((int)pKey,
+				MapVirtualKey((int)pKey, MAPVK_VK_TO_VSC),
+				mKeyboardStates[STATE_CURRENT],
+				&buffer,
+				0);
+
+			//Check the flags to validate the character
+			if ((isalpha(buffer) && pFlags & EKeyboardInputFlags::Alpha) ||
+				((isdigit(buffer) && pFlags & EKeyboardInputFlags::Numerical)) ||
+				((pFlags & EKeyboardInputFlags::Special)))
+				pString += (char)buffer;
+		}
+
+		//Return string modification
+		return (pString.size() != STRING_SIZE);
+	}
 
 	/*
-		Input : init - Initialise the Input Manager with default values
+		Input : init - Create and setup the singleton instance
 		Author: Mitchell Croft
-		Created: 31/01/2017
-		Modified: 31/01/2017
+		Created: 13/02/2017
+		Modified: 14/02/2017
 
-		return bool - Returns true if the Input Manager was created with this call
+		return bool - Returns true if the Input singleton was created successfully
 	*/
-	bool Input::init() { return (!mInstance && (mInstance = new Input())); }
+	bool Input::init() {
+		//Check if singleton already exists
+		if (mInstance) return false;
+
+		//Create the singleton
+		mInstance = new Input();
+
+		//Create the GamePad objects
+		mInstance->mGamePads = new _GamePad[4]{ 0, 1, 2, 3 };
+
+		//Create the keyboard states
+		mInstance->mKeyboardStates = new BYTE*[STATE_TOTAL];
+		for (int i = STATE_CURRENT; i < STATE_TOTAL; i++) {
+			mInstance->mKeyboardStates[i] = new BYTE[KEYBOARD_STATE_SIZE];
+			memset(mInstance->mKeyboardStates[i], 0, sizeof(BYTE) * KEYBOARD_STATE_SIZE);
+		}
+
+		//Create the GamePad objects
+		return ((mInstance->mGamePads = new _GamePad[4]{ 0, 1, 2, 3 }) != nullptr);
+	}
 
 	/*
-		Input : destroy - Delete the memory associated with the Input Manager
+		Input : destroy - De-allocate the memory associated with Input singleton
 		Author: Mitchell Croft
-		Created: 31/01/2017
-		Modified: 31/01/2017
+		Created: 13/02/2017
+		Modified: 14/02/2017
 	*/
-	void Input::destroy() { if (mInstance) delete mInstance; mInstance = nullptr; }
+	void Input::destroy() {
+		//Check the singleton was created
+		if (mInstance) {
+			//Delete the Keyboard states
+			if (mInstance->mKeyboardStates) {
+				//Delete the individual states
+				for (int i = STATE_CURRENT; i < STATE_TOTAL; i++)
+					delete[] mInstance->mKeyboardStates[i];
+
+				//Delete the group
+				delete[] mInstance->mKeyboardStates;
+			}
+
+			//Delete the GamePads
+			if (mInstance->mGamePads) delete[] mInstance->mGamePads;
+
+			//Delete the singleton instance
+			delete mInstance;
+			mInstance = nullptr;
+		}
+	}
 
 	/*
-		Input : update - Update the internal controller states and update the virtual axis
+		Input : update - Update the internal GamePad states and Virtual Axis values
 		Author: Mitchell Croft
-		Created: 01/02/2017
-		Modified: 01/02/2017
+		Created: 13/02/2017
+		Modified: 14/02/2017
 
 		param[in] pDelta - The delta time that is used to adjust the virtual axis values.
 						   This can be scaled to replicate bullet time effects
-		param[in] pRealDeltaTime - The unscaled delta time that is used to poll for new 
-								   connected controllers at set intervals
+		param[in] pRealDeltaTime - The unscaled delta time that is used to poll for new
+								   connected GamePads at set intervals
 	*/
 	void Input::update(const float& pDelta, const float& pRealDelta) {
-		#pragma region Find Connected Controllers
-		//Check if there are disconnected controllers
-		if (mInstance->mConnectedControllers != MAX_CONNECTED_CONTROLLER_ID) {
-			//Add onto the timer value
-			mInstance->mPollTimer += pRealDelta;
+		//Update the polling timer
+		mInstance->mPollTimer += pRealDelta;
 
-			//Check if polling should occur
-			if (mInstance->mPollTimer >= mInstance->mPollInterval) {
-				//Reset the poll timer
-				mInstance->mPollTimer = 0.f;
+		//Check if new GamePads should be found
+		bool attemptReconnect = mInstance->mPollTimer >= mInstance->mPollInterval;
 
-				//Loop through to search for connected controllers
-				DWORD result;
-				for (DWORD i = 0; i < (int)EControllerID::TOTAL; i++) {
-					//Check if there is already a controller connected
-					if (mInstance->mConnectedControllers & (1 << i)) continue;
+		//Reset the poll timer
+		if (attemptReconnect) mInstance->mPollTimer = 0.f;
 
-					//Clear previously stored struct information
-					XINPUT_STATE state;
-					ZeroMemory(&state, sizeof(XINPUT_STATE));
+#pragma region Update Input Values
+		//Loop through and update all controllers
+		for (int i = GAMEPAD_ONE; i < GAMEPAD_TOTAL; i++)
+			mInstance->mGamePads[i].update(attemptReconnect);
 
-					//Get the current controller index's state
-					result = XInputGetState(i, &state);
+		//Poll keyboard update messages
+		GetKeyState(NULL);
 
-					//If a controller was found add it to the list
-					if (result == ERROR_SUCCESS) mInstance->mConnectedControllers |= (1 << i);
-				}
+		//Copy previous state data 
+		memcpy_s(mInstance->mKeyboardStates[STATE_PREVIOUS], sizeof(BYTE) * KEYBOARD_STATE_SIZE, mInstance->mKeyboardStates[STATE_CURRENT], sizeof(BYTE) * KEYBOARD_STATE_SIZE);
+
+		//Get the current keyboard state
+		GetKeyboardState(mInstance->mKeyboardStates[STATE_CURRENT]);
+
+		//Update the repeat key timers
+		for (int i = (int)mInstance->mRepeatKeyTimers.size() - 1; i >= 0; i--) {
+			//Check the value isn't already at zero
+			if (mInstance->mRepeatKeyTimers[i]) {
+				//Subtract the delta time
+				mInstance->mRepeatKeyTimers[i] -= pRealDelta;
+
+				//Floor the value at 0
+				if (mInstance->mRepeatKeyTimers[i] < 0.f)
+					mInstance->mRepeatKeyTimers[i] = 0.f;
 			}
 		}
-		#pragma endregion
+#pragma endregion
 
-		#pragma region Update State Information
-		//Loop through all connected controllers
-		DWORD result;
- 		for (DWORD i = 0; i < (int)EControllerID::TOTAL; i++) {
-			//Transfer the current state values to the previous states
-			if (mInstance->mControllerStates[GET_IND(i, PREVIOUS_STATE)].packetNumber != mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)].packetNumber)
-				mInstance->mControllerStates[GET_IND(i, PREVIOUS_STATE)] = mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)];
-
-			//Check if the controller is connected
-			if (mInstance->mConnectedControllers & (1 << i)) {
-				//Clear the previously stored struct information
-				XINPUT_STATE state;
-				ZeroMemory(&state, sizeof(XINPUT_STATE));
-
-				//Get the current controller index's state
-				result = XInputGetState(i, &state);
-
-				//Check if the controller has been disconnected
-				if (result != ERROR_SUCCESS) {
-					//Reset the current controller state
-					mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)].reset();
-
-					//Remove the current controllers bit from the connected controllers
-					mInstance->mConnectedControllers ^= (1 << i);
-
-					//Update the next controller
-					continue;
-				}
-
-				//Update the current state information
-				if (mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)].packetNumber != state.dwPacketNumber)
-					mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)] = state;
-			}
-		}
-		#pragma endregion
-
-		#pragma region Update Virtual Axis
+#pragma region Update Virtual Axis
 		//Loop through all monitored axis
-		for (uint i = 0; i < mInstance->mMonitorAxis.bucket_count(); i++) {
+		for (size_t i = 0; i < mInstance->mMonitor.bucket_count(); i++) {
 			//Get the first element
-			auto bucket = mInstance->mMonitorAxis.begin(i);
+			auto bucket = mInstance->mMonitor.begin(i);
 
 			//Get the final iterator
-			auto end = mInstance->mMonitorAxis.end(i);
+			auto end = mInstance->mMonitor.end(i);
 
 			//Check there are elements in the bucket
 			if (bucket == end) continue;
 
-			//Store the name of the virtual axis
-			const std::string V_AXIS = bucket->first;
+			//Store the name of the Virtual Axis
+			const std::string V_AXIS_NAME = bucket->first;
 
-			//Store the number of axis contributing to this value
-			uint contributingAxis = 0U;
+			//Store the number of Axis contributing to this value
+			size_t contributingAxis = 0U;
 
 			//Store the strongest contributer
 			float strongestAxis = 0.f;
 
-			//Store the average gravity of all Virtual Axis
+			//Store the average gravity of all Virtual Axis for this name
 			float gravAvg = 0.f;
 
-			//Copy the previous value of the axis 
-			mInstance->mPreInputAxis[V_AXIS] = mInstance->mCurInputAxis[V_AXIS];
+			//Copy the previous value of the axis
+			mInstance->mPreInputAxis[V_AXIS_NAME] = mInstance->mCurInputAxis[V_AXIS_NAME];
 
-			//Loop through all monitored virtual axis with the same name
+			//Loop through all monitored Virtual Axis with the same name
 			for (; bucket != end; ++bucket) {
-				//Add to the contributing axis counter
+				//Add to the contributing Axis counter
 				contributingAxis++;
 
-				//Get a reference to the monitored axis
+				//Get A reference to the monitored axis
 				const VirtualAxis& axis = bucket->second;
 
 				//Add the gravity to the running sum
@@ -299,13 +312,15 @@ namespace SDL2_Engine {
 				//Store the strength of this input
 				float axisStrength = 0.f;
 
-				//If input is based on a axis
-				if (axis.inputType == EAxisInputType::Axis) {
+				///////////////////////////////////////////////////////////////////////////////////////////////
+				////                                Input Is Based on Axis                                 ////
+				///////////////////////////////////////////////////////////////////////////////////////////////
+				if (axis.inputType == EGamePadInputType::Axis) {
 					//Get the axis strength value
-					const float AXIS_VALUE = getAxisRaw(axis.aAxis, axis.controller);
+					const float AXIS_VALUE = getGamePadAxis(axis.aAxis, axis.gamePad);
 
 					//Store the sign of the axis value
-					const float SIGN = Math::sign(AXIS_VALUE);
+					const float SIGN = Math::sign(AXIS_VALUE); 
 
 					//Store the dead zone squared
 					const float DEAD_ZONE_SQ = axis.aDeadZone * axis.aDeadZone;
@@ -313,25 +328,25 @@ namespace SDL2_Engine {
 					//Normalise the axis value
 					const float AXIS_NORM_SQ = (AXIS_VALUE * AXIS_VALUE) - DEAD_ZONE_SQ;
 
-					//Scale the axis strength based on the dead zone
-					if (AXIS_NORM_SQ > 0.f) 
+					//Scale the Axis strength based on the dead zone
+					if (AXIS_NORM_SQ > 0.f)
 						axisStrength += (AXIS_NORM_SQ / (1.f - DEAD_ZONE_SQ)) * SIGN;
 				}
 
-				//If input is based on a button
+				///////////////////////////////////////////////////////////////////////////////////////////////
+				////                              Input Is Based on Buttons                                ////
+				///////////////////////////////////////////////////////////////////////////////////////////////
 				else {
 					//Check for positive button press(es)
-					if (getKey(axis.bPosBtn, axis.controller) || 
-						getKey(axis.bAltPosBtn, axis.controller))
+					if (getGamePadBtnDown({ axis.bPosBtn, axis.bAltPosBtn }, axis.gamePad))
 						axisStrength += 1.f;
 
 					//Check for negative button press(es)
-					if (getKey(axis.bNegBtn, axis.controller) ||
-						getKey(axis.bAltNegBtn, axis.controller))
+					if (getGamePadBtnDown({ axis.bNegBtn, axis.bAltNegBtn }, axis.gamePad))
 						axisStrength -= 1.f;
 				}
 
-				//Apply sensitivity and inversion flag
+				//Apply the sensitivity and inversion flag
 				axisStrength *= axis.sensitivity * (axis.invert ? -1.f : 1.f);
 
 				//Check if the strength is stronger then the current best
@@ -339,378 +354,448 @@ namespace SDL2_Engine {
 			}
 
 			//If there is a strength value to be included
-			if (strongestAxis && abs(strongestAxis) >= abs(mInstance->mCurInputAxis[V_AXIS])) {
+			if (strongestAxis && abs(strongestAxis) >= abs(mInstance->mCurInputAxis[V_AXIS_NAME])) {
 				//Add the strength value
-				mInstance->mCurInputAxis[V_AXIS] += strongestAxis * pDelta;
+				mInstance->mCurInputAxis[V_AXIS_NAME] += strongestAxis * pDelta;
 
-				//Get the strongest value as a negative
-				const float NEG_STRONGEST = Math::max((strongestAxis < 0.f ? strongestAxis : strongestAxis * -1.f), -1.f);
-				const float POS_STRONGEST = Math::min(NEG_STRONGEST * -1.f, 1.f);
-
-				//Clamp the value to the -1 - 1 range
-				mInstance->mCurInputAxis[V_AXIS] = Math::clamp(mInstance->mCurInputAxis[V_AXIS], NEG_STRONGEST, POS_STRONGEST);
+				//Clamp the value to -1 to 1 range
+				if (abs(mInstance->mCurInputAxis[V_AXIS_NAME]) > 1.f)
+					mInstance->mCurInputAxis[V_AXIS_NAME] /= abs(mInstance->mCurInputAxis[V_AXIS_NAME]);
 			}
 
 			//Otherwise apply gravity
-			else if (gravAvg && mInstance->mCurInputAxis[V_AXIS]) {
+			else if (gravAvg && mInstance->mCurInputAxis[V_AXIS_NAME]) {
 				//Get the inverse direction
-				const float INV_DIR = Math::sign(mInstance->mCurInputAxis[V_AXIS]) * -1.f;
+				const float INV_DIR = Math::sign(mInstance->mCurInputAxis[V_AXIS_NAME]) * -1.f; 
 
 				//Take the average of the gravity value
 				gravAvg /= (float)contributingAxis;
 
 				//Get the value after gravity is applied
-				float appliedVal = mInstance->mCurInputAxis[V_AXIS] + gravAvg * INV_DIR * pDelta;
+				float appliedVal = mInstance->mCurInputAxis[V_AXIS_NAME] + gravAvg * INV_DIR * pDelta;
 
-				//Assign the axis value
-				mInstance->mCurInputAxis[V_AXIS] = (Math::sign(appliedVal) == INV_DIR ? 0.f : appliedVal);
+				//Assign the Axis value
+				mInstance->mCurInputAxis[V_AXIS_NAME] = (Math::sign(appliedVal) == INV_DIR ? 0.f : appliedVal); 
 			}
 		}
-		#pragma endregion
+#pragma endregion
 
-		#pragma region Update Vibration Settings
-		//Loop through all vibration values
+#pragma region Update Vibration Values
+		//Check there are vibration values to process
 		if (mInstance->mVibrationValues.size()) {
-			for (auto it = mInstance->mVibrationValues.begin(); it != mInstance->mVibrationValues.end();) {
-				//Get a reference to the vibration value object
-				VibrationValues& val = it->second;
+			//Add to the vibration timer
+			mInstance->mVibrationTimer += pRealDelta;
 
-				//Add the delta time to the timer
-				val.vibrationTimer += pDelta;
+			//Check if the timer is over the frequency value
+			if (mInstance->mVibrationTimer >= mInstance->VIBRATION_FREQUANCY) {
+				//Spend the built up time
+				float integral;
+				mInstance->mVibrationTimer = modf(mInstance->mVibrationTimer / mInstance->VIBRATION_FREQUANCY, &integral) * mInstance->VIBRATION_FREQUANCY;
 
-				//Check the controller is connected
-				if (mInstance->mConnectedControllers & (1 << (int)it->first)) {
-					//Store the scale factor 
-					float scale;
+				//Loop through all vibration values
+				for (auto it = mInstance->mVibrationValues.begin(); it != mInstance->mVibrationValues.end();) {
+					//Get a reference to the Vibration Value object
+					VibrationValues& val = it->second;
 
-					//Check if time is up 
-					if (val.vibrationTimer >= val.vibrationLength) 
-						scale = 0.f;
+					//Add the elapsed time to the timer
+					val.vibrationTimer += mInstance->VIBRATION_FREQUANCY * integral;
 
-					//Otherwise get the scale from the settings
-					else scale = (val.scaleFunc ? Math::clamp01(val.scaleFunc(Math::inverseLerp(0.f, val.vibrationLength, val.vibrationTimer))) : 1.f);
+					//Get the controller that is being accessed
+					GamePad gamePad = getGamePad(it->first);
 
-					//Create an XINPUT object
-					XINPUT_VIBRATION vibration;
-					ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
+					//Check the controller is connected
+					if (gamePad->mConnected) {
+						//Store the scale factor
+						float scale;
 
-					//Setup the motor speeds
-					vibration.wLeftMotorSpeed = (WORD)(val.leftVibration * scale * std::numeric_limits<WORD>::max());
-					vibration.wRightMotorSpeed = (WORD)(val.rightVibration * scale * std::numeric_limits<WORD>::max());
+						//Check if the time is up
+						if (val.vibrationTimer >= val.vibrationLength)
+							scale = 0.f;
 
-					//Set the vibration state
-					DWORD state = XInputSetState((int)it->first, &vibration);
+						//Otherwise get the scale from the settings
+						else scale = (val.scaleFunc ? Math::clamp01(val.scaleFunc(val.vibrationTimer / val.vibrationLength)) : 1.f); 
+
+						//Apply the vibration to the Game Pad
+						gamePad->vibrate(val.leftVibration * scale, val.rightVibration * scale);
+
+						//Check for removal
+						if (val.vibrationTimer >= val.vibrationLength)
+							mInstance->mVibrationValues.erase(it++);
+						else ++it;
+					}
 				}
-								   
-				//Check for removal
-				if (val.vibrationTimer >= val.vibrationLength) 
-					mInstance->mVibrationValues.erase(it++);
-				else ++it;
 			}
 		}
-		#pragma endregion
+#pragma endregion
 	}
 
 	/*
-		Input : getVAxis - Get the value of a virtual axis from the input axis
+		Input : setPollInterval - Set the amount of time between checks for recently connected GamePads
 		Author: Mitchell Croft
-		Created: 31/10/2017
-		Modified: 31/07/2017
+		Created: 13/02/2017
+		Modified: 13/02/2017
 
-		param[in] pAxis - A c-string representing the name of the virtual axis to check
+		param[in] pInterval - A float value defining the time (in seconds) between GamePad polling
+	*/
+	void Input::setPollInterval(const float& pInterval) { mInstance->mPollInterval = (pInterval >= 0.f ? pInterval : 0.f); }
 
-		return float - Returns the virtual axis' value as a float (-1.f - 1.f)
+	/*
+		Input : getVAxis - Retrieve the value of a Virtual Axis being monitored
+		Author: Mitchell Croft
+		Created: 13/02/2017
+		Modified: 13/02/2017
+
+		param[in] pAxis - A c-string defining the name of the Axis to retrieve
+
+		return const float& - Returns the value of the Virtual Axis as a const float reference
 	*/
 	const float& Input::getVAxis(const char* pAxis) { return mInstance->mCurInputAxis[pAxis]; }
 
 	/*
-		Input : getAxisRaw - Get the raw axis value	from a connected controller, or the average across all connected
+		Input : getVAxisDelta - Retrieve the change in axis value since the last cycle
 		Author: Mitchell Croft
-		Created: 31/01/2017
-		Modified: 01/02/2017
+		Created: 14/02/2017
+		Modified: 14/02/2017
 
-		param[in] pAxis - A EControllerAxisCode value representing the controller axis to retrieve
-		param[in] pID - The ID of the controller to check for input from (Default All)
-		param[in] pAverage - Flags if the highest value should be taken across all connected remotes or if
-							 an average should be taken (Default false, Only applies when pID == EControllerID::All)
+		param[in] pAxis - A c-string defining the name of the Axis to retrieve
 
-		return float - Returns the axis value as a float (-1.f - 1.f)
+		return float - Returns a float value containing the change in the Virtual Axis' value
 	*/
-	const float Input::getAxisRaw(const EControllerAxisCodes& pAxis, const EControllerID& pID /* = EControllerID::All */, const bool& pAverage /* = false */) {
-		//Check there is at least one connected controller
-		if (!mInstance->mConnectedControllers || pAxis == EControllerAxisCodes::Null_Axis) return false;
+	float Input::getVAxisDelta(const char* pAxis) { return (mInstance->mCurInputAxis[pAxis] - mInstance->mPreInputAxis[pAxis]); }
 
-		//Check if the controller is a specific index
-		if (pID != EControllerID::All && pID != EControllerID::TOTAL) {
-			//Check the specified controller is connected
-			if (mInstance->mConnectedControllers & (1 << (int)pID))
-				return mInstance->mControllerStates[GET_IND((int)pID, CURRENT_STATE)].axisValues[(int)pAxis];
+	/*
+		Input : getVBtnDown - Treat the Virtual Axis as a button and check if it is currently 'down'
+		Author: Mitchell Croft
+		Created: 13/02/2017
+		Modified: 13/02/2017
 
-			//If controller is not connected return 0
-			else return 0.f;
+		param[in] pAxis - A c-string defining the name of the Axis to retrieve
+
+		return bool - Returns true if the Virtual Axis is not equal to zero
+	*/
+	bool Input::getVBtnDown(const char* pAxis) { return (mInstance->mCurInputAxis[pAxis] != 0.f); }
+
+	/*
+		Input : getVBtnPressed - Treat the Virtual Axis as a button and check if it was 'pressed'
+		Author: Mitchell Croft
+		Created: 13/02/2017
+		Modified: 13/02/2017
+
+		param[in] pAxis - A c-string defining the name of the Axis to retrieve
+
+		return bool - Returns true the first cycle the Virtual Axis is not equal to zero
+	*/
+	bool Input::getVBtnPressed(const char* pAxis) { return ((mInstance->mCurInputAxis[pAxis] != 0.f) && (mInstance->mPreInputAxis[pAxis] == 0.f)); }
+
+	/*
+		Input : getVBtnReleased - Treat the Virtual Axis as a button and check if it was 'released'
+		Author: Mitchell Croft
+		Created: 13/02/2017
+		Modified: 13/02/2017
+
+		param[in] pAxis - A c-string defining the name of the Axis to retrieve
+
+		return bool - Returns true the first cycle the Virtual Axis is equal to zero
+	*/
+	bool Input::getVBtnReleased(const char* pAxis) { return ((mInstance->mCurInputAxis[pAxis] == 0.f) && (mInstance->mPreInputAxis[pAxis] != 0.f)); }
+
+	/*
+		Input : addVirtualAxis - Add a new Virtual Axis description to the monitor list
+		Author: Mitchell Croft
+		Created: 13/02/2017
+		Modified: 13/02/2017
+
+		param[in] pAxis - The VirtualAxis object describing the new Virtual Axis
+	*/
+	void Input::addVirtualAxis(const VirtualAxis& pAxis) { mInstance->mMonitor.insert(std::pair<std::string, VirtualAxis>(pAxis.name, pAxis)); }
+
+	/*
+		Input : addVirtualAxis - Add an array of new Virtual Axis descriptions to the monitor list
+		Author: Mitchell Croft
+		Created: 13/02/2017
+		Modified: 13/02/2017
+
+		param[in] pArray - A pointer to the array of VirtualAxis objects to monitor
+		param[in] pCount - The number of VirtualAxis objects there are to add
+	*/
+	void Input::addVirtualAxis(const VirtualAxis* pArray, const size_t& pCount) { for (size_t i = 0; i < pCount; i++) mInstance->mMonitor.insert(std::pair<std::string, VirtualAxis>(pArray[i].name, pArray[i])); }
+
+	/*
+		Input : removeVirtualAxis - Clear all VirtualAxis objects with specific name
+		Author: Mitchell Croft
+		Created: 13/02/2017
+		Modified: 13/02/2017
+
+		param[in] pAxis - A c-string defining the name of the Axis to clear
+	*/
+	void Input::removeVirtualAxis(const char* pAxis) { mInstance->mMonitor.erase(pAxis); mInstance->mPreInputAxis.erase(pAxis); mInstance->mCurInputAxis.erase(pAxis); }
+
+	/*
+		Input : removeAxis - Clear all virtual axis within the Input singleton
+		Author: Mitchell Croft
+		Created: 13/02/2017
+		Modified: 13/02/2017
+	*/
+	void Input::removeVirtualAxis() { mInstance->mMonitor.clear(); mInstance->mPreInputAxis.clear(); mInstance->mCurInputAxis.clear(); }
+
+	/*
+		Input : getGamePad - Get a pointer to specific GamePad object
+		Author: Mitchell Croft
+		Created: 13/02/2017
+		Modified: 13/02/2017
+
+		param[in] pID - The EGamePadID of the GamePad you want a reference to
+
+		return GamePad - Returns a GamePad (const _GamePad*) object to be used for testing input
+	*/
+	GamePad Input::getGamePad(EGamePadID pID) { return &(mInstance->mGamePads[(int)(log((int)pID) / log(2))]); }
+
+	/*
+		Input : appllyVibration - Add a vibration description to the Input singleton, describing how GamePad(s)
+								  should vibrate
+		Author: Mitchell Croft
+		Created: 13/02/2017
+		Modified: 13/02/2017
+
+		param[in] pDesc - A VibrationDescription object describing how the Vibration will occur
+	*/
+	void Input::applyVibration(const VibrationDescription& pDesc) {
+		//Loop through the bitmask
+		for (int i = GAMEPAD_ONE; i < GAMEPAD_TOTAL; i++) {
+			//Check if the GamePad is in the mask
+			if (pDesc.gamePad & (1 << i))
+				mInstance->mVibrationValues.insert(std::pair<EGamePadID, VibrationValues>((EGamePadID)(1 << i), pDesc));
+		}
+	}
+
+	/*
+		Input : resetVibration - Reset the vibration of the specified GamePad(s)
+		Author: Mitchell Croft
+		Created: 14/02/2017
+		Modified: 13/02/2017
+
+		param[in] pIDs - A Bitmask of the EGamePadID values to reset
+	*/
+	void Input::resetVibration(const Utilities::Bitmask<EGamePadID>& pIDs) {
+		//Create a simple description
+		VibrationDescription desc;
+
+		//Apply the mask
+		desc.gamePad = pIDs;
+
+		//Apply the vibration to those GamePads
+		applyVibration(desc);
+	}
+
+	/*
+		Input : getGamePadAxis - Retrieve a raw axis value from a specific GamePad
+		Author: Mitchell Croft
+		Created: 13/02/2017
+		Modified: 13/02/2017
+
+		param[in] pAxis - The EGamePadAxisCode value to retrieve
+		param[in] pID - The EGamePadID value defining the controller to retrieve the input from
+
+		return const float& - Returns the axis value as a const float reference with the range -1 to 1
+	*/
+	const float& Input::getGamePadAxis(const EGamePadAxisCodes& pAxis, const EGamePadID& pID) { return mInstance->mGamePads[(int)(log((int)pID) / log(2))].getRawAxis(pAxis); }
+
+	/*
+		Input : getGamePadAxisDelta - Retrieve the change in raw axis value from a specific GamePad
+		Author: Mitchell Croft
+		Created: 14/02/2017
+		Modified: 14/02/2017
+
+		param[in] pAxis - The EGamePadAxisCode value to check
+		param[in] pID - The EGamePadID value defining the controller to retrieve the input from
+
+		return float - Returns a float value containing the change in the specified axis' value
+	*/
+	float Input::getGamePadAxisDelta(const EGamePadAxisCodes& pAxis, const EGamePadID& pID) { return mInstance->mGamePads[(int)(log((int)pID) / log(2))].getRawAxisDelta(pAxis); }
+
+	/*
+		Input : getGamePadBtnDown - Test to see if the specified GamePads are pressing at least one
+									of the specified buttons
+		Author: Mitchell Croft
+		Created: 13/02/2017
+		Modified: 13/02/2017
+
+		param[in] pBtns - A Bitmask of EGamePadBtnCodes that make up the various buttons to check
+		param[in] pIDs - A Bitmask of EGamePadID values that make up the various GamePads to check
+
+		return int - Returns an int bitmask that flags that different controllers that are pressing
+					 at least one of the specified buttons
+	*/
+	int Input::getGamePadBtnDown(const Utilities::Bitmask<EGamePadBtnCodes, unsigned short>& pBtns, const Utilities::Bitmask<EGamePadID>& pIDs /*= EControllerID::All*/) {
+		//Create bitmask
+		int mask = 0;
+
+		//Test the controllers 
+		for (int i = GAMEPAD_ONE; i < GAMEPAD_TOTAL; i++) {
+			if (pIDs & (1 << i) &&						//GamePad is in the mask
+				mInstance->mGamePads[i].mConnected &&	//GamePad is connected
+				mInstance->mGamePads[i].btnDown(pBtns)) //GamePad has the buttons down
+				mask |= (1 << i);
 		}
 
-		//Take the average of connected controllers
-		else {
-			//Store the number of connected controllers
-			byte connectedControllers = 0;
+		//Return the mask
+		return mask;
+	}
 
-			//Store the required value
-			float storage = 0.f;
+	/*
+		Input : getGamePadBtnPressed - Test to see if the specified GamePads have just pressed at least one
+									   of the specified buttons after all buttons were previously released
+		Author: Mitchell Croft
+		Created: 13/02/2017
+		Modified: 13/02/2017
 
-			//Loop through connected inputs
-			float buffer;
-			for (int i = (int)EControllerID::One; i < (int)EControllerID::TOTAL; i++) {
-				//Check if this controller is connected
-				if (mInstance->mConnectedControllers & (1 << i)) {
-					//Increment the connected controller count
-					connectedControllers++;
+		param[in] pBtns - A Bitmask of EGamePadBtnCodes that make up the various buttons to check
+		param[in] pIDs - A Bitmask of EGamePadID values that make up the various GamePads to check
 
-					//Check if the average is being taken
-					if (pAverage)
-						storage += mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)].axisValues[(int)pAxis];
+		return int - Returns an int bitmask that flags that different controllers that are have just
+					 pressed at least one of the specified buttons
+	*/
+	int Input::getGamePadBtnPressed(const Utilities::Bitmask<EGamePadBtnCodes, unsigned short>& pBtns, const Utilities::Bitmask<EGamePadID>& pIDs /*= EControllerID::All*/) {
+		//Create bitmask
+		int mask = 0;
 
-					//Otherwise check if the value is greater then the current
-					else if (abs(buffer = mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)].axisValues[(int)pAxis]) > abs(storage))
-						storage = buffer;
+		//Test the controllers 
+		for (int i = GAMEPAD_ONE; i < GAMEPAD_TOTAL; i++) {
+			if (pIDs & (1 << i) &&							//GamePad is in the mask
+				mInstance->mGamePads[i].mConnected &&		//GamePad is connected
+				mInstance->mGamePads[i].btnPressed(pBtns))	//GamePad has pressed a button
+				mask |= (1 << i);
+		}
+
+		//Return the mask
+		return mask;
+	}
+
+	/*
+		Input : getGamePadBtnReleased - Test to see if the specified GamePads have just released at least one
+										of the specified buttons after all buttons were previously pressed
+		Author: Mitchell Croft
+		Created: 13/02/2017
+		Modified: 13/02/2017
+
+		param[in] pBtns - A Bitmask of EGamePadBtnCodes that make up the various buttons to check
+		param[in] pIDs - A Bitmask of EGamePadID values that make up the various GamePads to check
+
+		return int - Returns an int bitmask that flags that different controllers that are have just
+					 released at least one of the specified buttons
+	*/
+	int Input::getGamePadBtnReleased(const Utilities::Bitmask<EGamePadBtnCodes, unsigned short>& pBtns, const Utilities::Bitmask<EGamePadID>& pIDs /*= EControllerID::All*/) {
+		//Create bitmask
+		int mask = 0;
+
+		//Test the controllers 
+		for (int i = GAMEPAD_ONE; i < GAMEPAD_TOTAL; i++) {
+			if (pIDs & (1 << i) &&							//GamePad is in the mask
+				mInstance->mGamePads[i].mConnected &&		//GamePad is connected
+				mInstance->mGamePads[i].btnReleased(pBtns))	//GamePad has released a button
+				mask |= (1 << i);
+		}
+
+		//Return the mask
+		return mask;
+	}
+
+	/*
+		Input : getKeyboardKeyDown - Test to see if a specific key is currently down on the keyboard
+		Author: Mitchell Croft
+		Created: 14/02/2017
+		Modified: 14/02/2017
+
+		param[in] pKey - An EKeyboardKeyCode specifying the key to check
+
+		return bool - Returns true if the key is currently down
+	*/
+	bool Input::getKeyboardKeyDown(const EKeyboardKeyCodes& pKey) { return ((mInstance->mKeyboardStates[STATE_CURRENT][(int)pKey] & PRESSED_MASK) != 0); }
+
+	/*
+		Input : getKeyboardKeyPressed - Test to see if the specified key was pressed this cycle
+		Author: Mitchell Croft
+		Created: 14/02/2017
+		Modified: 14/02/2017
+
+		param[in] pKey - An EKeyboardKeyCode specifying the key to check
+
+		return bool - Returns true the first cycle this key is pressed down
+	*/
+	bool Input::getKeyboardKeyPressed(const EKeyboardKeyCodes& pKey) {
+		return ((mInstance->mKeyboardStates[STATE_CURRENT][(int)pKey] & PRESSED_MASK) &&
+			!(mInstance->mKeyboardStates[STATE_PREVIOUS][(int)pKey] & PRESSED_MASK));
+	}
+
+	/*
+		Input : getKeyboardKeyReleased - Test to see if the specified key was released this cycle
+		Author: Mitchell Croft
+		Created: 14/02/2017
+		Modified: 14/02/2017
+
+		param[in] pKey - An EKeyboardKeyCode specifying the key to check
+
+		return bool - Returns true the first cycle this key is released
+	*/
+	bool Input::getKeyboardKeyReleased(const EKeyboardKeyCodes& pKey) {
+		return (!(mInstance->mKeyboardStates[STATE_CURRENT][(int)pKey] & PRESSED_MASK) &&
+			(mInstance->mKeyboardStates[STATE_PREVIOUS][(int)pKey] & PRESSED_MASK));
+	}
+
+	/*
+		Input : getKeyboardKeyToggled - Test to see if the specified key has been toggled
+		Author: Mitchell Croft
+		Created: 14/02/2017
+		Modified: 14/02/2017
+
+		param[in] pKey - An EKeyboardKeyCode specifying the key to check
+
+		return bool - Returns true if the specified key has the toggle flag
+	*/
+	bool Input::getKeyboardKeyToggled(const EKeyboardKeyCodes& pKey) { return ((mInstance->mKeyboardStates[STATE_CURRENT][(int)pKey] & TOGGLED_MASK) != 0); }
+
+	/*
+		Input : modifyStringByKeyboard - Add characters to a standard string object based on the
+										 keyboard keys pressed
+		Author: Mitchell Croft
+		Created: 14/02/2017
+		Modified: 14/02/2017
+
+		param[in\out] pString - A reference to the standard string object to fill
+		param[in] pMaxLength - The maximum length that the string can be (Less then 0 means
+							   no character limit, Default -1)
+		param[in] pFlags - Bitmask of EKeyboardInputFlags that define what characters are allowed
+						   to be entered into the string (Default EKeyboardInputFlags::All)
+
+		return bool - Returns true if the pString reference was modified was in anyway
+	*/
+	bool Input::modifyStringByKeyboard(std::string& pString, const int& pMaxLength /*= -1*/, const Utilities::Bitmask<EKeyboardInputFlags, char>& pFlags /*= EKeyboardInputFlags::All*/) {
+		//Store a flag monitoring if the string has been changed
+		bool modified = false;
+
+		//Loop through all Keys to check
+		for (int i = (int)mInstance->INPUTABLE_KEY_VALUES.size() - 1; i >= 0; i--) {
+			//Test to see if the key has been pressed
+			if (mInstance->mKeyboardStates[STATE_CURRENT][(int)mInstance->INPUTABLE_KEY_VALUES[i]] & PRESSED_MASK) {
+				//Check if the timer is up for the key to be processed again
+				if (!mInstance->mRepeatKeyTimers[i] || !mInstance->mRepeatFlags[i]) {
+					//Test to see if the string was modified with this press
+					if (mInstance->verifyKeyboardInput(pString, mInstance->INPUTABLE_KEY_VALUES[i], pMaxLength, pFlags))
+						modified = true;
+
+					//Set the the repeat timer delay
+					mInstance->mRepeatKeyTimers[i] = (mInstance->mRepeatFlags[i] ? 0.05f : 0.5f);
+
+					//Set the bit flag
+					mInstance->mRepeatFlags[i] = true;
 				}
 			}
-			
-			//Return the average of the total
-			return (pAverage ? storage / (float)connectedControllers : storage);
+
+			//Otherwise reset the bit flag
+			else mInstance->mRepeatFlags[i] = false;
 		}
+
+		//Return the modified flag
+		return modified;
 	}
-
-	/*
-		Input : getButton - Check a virtual axis like a virtual button, getting if it has been modified
-		Author: Mitchell Croft
-		Created: 31/01/2017
-		Modified: 31/01/2017
-
-		param[in] pAxis - A c-string representing the name of the virtual axis to check
-
-		return bool - Returns true if the virtual axis value is not equal to 0
-	*/
-	bool Input::getButton(const char* pAxis) { return mInstance->mCurInputAxis[pAxis] != 0.f; }
-
-	/*
-		Input : getButtonDown - Check a virtual axis like a virtual button, getting if it has been modified this frame
-		Author: Mitchell Croft
-		Created: 31/01/2017
-		Modified: 31/01/2017
-
-		param[in] pAxis - A c-string representing the name of the virtual axis to check
-
-		return bool - Returns true the first frame the virtual axis value is not equal to 0
-	*/
-	bool Input::getButtonDown(const char* pAxis) { return mInstance->mCurInputAxis[pAxis] && !mInstance->mPreInputAxis[pAxis]; }
-
-	/*
-		Input : getButtonUp - Check a virtual axis like a virtual button, getting if it has returned to 0 this frame
-		Author: Mitchell Croft
-		Created: 31/01/2017
-		Modified: 31/01/2017
-
-		param[in] pAxis - A c-string representing the name of the virtual axis to check
-
-		return bool - Returns true the first frame the virtual axis value is equal to 0
-	*/
-	bool Input::getButtonUp(const char* pAxis) { return !mInstance->mCurInputAxis[pAxis] && mInstance->mPreInputAxis[pAxis]; }
-	
-	/*
-		Input : getKey - Check if a controller button is down across one or all connected controllers
-		Author: Mitchell Croft
-		Created: 31/01/2017
-		Modified: 01/02/2017
-
-		param[in] pCode - An EControllerKeyCode value representing the controller button to test
-		param[in] pID - The ID of the controller to check for input from (Default All)
-
-		return bool - Returns true if the specified controller(s) have the specified button down
-	*/
-	bool Input::getKey(const EControllerKeyCodes& pCode, const EControllerID& pID /* = EControllerID::All */) {
-		//Check there is at least one connected controller
-		if (!mInstance->mConnectedControllers || pCode == EControllerKeyCodes::Null_Input) return false;
-
-		//Check if the controller is a specific index
-		if (pID != EControllerID::All && pID != EControllerID::TOTAL) {
-			//Check if the specified controller is connected
-			if (mInstance->mConnectedControllers & (1 << (int)pID))
-				return (mInstance->mControllerStates[GET_IND((int)pID, CURRENT_STATE)].buttonMask & (int)pCode) != 0;
-			
-			//If controller is not connected return false
-			else return false;
-		}
-
-		//Check the connected controllers for the button press
-		else {
-			//Loop through connected inputs
-			for (int i = (int)EControllerID::One; i < (int)EControllerID::TOTAL; i++) {
-				//Check if the controller is connected
-				if (mInstance->mConnectedControllers & (1 << i)) {
-					//Check if the button has been pressed
-					if (mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)].buttonMask & (int)pCode)
-						return true;
-				}
-			}
-		}
-
-		//No controller has pressed the button
-		return false;
-	}
-
-	/*
-		Input : getKeyDown - Check if a controller has been pressed across one or all connected controllers
-		Author: Mitchell Croft
-		Created: 31/01/2017
-		Modified: 01/02/2017
-
-		param[in] pCode - An EControllerKeyCode value representing the controller button to test
-		param[in] pID - The ID of the controller to check for input from (Default All)
-
-		return bool - Returns true the first frame the specified controller(s) press the specified button
-	*/
-	bool Input::getKeyDown(const EControllerKeyCodes& pCode, const EControllerID& pID /* = EControllerID::All */) {
-		//Check there is at least one connected controller
-		if (!mInstance->mConnectedControllers || pCode == EControllerKeyCodes::Null_Input) return false;
-
-		//Check if the controller is a specific index
-		if (pID != EControllerID::All && pID != EControllerID::TOTAL) {
-			//Check if the specified controller is connected
-			if (mInstance->mConnectedControllers & (1 << (int)pID))
-				return (mInstance->mControllerStates[GET_IND((int)pID, CURRENT_STATE)].buttonMask & (int)pCode &&
-					    !(mInstance->mControllerStates[GET_IND((int)pID, PREVIOUS_STATE)].buttonMask & (int)pCode));
-
-			//If controller is not connected return false
-			else return false;
-		}
-
-		//Check the connected controllers for the button press
-		else {
-			//Loop through connected inputs
-			for (int i = (int)EControllerID::One; i < (int)EControllerID::TOTAL; i++) {
-				//Check if the controller is connected
-				if (mInstance->mConnectedControllers & (1 << i)) {
-					//Check if the button has been pressed
-					if (mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)].buttonMask & (int)pCode &&
-						!(mInstance->mControllerStates[GET_IND(i, PREVIOUS_STATE)].buttonMask & (int)pCode))
-						return true;
-				}
-			}
-		}
-
-		//No controller has pressed the button
-		return false;
-	}
-
-	/*
-		Input : getKeyUp - Check for a controller button release across one or all connected controllers
-		Author: Mitchell Croft
-		Created: 31/01/2017
-		Modified: 01/02/2017
-
-		param[in] pCode - An EControllerKeyCode value representing the controller button to test
-		param[in] pID - The ID of the controller to check for input from (Default All)
-
-		return bool - Returns true the first frame the specified controller(s) released the specified button
-	*/
-	bool Input::getKeyUp(const EControllerKeyCodes& pCode, const EControllerID& pID /* = EControllerID::All */) {
-		//Check there is at least one connected controller
-		if (!mInstance->mConnectedControllers || pCode == EControllerKeyCodes::Null_Input) return false;
-
-		//Check if the controller is a specific index
-		if (pID != EControllerID::All && pID != EControllerID::TOTAL) {
-			//Check if the specified controller is connected
-			if (mInstance->mConnectedControllers & (1 << (int)pID))
-				return (!(mInstance->mControllerStates[GET_IND((int)pID, CURRENT_STATE)].buttonMask & (int)pCode) &&
-					mInstance->mControllerStates[GET_IND((int)pID, PREVIOUS_STATE)].buttonMask & (int)pCode);
-
-			//If controller is not connected return false
-			else return false;
-		}
-
-		//Check the connected controllers for the button release
-		else {
-			//Loop through connected inputs
-			for (int i = (int)EControllerID::One; i < (int)EControllerID::TOTAL; i++) {
-				//Check if the controller is connected
-				if (mInstance->mConnectedControllers & (1 << i)) {
-					//Check if the button has been released
-					if (!(mInstance->mControllerStates[GET_IND(i, CURRENT_STATE)].buttonMask & (int)pCode) &&
-						mInstance->mControllerStates[GET_IND(i, PREVIOUS_STATE)].buttonMask & (int)pCode)
-						return true;
-				}
-			}
-		}
-
-		//No controller has released the button
-		return false;
-	}
-
-	/*
-		Input : addVirtualAxis - Add a new virtual axis object to be monitored by the Input Manager
-		Author: Mitchell Croft
-		Created: 31/01/2017
-		Modified: 01/02/2017
-
-		param[in] pAxis - A VirtualAxis struct defining the properties of the new virtual axis to monitor
-	*/
-	void Input::addVirtualAxis(const VirtualAxis& pAxis) { mInstance->mMonitorAxis.insert(std::pair<const char*, VirtualAxis>(pAxis.name.c_str(), pAxis)); }
-
-	/*
-		Input : addVirtualAxis - Add an array of new VirtualAxis objects to be monitored by the Input Manager
-		Author: Mitchell Croft
-		Created: 01/02/2017
-		Modified: 01/02/2017
-
-		param[in] pArray - A pointer to the array of VirtualAxis objects to add to the monitor list
-		param[in] pCount - The number of VirtualAxis objects in the array to include
-	*/
-	void Input::addVirtualAxis(const VirtualAxis* pArray, const uint& pCount) { for (uint i = 0; i < pCount;  mInstance->mMonitorAxis.insert(std::pair<const char*, VirtualAxis>(pArray[i].name.c_str(), pArray[i])), i++);	}
-
-	/*
-		Input : removeAxis - Remove all virtual axis with a specific name
-		Author: Mitchell Croft
-		Created: 31/01/2017
-		Modified: 31/01/2017
-
-		param[in] pAxis - A c-string representing the name of the virtual axis to remove
-	*/
-	void Input::removeAxis(const char* pAxis) { mInstance->mMonitorAxis.erase(pAxis); mInstance->mCurInputAxis.erase(pAxis); }
-
-	/*
-		Input : removeAxis - Remove all virtual axis' defined within the Input Manager
-		Author: Mitchell Croft
-		Created: 31/01/2017
-		Modified: 31/01/2017
-	*/
-	void Input::removeAxis() { mInstance->mMonitorAxis.clear(); mInstance->mCurInputAxis.clear(); }
-
-	/*
-		Input : setVibrationSetting - Apply a range of vibration settings to 1 or all connected controllers
-		Author: Mitchell Croft
-		Created: 10/02/2017
-		Modified: 10/02/2017
-
-		param[in] pSetting - A VibrationSetting object describing the 
-	*/
-	void Input::setVibrationSetting(const VibrationSetting& pSetting) {
-		//Check if the controller is a specific index
-		if (pSetting.controller != EControllerID::All && pSetting.controller != EControllerID::TOTAL)
-			mInstance->mVibrationValues[pSetting.controller] = pSetting;
-
-		//Add the setting to all of the controllers
-		else for (int i = (int)EControllerID::One; i < (int)EControllerID::TOTAL; i++)
-			mInstance->mVibrationValues[(EControllerID)i] = pSetting;
-	}
-
-	/*
-		Input : setPollInterval - Set the time between polls for new connected controllers
-		Author: Mitchell Croft
-		Created: 01/02/2017
-		Modified: 01/02/2017
-
-		param[in] pInterval - The time in seconds between poll events
-	*/
-	void Input::setPollInterval(const float& pInterval) { mInstance->mPollInterval = pInterval; }
 }

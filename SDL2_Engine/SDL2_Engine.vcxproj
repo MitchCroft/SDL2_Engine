@@ -173,7 +173,9 @@
     <ClCompile Include="src\SDL2_Engine\Resources\Resource Types\SDL2MusicResource.cpp" />
     <ClCompile Include="src\SDL2_Engine\Resources\Resource Types\SDL2SFXResource.cpp" />
     <ClCompile Include="src\SDL2_Engine\Resources\Resource Types\SDL2TextureResource.cpp" />
+    <ClCompile Include="src\SDL2_Engine\Root\Input\GamePad.cpp" />
     <ClCompile Include="src\SDL2_Engine\Root\Input\InputManager.cpp" />
+    <ClCompile Include="src\SDL2_Engine\Root\Input\VibrationDescription.cpp" />
     <ClCompile Include="src\SDL2_Engine\Root\Logger\LoggerManager.cpp" />
     <ClCompile Include="src\SDL2_Engine\Root\Time\TimeManager.cpp" />
     <ClCompile Include="src\SDL2_Engine\Screen Management\BaseScreen.cpp" />
@@ -198,10 +200,10 @@
     <ClInclude Include="src\SDL2_Engine\Resources\ResourceTypes.hpp" />
     <ClInclude Include="src\SDL2_Engine\Resources\ResourceValues.hpp" />
     <ClInclude Include="src\SDL2_Engine\Root\Input.hpp" />
-    <ClInclude Include="src\SDL2_Engine\Root\Input\InputForwardDeclares.hpp" />
-    <ClInclude Include="src\SDL2_Engine\Root\Input\InputValues.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Root\Input\GamePad.hpp" />
     <ClInclude Include="src\SDL2_Engine\Root\Input\InputManager.hpp" />
-    <ClInclude Include="src\SDL2_Engine\Root\Input\VibrationSetting.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Root\Input\InputValues.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Root\Input\VibrationDescription.hpp" />
     <ClInclude Include="src\SDL2_Engine\Root\Input\VirtualAxis.hpp" />
     <ClInclude Include="src\SDL2_Engine\Root\Logger.hpp" />
     <ClInclude Include="src\SDL2_Engine\Root\Logger\DebugColor.hpp" />
@@ -220,6 +222,7 @@
     <ClInclude Include="src\SDL2_Engine\State Manager\StateManagerValues.hpp" />
     <ClInclude Include="src\SDL2_Engine\Types.hpp" />
     <ClInclude Include="src\SDL2_Engine\SDL2_Engine.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Utilities\Bitmask.hpp" />
     <ClInclude Include="src\SDL2_Engine\Utilities\Properties.hpp" />
     <ClInclude Include="src\SDL2_Engine\Utilities\Properties\ReadOnlyProperty.hpp" />
     <ClInclude Include="src\SDL2_Engine\Utilities\Properties\ValidatedProperty.hpp" />

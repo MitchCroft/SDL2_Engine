@@ -99,18 +99,6 @@
     <ClInclude Include="src\main\dirent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Root\Input\InputForwardDeclares.hpp">
-      <Filter>Header Files\SDL2_Engine\Root\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Root\Input\InputManager.hpp">
-      <Filter>Header Files\SDL2_Engine\Root\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Root\Input\InputValues.hpp">
-      <Filter>Header Files\SDL2_Engine\Root\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Root\Input\VirtualAxis.hpp">
-      <Filter>Header Files\SDL2_Engine\Root\Input</Filter>
-    </ClInclude>
     <ClInclude Include="src\SDL2_Engine\Root\Logger\DebugColor.hpp">
       <Filter>Header Files\SDL2_Engine\Root\Logger</Filter>
     </ClInclude>
@@ -225,16 +213,28 @@
     <ClInclude Include="src\SDL2_Engine\State Manager\StateManager.hpp">
       <Filter>Header Files\SDL2_Engine\State Manager</Filter>
     </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Root\Input\VibrationSetting.hpp">
+    <ClInclude Include="src\SDL2_Engine\Root\Input\GamePad.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\Input\InputManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\Input\InputValues.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\Input\VibrationDescription.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Root\Input\VirtualAxis.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Utilities\Bitmask.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\SDL2_Engine\Root\Input\InputManager.cpp">
-      <Filter>Source Files\SDL2_Engine\Root\Input</Filter>
     </ClCompile>
     <ClCompile Include="src\SDL2_Engine\Root\Logger\LoggerManager.cpp">
       <Filter>Source Files\SDL2_Engine\Root\Logger</Filter>
@@ -267,6 +267,15 @@
       <Filter>Source Files\SDL2_Engine\State Manager\Objects</Filter>
     </ClCompile>
     <ClCompile Include="src\SDL2_Engine\Screen Management\BaseScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SDL2_Engine\Root\Input\GamePad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SDL2_Engine\Root\Input\InputManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SDL2_Engine\Root\Input\VibrationDescription.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

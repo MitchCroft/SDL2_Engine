@@ -5,6 +5,7 @@
 #include "InputValues.hpp"
 
 namespace SDL2_Engine {
+
 	/*
 	*		Name: VirtualAxis
 	*		Author: Mitchell Croft
@@ -17,8 +18,8 @@ namespace SDL2_Engine {
 	*		values can be read and used to create game input
 	**/
 	struct VirtualAxis {
-		//! Store the controller to receive input from
-		EControllerID controller = EControllerID::All;
+		//! Store the ID of the Axis to accept input from
+		EGamePadID gamePad = EGamePadID::All;
 
 		//! Store the name of the axis, used for accessing axis information
 		std::string name = "";
@@ -33,26 +34,26 @@ namespace SDL2_Engine {
 		bool invert = false;
 
 		//! Flags if the input type is a button or an axis control
-		EAxisInputType inputType = EAxisInputType::Button;
+		EGamePadInputType inputType = EGamePadInputType::Button;
 
 		///////////////////////////////////////////////////////////////////////////////////////////////
 		////    Values below are only used when the input type is set to EAxisInputType::Button    ////
 		///////////////////////////////////////////////////////////////////////////////////////////////
 
-		//! Store the buttons which contribute a negative value to the axis
-		EControllerKeyCodes bPosBtn = EControllerKeyCodes::Null_Input;
-		EControllerKeyCodes bAltPosBtn = EControllerKeyCodes::Null_Input;
+		//! Store the buttons which contribute a positive value to the axis
+		EGamePadBtnCodes bPosBtn = EGamePadBtnCodes::Null_Input;
+		EGamePadBtnCodes bAltPosBtn = EGamePadBtnCodes::Null_Input;
 
 		//! Store the buttons which contribute a negative value to the axis
-		EControllerKeyCodes bNegBtn = EControllerKeyCodes::Null_Input;
-		EControllerKeyCodes bAltNegBtn = EControllerKeyCodes::Null_Input;
+		EGamePadBtnCodes bNegBtn = EGamePadBtnCodes::Null_Input;
+		EGamePadBtnCodes bAltNegBtn = EGamePadBtnCodes::Null_Input;
 
 		///////////////////////////////////////////////////////////////////////////////////////////////
 		////    Values below are only used when the input type is set to EAxisInputType::Axis      ////
 		///////////////////////////////////////////////////////////////////////////////////////////////
 
 		//! Store the axis to take input from
-		EControllerAxisCodes aAxis = EControllerAxisCodes::Null_Axis;
+		EGamePadAxisCodes aAxis = EGamePadAxisCodes::Null_Axis;
 
 		//! Store the size of the dead zone applied to read axis (0 - 1)
 		float aDeadZone = 0.1f;

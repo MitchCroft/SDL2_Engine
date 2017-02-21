@@ -1,8 +1,13 @@
 #include "SDL2_EngineInit.hpp"
 
-#include "SDL2_Engine/SDL2_Engine.hpp"
-#include "SDL2_Engine/State Manager/Objects/StateManager.hpp"
-#include "SDL2_Engine/Resources/Resources.hpp"
+//! For initialising different managers
+#include "SDL2_Engine/InitIncludes.hpp"
+
+//! To enable using the time values
+#include "SDL2_Engine/Time/Time.hpp"
+
+//! To enable creating vibration descriptions
+#include "SDL2_Engine/Input/VibrationDescription.hpp"
 
 using namespace SDL2_Engine;
 
@@ -19,7 +24,7 @@ bool init() {
 		if (loadSuccess = true /* TODO: Load Audio */) {
 			if (loadSuccess = Resources::Resources::init("resources\\", (SDL_Renderer*)&loadSuccess /*VERY VERY TEMP*/, Logger::logWarning, Logger::logError)) {
 				if (loadSuccess = true /* TODO: Load screen manager */) {
-					loadSuccess = Input::init();
+					loadSuccess = Input::Input::init();
 				}
 			}
 		}
@@ -33,18 +38,18 @@ bool init() {
 inline float scaler(const float& pT) { return 1.f - pT; }
 //TEMP
 
-void updateLoop(Time& pTime) {
+void updateLoop(Time::Time& pTime) {
 	//Update the input manager
-	Input::update(pTime.deltaTime, pTime.realDeltaTime);
+	Input::Input::update(pTime.deltaTime, pTime.realDeltaTime);
 
 	//Check for game exit
-	if (Input::getGamePadBtnPressed(EGamePadBtnCodes::Start) || Input::getKeyboardKeyPressed(EKeyboardKeyCodes::Escape))
+	if (Input::Input::getGamePadBtnPressed(Input::EGamePadBtnCodes::Start) || Input::Input::getKeyboardKeyPressed(Input::EKeyboardKeyCodes::Escape))
 		StateManager::StateManager::quit();
 
 	//Check for button press
-	if (int mask = Input::getGamePadBtnPressed(EGamePadBtnCodes::A)) {
+	if (int mask = Input::Input::getGamePadBtnPressed(Input::EGamePadBtnCodes::A)) {
 		//Create the setting
-		VibrationDescription setting;
+		Input::VibrationDescription setting;
 
 		//Set the values
 		setting.gamePad = mask;
@@ -53,12 +58,12 @@ void updateLoop(Time& pTime) {
 		setting.vibrationLength = 2.f;
 
 		//Add to input manager
-		Input::applyVibration(setting);
+		Input::Input::applyVibration(setting);
 	}
 
-	if (int mask = Input::getGamePadBtnPressed(EGamePadBtnCodes::Y)) {
+	if (int mask = Input::Input::getGamePadBtnPressed(Input::EGamePadBtnCodes::Y)) {
 		//Create the setting
-		VibrationDescription setting;
+		Input::VibrationDescription setting;
 
 		//Set the values
 		setting.gamePad = mask;
@@ -68,11 +73,11 @@ void updateLoop(Time& pTime) {
 		setting.scaleFunc = scaler;
 
 		//Add to input manager
-		Input::applyVibration(setting);
+		Input::Input::applyVibration(setting);
 	}
 }
 
-void drawLoop(Time& pTime) {
+void drawLoop(Time::Time& pTime) {
 
 }
 
@@ -81,7 +86,7 @@ void destroy() {
 	Logger::log("Running the destroy function");
 	//TEMP
 
-	Input::destroy();
+	Input::Input::destroy();
 
 	//TODO: Destroy Screen manager
 

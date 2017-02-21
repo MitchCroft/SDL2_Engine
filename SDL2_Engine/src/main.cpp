@@ -1,16 +1,13 @@
 #include <iostream>
 
-#include "SDL2_Engine/State Manager/StateManager.hpp"
-
-#include "SDL2_EngineInit.hpp"
-
-#include "SDL2_Engine/Root/Logger.hpp"
-
 #include <SDL.h>
+
+#include "SDL2_Engine/InitIncludes.hpp"
+#include "SDL2_EngineInit.hpp"
 
 int main(int pArgCount, char* pArgs[]) {
 	//Create the StateManager settings object
-	SDL2_Engine::StateManager::StateManagerInitValues vals;
+	SDL2_Engine::StateManagerInitValues vals;
 
 	//Setup with values
 	vals.commandArgs = pArgs;
@@ -22,14 +19,12 @@ int main(int pArgCount, char* pArgs[]) {
 	vals.warningCallback = SDL2_Engine::Logger::logWarning;
 	vals.errorCallback = SDL2_Engine::Logger::logError;
 
-	SDL_WindowEvent;
-
 	//Initialise the State Manager
-	if (SDL2_Engine::StateManager::StateManager::init(vals))
-		SDL2_Engine::StateManager::StateManager::run();
+	if (SDL2_Engine::StateManager::init(vals))
+		SDL2_Engine::StateManager::run();
 
 	//Destroy the State Manager
-	SDL2_Engine::StateManager::StateManager::destroy();
+	SDL2_Engine::StateManager::destroy();
 
 	#ifdef _DEBUG
 	system("PAUSE");

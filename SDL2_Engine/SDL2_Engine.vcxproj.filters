@@ -213,9 +213,6 @@
     <ClInclude Include="src\SDL2_Engine\Resources\ResourceTypePrototypes.hpp">
       <Filter>Header Files\SDL2_Engine\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="src\SDL2_Engine\Resources\Resources.hpp">
-      <Filter>Header Files\SDL2_Engine\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="src\SDL2_Engine\Time\Time.hpp">
       <Filter>Header Files\SDL2_Engine\Time</Filter>
     </ClInclude>
@@ -224,6 +221,30 @@
     </ClInclude>
     <ClInclude Include="src\SDL2_Engine\SDL2_Engine.hpp">
       <Filter>Header Files\SDL2_Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Rendering\Renderer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Rendering\Color.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Utilities\Endian\Endian.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Rendering\ScreenRenderer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Rendering\RenderSet.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Resources\ResourceTypes\SDL2FontResource.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Resources\ResourceManager.hpp">
+      <Filter>Header Files\SDL2_Engine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDL2_Engine\Resources\ResourceTypes\SDL2FontStringResource.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -254,9 +275,6 @@
     <ClCompile Include="src\SDL2_Engine\_Root\StateManager\StateManager.cpp">
       <Filter>Source Files\SDL2_Engine\_Root\StateManager</Filter>
     </ClCompile>
-    <ClCompile Include="src\SDL2_Engine\Resources\Resources.cpp">
-      <Filter>Source Files\SDL2_Engine\Resources</Filter>
-    </ClCompile>
     <ClCompile Include="src\SDL2_Engine\Resources\ResourceTypes\SDL2CursorResource.cpp">
       <Filter>Source Files\SDL2_Engine\Resources\ResourceTypes</Filter>
     </ClCompile>
@@ -271,6 +289,18 @@
     </ClCompile>
     <ClCompile Include="src\SDL2_Engine\Time\Time.cpp">
       <Filter>Source Files\SDL2_Engine\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SDL2_Engine\Utilities\Endian\Endian.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SDL2_Engine\Resources\ResourceTypes\SDL2FontResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SDL2_Engine\Resources\ResourceManager.cpp">
+      <Filter>Source Files\SDL2_Engine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SDL2_Engine\Resources\ResourceTypes\SDL2FontStringResource.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

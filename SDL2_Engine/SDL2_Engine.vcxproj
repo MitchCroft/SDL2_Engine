@@ -171,13 +171,16 @@
     <ClCompile Include="src\SDL2_Engine\Input\GamePad.cpp" />
     <ClCompile Include="src\SDL2_Engine\Input\Input.cpp" />
     <ClCompile Include="src\SDL2_Engine\Input\VibrationDescription.cpp" />
-    <ClCompile Include="src\SDL2_Engine\Resources\Resources.cpp" />
+    <ClCompile Include="src\SDL2_Engine\Resources\ResourceManager.cpp" />
     <ClCompile Include="src\SDL2_Engine\Resources\ResourceTypes\SDL2CursorResource.cpp" />
+    <ClCompile Include="src\SDL2_Engine\Resources\ResourceTypes\SDL2FontResource.cpp" />
+    <ClCompile Include="src\SDL2_Engine\Resources\ResourceTypes\SDL2FontStringResource.cpp" />
     <ClCompile Include="src\SDL2_Engine\Resources\ResourceTypes\SDL2MusicResource.cpp" />
     <ClCompile Include="src\SDL2_Engine\Resources\ResourceTypes\SDL2SFXResource.cpp" />
     <ClCompile Include="src\SDL2_Engine\Resources\ResourceTypes\SDL2TextureResource.cpp" />
     <ClCompile Include="src\SDL2_Engine\ScreenManager\BaseScreen.cpp" />
     <ClCompile Include="src\SDL2_Engine\Time\Time.cpp" />
+    <ClCompile Include="src\SDL2_Engine\Utilities\Endian\Endian.cpp" />
     <ClCompile Include="src\SDL2_Engine\_Root\Logger\Logger.cpp" />
     <ClCompile Include="src\SDL2_Engine\_Root\StateManager\StateManager.cpp" />
   </ItemGroup>
@@ -191,12 +194,18 @@
     <ClInclude Include="src\SDL2_Engine\Input\InputValues.hpp" />
     <ClInclude Include="src\SDL2_Engine\Input\VibrationDescription.hpp" />
     <ClInclude Include="src\SDL2_Engine\Input\VirtualAxis.hpp" />
-    <ClInclude Include="src\SDL2_Engine\Resources\Resources.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Rendering\Color.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Rendering\Renderer.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Rendering\RenderSet.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Rendering\ScreenRenderer.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Resources\ResourceManager.hpp" />
     <ClInclude Include="src\SDL2_Engine\Resources\ResourceTypePrototypes.hpp" />
     <ClInclude Include="src\SDL2_Engine\Resources\ResourceTypes.hpp" />
     <ClInclude Include="src\SDL2_Engine\Resources\ResourceTypes\Descriptors\Cursor.hpp" />
     <ClInclude Include="src\SDL2_Engine\Resources\ResourceTypes\ResourceBase.hpp" />
     <ClInclude Include="src\SDL2_Engine\Resources\ResourceTypes\SDL2CursorResource.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Resources\ResourceTypes\SDL2FontResource.hpp" />
+    <ClInclude Include="src\SDL2_Engine\Resources\ResourceTypes\SDL2FontStringResource.hpp" />
     <ClInclude Include="src\SDL2_Engine\Resources\ResourceTypes\SDL2GenericResource.hpp" />
     <ClInclude Include="src\SDL2_Engine\Resources\ResourceTypes\SDL2MusicResource.hpp" />
     <ClInclude Include="src\SDL2_Engine\Resources\ResourceTypes\SDL2Resource.hpp" />
@@ -209,6 +218,7 @@
     <ClInclude Include="src\SDL2_Engine\Time\Time.hpp" />
     <ClInclude Include="src\SDL2_Engine\Utilities\Bitmask.hpp" />
     <ClInclude Include="src\main\dirent.h" />
+    <ClInclude Include="src\SDL2_Engine\Utilities\Endian\Endian.hpp" />
     <ClInclude Include="src\SDL2_Engine\Utilities\Properties\ReadOnlyProperty.hpp" />
     <ClInclude Include="src\SDL2_Engine\Utilities\Properties\ValidatedProperty.hpp" />
     <ClInclude Include="src\SDL2_Engine\_Root\Logger\DebugColor.hpp" />

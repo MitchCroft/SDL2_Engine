@@ -9,7 +9,7 @@ struct _Mix_Music;
 namespace SDL2_Engine {
 	namespace Resources {
 		//! Prototype the Resources singleton
-		class Resources;
+		class ResourceManager;
 
 		namespace ResourceTypes {
 			/*
@@ -24,7 +24,7 @@ namespace SDL2_Engine {
 			template<>
 			class __SDL2Resource<Music> : public ResourceBase {
 				//! Assign as a friend of the Resource Manager
-				friend class Resources;
+				friend class ResourceManager;
 
 				//! Store a pointer to the Mix_Music object
 				_Mix_Music* mMusic;

@@ -18,6 +18,7 @@ namespace SDL2_Engine {
 		struct Music;
 		struct Cursor;
 		struct Font;
+		struct FontString;
 		struct Generic;
 	}
 }

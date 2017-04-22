@@ -18,6 +18,7 @@ namespace SDL2_Engine {
 			Music,
 			Cursor,
 			Font,
+			FontString,
 			Generic
 		};
 

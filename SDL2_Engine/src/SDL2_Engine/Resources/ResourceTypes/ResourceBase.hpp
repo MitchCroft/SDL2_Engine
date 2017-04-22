@@ -1,12 +1,14 @@
 #pragma once
 
+#include "../../_Root/Types.hpp"
+
 #include "../../Utilities/Properties/ReadOnlyProperty.hpp"
 #include "../ResourceValues.hpp"
 
 namespace SDL2_Engine {
 	namespace Resources {
 		//! Prototype the Resources singleton
-		class Resources;
+		class ResourceManager;
 
 		namespace ResourceTypes {
 			/*
@@ -23,7 +25,7 @@ namespace SDL2_Engine {
 			class ResourceBase {
 			protected:
 				//! Assign as a friend of the Resource Manager
-				friend class Resources;
+				friend class ResourceManager;
 
 				//! Store a resource ID for the current resource
 				const resourceID mID;
@@ -34,9 +36,12 @@ namespace SDL2_Engine {
 				//! Store the type of resource that is currently active
 				const EResourceType mType;
 
+				//! Store a debug callback element
+				DebugCallback mErrorCB;
+
 				//! Protect the constructor / destructor
 				inline ResourceBase(const resourceID& pID, const EResourceType& pType = EResourceType::Null) :
-					mID(pID), mType(pType), mStatus(EResourceLoadStatus::Unloaded), id(mID), status(mStatus), type(mType) {}
+					mID(pID), mType(pType), mStatus(EResourceLoadStatus::Unloaded), mErrorCB(nullptr), id(mID), status(mStatus), type(mType) {}
 				virtual inline ~ResourceBase() { freeMemory(); }
 
 			public:

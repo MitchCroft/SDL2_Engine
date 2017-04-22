@@ -22,7 +22,7 @@ int main(int pArgCount, char* pArgs[]) {
 	//Initialise the State Manager
 	if (SDL2_Engine::StateManager::init(vals))
 		SDL2_Engine::StateManager::run();
-
+	
 	//Destroy the State Manager
 	SDL2_Engine::StateManager::destroy();
 

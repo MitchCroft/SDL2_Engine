@@ -22,7 +22,7 @@ bool init() {
 	//Complete a load of all systems
 	if (loadSuccess = true /* TODO: Load SDL2 */) {
 		if (loadSuccess = true /* TODO: Load Audio */) {
-			if (loadSuccess = Resources::Resources::init("resources\\", (SDL_Renderer*)&loadSuccess /*VERY VERY TEMP*/, Logger::logWarning, Logger::logError)) {
+			if (loadSuccess = Resources::ResourceManager::init("resources\\", (SDL_Renderer*)&loadSuccess /*VERY VERY TEMP*/, Logger::logWarning, Logger::logError)) {
 				if (loadSuccess = true /* TODO: Load screen manager */) {
 					loadSuccess = Input::Input::init();
 				}
@@ -77,6 +77,8 @@ void updateLoop(Time::Time& pTime) {
 	}
 }
 
+
+
 void drawLoop(Time::Time& pTime) {
 
 }
@@ -90,7 +92,7 @@ void destroy() {
 
 	//TODO: Destroy Screen manager
 
-	Resources::Resources::destroy();
+	Resources::ResourceManager::destroy();
 
 	//TODO: Destroy Audio
 

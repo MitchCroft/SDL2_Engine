@@ -7,7 +7,8 @@
 #include "ResourceTypes/SDL2SFXResource.hpp"
 #include "ResourceTypes/SDL2MusicResource.hpp"
 #include "ResourceTypes/SDL2CursorResource.hpp"
-//TODO: Add Font 
+#include "ResourceTypes/SDL2FontResource.hpp"
+#include "ResourceTypes/SDL2FontStringResource.hpp"
 #include "ResourceTypes/SDL2GenericResource.hpp"
 
 /*
@@ -39,7 +40,10 @@ namespace SDL2_Engine {
 			template<> inline std::string resourceToString<Cursor>() { return "CURSOR"; }
 
 			//! Font
-			//template<> inline std::string resourceToString<Font>() { return "FONT"; }
+			template<> inline std::string resourceToString<Font>() { return "FONT"; }
+
+			//! Font String
+			template<> inline std::string resourceToString<FontString>() { return "FONTSTRING"; }
 			
 			//! Generic
 			template<> inline std::string resourceToString<Generic>() { return "GENERIC"; }

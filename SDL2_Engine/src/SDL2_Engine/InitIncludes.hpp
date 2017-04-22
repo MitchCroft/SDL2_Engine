@@ -6,5 +6,5 @@
 //TODO: Include the audio manager
 #include "Input/Input.hpp"
 //TODO: Include the rendering manager
-#include "Resources/Resources.hpp"
+#include "Resources/ResourceManager.hpp"
 //TODO: Include the Screen Manager

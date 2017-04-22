@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "ResourceBase.hpp"
 
 namespace SDL2_Engine {
@@ -19,5 +21,9 @@ namespace SDL2_Engine {
 			template<typename T>
 			class __SDL2Resource : public ResourceBase {};
 		}
+
+		//! Define a simple shared pointer alias for resource types
+		template<class T>
+		using SDL2Resource = std::shared_ptr<ResourceTypes::__SDL2Resource<T>>;
 	}
 }

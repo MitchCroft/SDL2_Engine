@@ -9,7 +9,7 @@ struct SDL_Cursor;
 namespace SDL2_Engine {
 	namespace Resources {
 		//! Prototype the Resources singleton
-		class Resources;
+		class ResourceManager;
 
 		namespace ResourceTypes {
 
@@ -49,7 +49,7 @@ namespace SDL2_Engine {
 			template<>
 			class __SDL2Resource<Cursor> : public ResourceBase {
 				//! Assign as a friend of the Resource Manager
-				friend class Resources;
+				friend class ResourceManager;
 
 				//! Store a pointer to the Cursor_Container
 				Descriptors::Cursor* mCursor;

@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{95205FF0-A28A-42F0-A027-B74F135522D4}</ProjectGuid>
-    <RootNamespace>SDL2_Engine</RootNamespace>
+    <ProjectGuid>{5DCC01DA-D9EA-4494-9450-D4D80E2D101C}</ProjectGuid>
+    <RootNamespace>TestingGrounds</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -68,13 +68,49 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(ProjectDir)bin\exes\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)int\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)_d</TargetName>
+    <IncludePath>$(ProjectDir)dep\SDL2_Engine\include;$(ProjectDir)dep\glm;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(ProjectDir)bin\exes\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)int\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)</TargetName>
+    <IncludePath>$(ProjectDir)dep\SDL2_Engine\include;$(ProjectDir)dep\glm;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(ProjectDir)bin\exes\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)int\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)_d</TargetName>
+    <IncludePath>$(ProjectDir)dep\SDL2_Engine\include;$(ProjectDir)dep\glm;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(ProjectDir)bin\exes\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)int\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)</TargetName>
+    <IncludePath>$(ProjectDir)dep\SDL2_Engine\include;$(ProjectDir)dep\glm;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
+    <PreBuildEvent>
+      <Command>xcopy "$(SolutionDir)Projects\SDL2_Engine\src\*.hpp" "$(ProjectDir)dep\SDL2_Engine\include\" /f /s /y
+
+xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.dll" "$(ProjectDir)bin\exes\$(Platform)\" /f /d /y
+xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.lib" "$(ProjectDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration)\" /f /d /y</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>SDL2_Engine_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -82,6 +118,15 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
+    <PreBuildEvent>
+      <Command>xcopy "$(SolutionDir)Projects\SDL2_Engine\src\*.hpp" "$(ProjectDir)dep\SDL2_Engine\include\" /f /s /y
+
+xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.dll" "$(ProjectDir)bin\exes\$(Platform)\" /f /d /y
+xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.lib" "$(ProjectDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration)\" /f /d /y</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>SDL2_Engine_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -90,11 +135,19 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>SDL2_Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>xcopy "$(SolutionDir)Projects\SDL2_Engine\src\*.hpp" "$(ProjectDir)dep\SDL2_Engine\include\" /f /s /y
+
+xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.dll" "$(ProjectDir)bin\exes\$(Platform)\" /f /d /y
+xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.lib" "$(ProjectDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration)\" /f /d /y</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -103,13 +156,22 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>SDL2_Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>xcopy "$(SolutionDir)Projects\SDL2_Engine\src\*.hpp" "$(ProjectDir)dep\SDL2_Engine\include\" /f /s /y
+
+xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.dll" "$(ProjectDir)bin\exes\$(Platform)\" /f /d /y
+xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.lib" "$(ProjectDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration)\" /f /d /y</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

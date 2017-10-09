@@ -4,6 +4,7 @@
 //! Include the Initialisation objects
 #include "../Debug/LoggerInitialiser.hpp"
 #include "../Window/WindowInitialiser.hpp"
+#include "../Rendering/RendererInitialiser.hpp"
 
 namespace SDL2_Engine {
 	namespace Initialisation {
@@ -62,6 +63,9 @@ namespace SDL2_Engine {
 
 			//! Store the values used to initialise the Window object
 			WindowInitialiser windowValues;
+
+			//! Store the values used to initialise the Renderer object
+			RendererInitialiser rendererValues;
 		};
 
 		/*

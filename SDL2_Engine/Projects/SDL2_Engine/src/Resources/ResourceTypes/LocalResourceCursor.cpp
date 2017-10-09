@@ -4,6 +4,7 @@
 #include "../../Globals.hpp"
 #include "../../Debug/Logger.hpp"
 #include "../../Math.hpp"
+#include "../../Utilities/Endian/Endian.hpp"
 
 //! Include the SDL2 definitions
 #include <SDL.h>
@@ -171,7 +172,7 @@ namespace SDL2_Engine {
 
 			//Setup RGBA masks for the endian order of the machine
 			Uint32 rmask, gmask, bmask, amask;
-			if ((*(unsigned short*)"\0\xff" < 0x100)) {
+			if (Utilities::Endian::getEndianOrder() == Utilities::Endian::EEndianOrder::Big) {
 				rmask = 0xff000000;
 				gmask = 0x00ff0000;
 				bmask = 0x0000ff00;

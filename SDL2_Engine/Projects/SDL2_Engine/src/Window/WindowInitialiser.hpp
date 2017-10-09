@@ -3,6 +3,7 @@
 #include <cstdio>
 
 //! Include required values
+#include "../__LibraryManagement.hpp"
 #include "../Utilities/Bitmask.hpp"
 #include "WindowValues.hpp"
 
@@ -17,7 +18,7 @@ namespace SDL2_Engine {
 		 *		Purpose:
 		 *		Store initialisation values for the Window object
 		**/
-		struct WindowInitialiser {
+		struct SDL2_LIB_INC WindowInitialiser {
 			//! The name to be applied to the window of the application
 			char title[FILENAME_MAX];
 

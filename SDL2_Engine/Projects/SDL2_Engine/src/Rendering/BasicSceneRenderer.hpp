@@ -1,36 +1,27 @@
 #pragma once
 
 //! Include the SDL2_Engine objects
-#include "../__LibraryManagement.hpp"
-#include "RenderingValues.hpp"
-#include "Colour.hpp"
-
-//! Prototype the SDL objects
-struct SDL_Renderer;
-struct SDL_Texture;
-struct _TTF_Font;
-struct SDL_Rect;
-struct SDL_Point;
+#include "ISceneRenderer.hpp"
 
 namespace SDL2_Engine {
 	namespace Rendering {
 		/*
-		 *		Name: ISceneRenderer
+		 *		Name: BasicSceneRenderer
 		 *		Author: Mitchell Croft
 		 *		Created: 09/10/2017
 		 *		Modified: 09/10/2017
 		 *		
 		 *		Purpose:
-		 *		Provide basic implementation interfaces for Scene Renderers to implement
+		 *		Provide basic rendering functionality
 		**/
-		class SDL2_LIB_INC ISceneRenderer {
+		class SDL2_LIB_INC BasicSceneRenderer : public ISceneRenderer {
 		public:
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////--------------------------------Rendering Functionality------------------------------////////
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			/*
-				ISceneRenderer : drawTexture - Render a texture using passed in values
+				BasicSceneRenderer : drawTexture - Render a texture using passed in values
 				Created: 09/10/2017
 				Modified: 09/10/2017
 
@@ -50,10 +41,10 @@ namespace SDL2_Engine {
 									 const Colour& pFilter = Colour::White,
 									 const double& pAngle = 0.0,
 									 const SDL_Point* pPivot = nullptr,
-									 const int& pFlip = 0) = 0;
+									 const int& pFlip = 0) override;
 
 			/*
-				ISceneRenderer : drawLine - Render a line using passed in values
+				BasicSceneRenderer : drawLine - Render a line using passed in values
 				Created: 09/10/2017
 				Modified: 09/10/2017
 
@@ -65,10 +56,10 @@ namespace SDL2_Engine {
 			virtual void drawLine(SDL_Renderer*& pRenderer,
 								  const SDL_Point& pFrom,
 								  const SDL_Point& pTo,
-								  const Colour& pColour = Colour::Black) = 0;
+								  const Colour& pColour = Colour::Black) override;
 
 			/*
-				ISceneRenderer : drawRect - Render a uniform area using passed in values
+				BasicSceneRenderer : drawRect - Render a uniform area using passed in values
 				Created: 09/10/2017
 				Modified: 09/10/2017
 
@@ -82,10 +73,10 @@ namespace SDL2_Engine {
 								  const SDL_Rect& pPosition,
 								  const Colour& pColour,
 								  const bool& pFill = false,
-								  const Colour* pBorderColour = nullptr) = 0;
+								  const Colour* pBorderColour = nullptr) override;
 
 			/*
-				ISceneRenderer : drawText - Render text using the passed in values
+				BasicSceneRenderer : drawText - Render text using the passed in values
 				Created: 09/10/2017
 				Modified: 09/10/2017
 
@@ -103,21 +94,21 @@ namespace SDL2_Engine {
 								  const SDL_Point& pPosition,
 								  const Colour& pColour = Colour::Black,
 								  const ETextAlignment& pAlignment = ETextAlignment::Null,
-								  const ETextRenderType& pRenderType = ETextRenderType::Solid) = 0;
+								  const ETextRenderType& pRenderType = ETextRenderType::Solid) override;
 
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////-------------------------------Construction/Destruction------------------------------////////
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
-			
+
 			/*
-				ISceneRenderer : Destructor - Virtual function for inherited classes
+				BasicSceneRenderer : Default Constructor - Initialise with default values
 				Created: 09/10/2017
 				Modified: 09/10/2017
 			*/
-			inline virtual ~ISceneRenderer() {}
+			BasicSceneRenderer();
 
 			/*
-				ISceneRenderer : createRenderer - Setup the Scene Renderer
+				BasicSceneRenderer : createRenderer - Setup the Scene Renderer
 				Created: 09/10/2017
 				Modified: 09/10/2017
 
@@ -125,14 +116,18 @@ namespace SDL2_Engine {
 
 				return bool - Returns true if the Scene Renderer was created successfully
 			*/
-			virtual bool createRenderer(SDL_Renderer*& pRenderer) = 0;
+			virtual bool createRenderer(SDL_Renderer*& pRenderer) override;
 
 			/*
-				ISceneRenderer : destroyRenderer - Free memory and resources for the Scene Renderer
+				BasicSceneRenderer : destroyRenderer - Free memory and resources for the Scene Renderer
 				Created: 09/10/2017
 				Modified: 09/10/2017
 			*/
-			virtual void destroyRenderer() = 0;
+			virtual void destroyRenderer() override;
+
+		private:
+			//! Store a blank texture to be used to render filled rectangles
+			SDL_Texture* mBlank;
 		};
 	}
 }

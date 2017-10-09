@@ -183,7 +183,10 @@
     <ClInclude Include="src\Input\Keyboard\KeyboardValues.hpp" />
     <ClInclude Include="src\Debug\Logger.hpp" />
     <ClInclude Include="src\Input\Mouse\Mouse.hpp" />
+    <ClInclude Include="src\Rendering\BasicSceneRenderer.hpp" />
+    <ClInclude Include="src\Rendering\Colour.hpp" />
     <ClInclude Include="src\Rendering\Renderer.hpp" />
+    <ClInclude Include="src\Rendering\RendererInitialiser.hpp" />
     <ClInclude Include="src\Rendering\RenderingValues.hpp" />
     <ClInclude Include="src\Rendering\ISceneRenderer.hpp" />
     <ClInclude Include="src\Resources\Resources.hpp" />
@@ -196,6 +199,7 @@
     <ClInclude Include="src\Resources\ResourceTypes\LocalResourceSFX.hpp" />
     <ClInclude Include="src\Resources\ResourceTypes\LocalResourceTexture.hpp" />
     <ClInclude Include="src\Resources\ResourceValues.hpp" />
+    <ClInclude Include="src\Utilities\Endian\Endian.hpp" />
     <ClInclude Include="src\Utilities\IGlobal.hpp" />
     <ClInclude Include="src\Math.hpp" />
     <ClInclude Include="src\Time.hpp" />
@@ -216,6 +220,10 @@
     <ClCompile Include="src\Input\Controllers\GamePad.cpp" />
     <ClCompile Include="src\Input\Keyboard\Keyboard.cpp" />
     <ClCompile Include="src\Input\Mouse\Mouse.cpp" />
+    <ClCompile Include="src\Rendering\BasicSceneRenderer.cpp" />
+    <ClCompile Include="src\Rendering\Colour.cpp" />
+    <ClCompile Include="src\Rendering\Renderer.cpp" />
+    <ClCompile Include="src\Rendering\RendererInitialiser.cpp" />
     <ClCompile Include="src\Resources\Resources.cpp" />
     <ClCompile Include="src\Resources\ResourceTypes\LocalResourceCursor.cpp" />
     <ClCompile Include="src\Resources\ResourceTypes\LocalResourceFont.cpp" />
@@ -225,6 +233,7 @@
     <ClCompile Include="src\Resources\ResourceTypes\LocalResourceTexture.cpp" />
     <ClCompile Include="src\Time.cpp" />
     <ClCompile Include="src\Utilities\DebugCallback.cpp" />
+    <ClCompile Include="src\Utilities\Endian\Endian.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
     <ClCompile Include="src\Window\WindowInitialiser.cpp" />
   </ItemGroup>

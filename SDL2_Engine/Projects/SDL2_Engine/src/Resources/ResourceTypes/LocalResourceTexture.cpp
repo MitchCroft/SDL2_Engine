@@ -32,7 +32,7 @@ namespace SDL2_Engine {
 		/*
 			LocalResource (Texture) : Constructor - Initialise with default values
 			Created: 04/10/2017
-			Modified: 04/10/2017
+			Modified: 09/10/2017
 
 			param[in] pRenderer - The SDL2 renderer object that will be used to create the texture
 			param[in] pPath - The path of the image file to load
@@ -49,6 +49,7 @@ namespace SDL2_Engine {
 
 				//Flag error status
 				mStatus = EResourceLoadStatus::Error;
+				return;
 			}
 
 			//Set the blend mode
@@ -66,8 +67,12 @@ namespace SDL2_Engine {
 				texture = nullptr;
 			}
 
-			//Otherwise assign loaded flag
-			else mStatus = EResourceLoadStatus::Loaded;
+			//Get texture information
+			if (SDL_QueryTexture(texture, &mFormat, &mAccess, &mWidth, &mHeight)) 
+				Globals::get<Debug::Logger>().logWarning("Local Resource (Texture) failed to query texture properties of file '%s' with blend mode '%i'. Error: %s", pPath, pBlendMode, SDL_GetError());
+
+			//Assign loaded flag
+			mStatus = EResourceLoadStatus::Loaded;
 		}
 	}
 }

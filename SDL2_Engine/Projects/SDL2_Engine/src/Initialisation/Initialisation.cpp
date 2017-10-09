@@ -10,7 +10,7 @@
 #include "../Input/Controllers/Controllers.hpp"
 #include "../Input/Keyboard/Keyboard.hpp"
 #include "../Input/Mouse/Mouse.hpp"
-//TODO: Add rendering 
+#include "../Rendering/Renderer.hpp"
 //TODO: Add audio
 #include "../Resources/Resources.hpp"
 //TODO: Add scene management
@@ -37,6 +37,9 @@ namespace SDL2_Engine {
 			//Store the error return
 			EInitialisationError errorNum = EInitialisationError::Success;
 
+			//Store a reference to the Window and Scene Manager
+			Window* window = nullptr;
+
 			//Create the Logger object
 			if (Globals::addInterface<Debug::Logger>(pSetup.loggerValues)) {
 				//Create the Math object
@@ -49,7 +52,7 @@ namespace SDL2_Engine {
 					/////////////////////////////////////////////////////////////////////////////////////////////////////
 					
 					//Setup the window
-					if (!Globals::addInterface<Window>(pSetup.windowValues)) errorNum = EInitialisationError::Window_Initialisation_Failed;
+					if (!(window = Globals::addInterface<Window>(pSetup.windowValues))) errorNum = EInitialisationError::Window_Initialisation_Failed;
 
 					//Check for Time inclusion
 					if (!(int)errorNum && pSetup.initialiseSystems & EInitialiseSystems::Time)
@@ -68,9 +71,8 @@ namespace SDL2_Engine {
 					}
 					
 					//Check for Rendering
-					if (!(int)errorNum && pSetup.initialiseSystems & EInitialiseSystems::Rendering) {
-						//TODO
-					}
+					if (!(int)errorNum && pSetup.initialiseSystems & EInitialiseSystems::Rendering) 
+						if (!Globals::addInterface<Rendering::Renderer>(window->getWindow(), pSetup.rendererValues)) errorNum = EInitialisationError::Rendering_Initialisation_Failed;
 
 					//Check for Audio
 					if (!(int)errorNum && pSetup.initialiseSystems & EInitialiseSystems::Audio) {

@@ -11,8 +11,9 @@
 #include "../Input/Keyboard/Keyboard.hpp"
 #include "../Input/Mouse/Mouse.hpp"
 #include "../Rendering/Renderer.hpp"
-//TODO: Add audio
+#include "../Audio/Audio.hpp"
 #include "../Resources/Resources.hpp"
+//TODO: Add UI management
 //TODO: Add scene management
 
 //! Include the SDL functions
@@ -75,13 +76,17 @@ namespace SDL2_Engine {
 						if (!Globals::addInterface<Rendering::Renderer>(window->getWindow(), pSetup.rendererValues)) errorNum = EInitialisationError::Rendering_Initialisation_Failed;
 
 					//Check for Audio
-					if (!(int)errorNum && pSetup.initialiseSystems & EInitialiseSystems::Audio) {
-						//TODO
-					}
+					if (!(int)errorNum && pSetup.initialiseSystems & EInitialiseSystems::Audio)
+						if (!Globals::addInterface<Audio>(pSetup.audioValues)) errorNum = EInitialisationError::Audio_Initialisation_Failed;
 
 					//Check for Local Resources
 					if (!(int)errorNum && pSetup.initialiseSystems & EInitialiseSystems::Local_Resources) 
 						if (!Globals::addInterface<Resources>()) errorNum = EInitialisationError::Local_Resources_Initialisation_Failed;
+
+					//Check for UI
+					if (!(int)errorNum && pSetup.initialiseSystems & EInitialiseSystems::UI) {
+						//TODO
+					}
 
 					//Setup the Scene Manager
 					//TODO

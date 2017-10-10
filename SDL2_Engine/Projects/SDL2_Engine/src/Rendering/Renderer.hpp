@@ -158,8 +158,8 @@ namespace SDL2_Engine {
 
 			/*
 				Renderer : Constructor - Initialise with default values
-				Created: 05/10/2017
-				Modified: 05/10/2017
+				Created: 09/10/2017
+				Modified: 09/10/2017
 
 				param[in] pWindow - A pointer to the SDL_Window object
 				param[in] pSetup - Defines how the Renderer should be setup
@@ -168,8 +168,8 @@ namespace SDL2_Engine {
 
 			/*
 				Renderer : createInterface - Verify and setup starting information
-				Created: 05/10/2017
-				Modified: 05/10/2017
+				Created: 09/10/2017
+				Modified: 09/10/2017
 
 				return bool - Returns true if the Resources Manager was setup correctly
 			*/
@@ -177,8 +177,8 @@ namespace SDL2_Engine {
 
 			/*
 				Renderer : destroyInterface - Deallocate internal memory allocated
-				Created: 05/10/2017
-				Modified: 05/10/2017
+				Created: 09/10/2017
+				Modified: 09/10/2017
 			*/
 			void destroyInterface() override;
 

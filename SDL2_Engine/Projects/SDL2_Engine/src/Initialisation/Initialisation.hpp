@@ -5,6 +5,7 @@
 #include "../Debug/LoggerInitialiser.hpp"
 #include "../Window/WindowInitialiser.hpp"
 #include "../Rendering/RendererInitialiser.hpp"
+#include "../Audio/AudioInitialiser.hpp"
 
 namespace SDL2_Engine {
 	namespace Initialisation {
@@ -21,28 +22,32 @@ namespace SDL2_Engine {
 			Rendering_Initialisation_Failed,
 			Audio_Initialisation_Failed,
 			Local_Resources_Initialisation_Failed,
+			UI_Initialisation_Failed,
 			Scene_Management_Initialisation_Failed,
 		};
 
 		//! Flag the Engine systems that are to be initialised
 		enum class EInitialiseSystems {
 			//! Global Time object, providing delta and runtime tracking functionality
-			Time = 1 << 0,
+			Time			= 1 << 0,
 
 			//! Input from gamepads, keyboard and mouse
-			Input = (1 << 1) | Time,
+			Input			= (1 << 1) | Time,
 
 			//! Rendering capabilities for images and text
-			Rendering = 1 << 2,
+			Rendering		= 1 << 2,
 
 			//! Audio music and sound effect playback
-			Audio = 1 << 3,
+			Audio			= 1 << 3,
 
 			//! Handles the loading of local resources
 			Local_Resources = 1 << 4,
 
+			//! Manage users interaction with and displaying of elements
+			UI				= 1 << 5 | Rendering | Input,
+
 			//! Automatically handles the loading of all systems
-			All = Time | Input | Rendering | Audio | Local_Resources
+			All				= Time | Input | Rendering | Audio | Local_Resources | UI
 		};
 
 		/*
@@ -66,6 +71,9 @@ namespace SDL2_Engine {
 
 			//! Store the values used to initialise the Renderer object
 			RendererInitialiser rendererValues;
+
+			//! Store the values used to initialise the Audio object
+			AudioInitialiser audioValues;
 		};
 
 		/*

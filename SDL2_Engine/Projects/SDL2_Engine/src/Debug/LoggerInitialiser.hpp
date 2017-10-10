@@ -8,16 +8,16 @@ namespace SDL2_Engine {
 		 *		Name: LoggerInitialiser
 		 *		Author: Mitchell Croft
 		 *		Created: 06/10/2017
-		 *		Modified: 06/10/2017
+		 *		Modified: 10/10/2017
 		 *		
 		 *		Purpose:
 		 *		Store initialisation values for the Logger object
 		**/
 		struct LoggerInitialiser {
-			//! Flag if the Logger should output to a log file
+			//! Flag if the Logger should output to a log file (Default false)
 			bool storeLog;
 
-			//! Store the location to output the log file to
+			//! Store the location to output the log file to (Default "./")
 			char logLocation[FILENAME_MAX];
 
 			/*

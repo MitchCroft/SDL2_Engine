@@ -14,7 +14,7 @@ namespace SDL2_Engine {
 		 *		Name: RendererInitialiser
 		 *		Author: Mitchell Croft
 		 *		Created: 09/10/2017
-		 *		Modified: 09/10/2017
+		 *		Modified: 10/10/2017
 		 *		
 		 *		Purpose:
 		 *		Store initialisation values for the Rendering object
@@ -23,11 +23,11 @@ namespace SDL2_Engine {
 			//! The index of the graphics device to initialise (Defaults to -1, the first to support the requested flags)
 			int deviceIndex;
 
-			//! A bitmask of ERendererProperties to be used in the creation of the Renderer
+			//! A bitmask of ERendererProperties to be used in the creation of the Renderer (Default Hardware_Acceleration and VSync)
 			Utilities::Bitmask<Rendering::ERendererProperties> properties;
 
-			//! Store a pointer to the initial ISceneRenderer object
-			Rendering::ISceneRenderer* sceneRenderer;
+			//! Store a pointer to the initial ISceneRenderer object (Default nullptr)
+			Rendering::ISceneRenderer* sceneRenderer; 
 
 			/*
 				RendererInitialiser : Constructor - Initialise with default values

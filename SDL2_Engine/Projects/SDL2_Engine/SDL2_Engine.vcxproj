@@ -170,6 +170,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Audio\Audio.hpp" />
+    <ClInclude Include="src\Audio\AudioInitialiser.hpp" />
+    <ClInclude Include="src\Audio\AudioValues.hpp" />
     <ClInclude Include="src\Debug\DebugColor.hpp" />
     <ClInclude Include="src\Debug\LoggerInitialiser.hpp" />
     <ClInclude Include="src\Globals.hpp" />
@@ -212,6 +215,8 @@
     <ClInclude Include="src\__LibraryManagement.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Audio\Audio.cpp" />
+    <ClCompile Include="src\Audio\AudioInitialiser.cpp" />
     <ClCompile Include="src\Debug\Logger.cpp" />
     <ClCompile Include="src\Debug\LoggerInitialiser.cpp" />
     <ClCompile Include="src\Globals.cpp" />

@@ -16,7 +16,7 @@ namespace SDL2_Engine {
 		 *		Name: Renderer
 		 *		Author: Mitchell Croft
 		 *		Created: 09/10/2017
-		 *		Modified: 09/10/2017
+		 *		Modified: 11/10/2017
 		 *		
 		 *		Purpose:
 		 *		Provide a uniform interface for rendering images to the screen 
@@ -80,7 +80,7 @@ namespace SDL2_Engine {
 			/*
 				Renderer : drawText - Render text using the passed in values
 				Created: 09/10/2017
-				Modified: 09/10/2017
+				Modified: 11/10/2017
 
 				param[in] pText - A c-string defining the text to render
 				param[in] pFont - An SDL_Font to be used to render the Text
@@ -91,7 +91,7 @@ namespace SDL2_Engine {
 			*/
 			void drawText(const char* pText,
 						  _TTF_Font* pFont,
-						  const SDL_Rect& pPosition,
+						  const SDL_Point& pPosition,
 						  const Colour& pColour = Colour::Black,
 						  const ETextAlignment& pAlignment = ETextAlignment::Null,
 						  const ETextRenderType& pRenderType = ETextRenderType::Solid);
@@ -134,7 +134,7 @@ namespace SDL2_Engine {
 			/*
 				Renderer : setSceneRenderer - Set the SceneRenderer object that the Renderer will use 
 				Created: 09/10/2017
-				Modified: 09/10/2017
+				Modified: 11/10/2017
 
 				Template T - The ISceneRenderer subclass object to use
 				Template TArgs - A parameter pack of types use to setup the new SceneRenderer
@@ -149,8 +149,15 @@ namespace SDL2_Engine {
 				static_assert(std::is_base_of<ISceneRenderer, T>::value, "Can not use a type that is not a subclass of ISceneRenderer as the Scene Renderer");
 
 				//Create the new object
-				return setSceneRenderer(new T(pArgs...));
+				return setupSceneRenderer(new T(pArgs...));
 			}
+
+			/*
+				Renderer : presentFrame - Present the newly rendered elements to the Window
+				Created: 11/10/2017
+				Modified: 11/10/2017 
+			*/
+			void presentFrame();
 
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////--------------------------------Construction/Destruction-----------------------------////////
@@ -196,7 +203,7 @@ namespace SDL2_Engine {
 
 			//! Functionality to retrieve and change SceneRenderers throughout execution
 			ISceneRenderer* returnSceneRenderer();
-			bool setSceneRenderer(ISceneRenderer* pRenderer);
+			bool setupSceneRenderer(ISceneRenderer* pRenderer);
 		};
 	}
 }

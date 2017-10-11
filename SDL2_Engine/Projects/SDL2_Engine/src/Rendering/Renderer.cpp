@@ -85,7 +85,7 @@ namespace SDL2_Engine {
 		/*
 			Renderer : drawText - Render text using the passed in values
 			Created: 09/10/2017
-			Modified: 09/10/2017
+			Modified: 11/10/2017
 
 			param[in] pText - A c-string defining the text to render
 			param[in] pFont - An SDL_Font to be used to render the Text
@@ -94,7 +94,7 @@ namespace SDL2_Engine {
 			param[in] pAlignment - An ETextAlignment value defining if the text should be aligned a specific way (Default Null)
 			param[in] pRenderType - An ETextRenderType value defining how the text should be rendered (Default Solid)
 		*/
-		void Renderer::drawText(const char* pText, _TTF_Font* pFont, const SDL_Rect& pPosition, const Colour& pColour /*= Colour::Black*/, const ETextAlignment& pAlignment /*= ETextAlignment::Null*/, const ETextRenderType& pRenderType /*= ETextRenderType::Solid*/) {
+		void Renderer::drawText(const char* pText, _TTF_Font* pFont, const SDL_Point& pPosition, const Colour& pColour /*= Colour::Black*/, const ETextAlignment& pAlignment /*= ETextAlignment::Null*/, const ETextRenderType& pRenderType /*= ETextRenderType::Solid*/) {
 			mData->sceneRenderer->drawText(mData->renderer, pText, pFont, pPosition, pColour, pAlignment, pRenderType);
 		}
 
@@ -106,6 +106,20 @@ namespace SDL2_Engine {
 			return SDL_Renderer* - Returns a pointer to the SDL_Renderer object
 		*/
 		SDL_Renderer* Renderer::getRenderer() { return mData->renderer; }
+
+		/*
+			Renderer : presentFrame - Present the newly rendered elements to the Window
+			Created: 11/10/2017
+			Modified: 11/10/2017
+		*/
+		void Renderer::presentFrame() {
+			//Display the current frame
+			SDL_RenderPresent(mData->renderer);
+
+			//Clear the Renderer
+			SDL_SetRenderDrawColor(mData->renderer, 0U, 0U, 0U, 255U);
+			SDL_RenderClear(mData->renderer);
+		}
 
 		/*
 			Renderer : Constructor - Initialise with default values
@@ -237,15 +251,15 @@ namespace SDL2_Engine {
 		ISceneRenderer* Renderer::returnSceneRenderer() { return mData->sceneRenderer; }
 
 		/*
-			Renderer : setSceneRenderer - Set a new Scene Renderer to be used
+			Renderer : setupSceneRenderer - Set a new Scene Renderer to be used
 			Created: 09/10/2017
-			Modified: 09/10/2017
+			Modified: 11/10/2017
 
 			param[in] pRenderer - A pointer to a new ISceneRenderer object
 
 			return bool - Returns true if the new Scene Renderer was setup and set correctly
 		*/
-		bool Renderer::setSceneRenderer(ISceneRenderer* pRenderer) {
+		bool Renderer::setupSceneRenderer(ISceneRenderer* pRenderer) {
 			//Attempt to setup the new Scene Renderer
 			if (pRenderer->createRenderer(mData->renderer)) {
 				//Destroy the old Scene Renderer

@@ -16,7 +16,7 @@ namespace SDL2_Engine {
 		 *		Purpose:
 		 *		Store initialisation values for the Audio object
 		**/
-		struct AudioInitialiser {
+		struct SDL2_LIB_INC AudioInitialiser {
 			//! Store the Audio Codecs that should be supported by the Manager (Default Group_Common)
 			Utilities::Bitmask<ESupportedCodecs> supportedCodecs;
 

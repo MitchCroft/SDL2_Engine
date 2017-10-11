@@ -3,6 +3,7 @@
 //! Include the global values required to get time information
 #include "../../Globals.hpp"
 #include "../../Time.hpp"
+#include "../../Window/Window.hpp"
 
 //! Include the required STL objects
 #include <bitset>
@@ -85,7 +86,7 @@ namespace SDL2_Engine {
 					(isdigit(buffer) && pFlags & EKeyboardInputFlags::Numerical) ||
 					(buffer == VK_SPACE && pFlags & EKeyboardInputFlags::Space) ||
 					pFlags & EKeyboardInputFlags::Special)
-					pString += buffer;
+					pString += (char)buffer;
 			}
 
 			//Return if string length is different
@@ -124,9 +125,12 @@ namespace SDL2_Engine {
 		/*
 			Keyboard : update - Update the Keyboard input states
 			Created: 19/07/2017
-			Modified: 22/09/2017
+			Modified: 11/10/2017
 		*/
 		void Keyboard::update() {
+			//Check that the Window has focus
+			if (!Globals::get<Window>().hasProperty(EWindowProperties::Focus)) return;
+
 			//Get the time object
 			Time& time = Globals::get<Time>();
 

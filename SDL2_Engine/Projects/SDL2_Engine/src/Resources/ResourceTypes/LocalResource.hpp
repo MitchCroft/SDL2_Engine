@@ -18,6 +18,6 @@ namespace SDL2_Engine {
 		 *		Provide a generalised resource point for specialisations to derive from
 		**/
 		template<typename T>
-		class __LocalResource;
+		class SDL2_LIB_INC __LocalResource;
 	}
 }

@@ -44,7 +44,7 @@ namespace SDL2_Engine {
 			return int - Returns the channel that the sound effect was played on. Returns -1 if unable to play sound effect
 		*/
 		int playSFX(Mix_Chunk* pSFX,
-					const char& pVolume = 128,
+					const char& pVolume = (char)128,
 					const size_t& pFadeTime = 0,
 					const int& pLoops = -1,
 					const int& pRunTime = -1,
@@ -132,7 +132,7 @@ namespace SDL2_Engine {
 			return bool - Returns true if the music was started successfully
 		*/
 		bool playMusic(_Mix_Music* pMusic,
-					   const char& pVolume = 128,
+					   const char& pVolume = (char)128,
 					   const int& pFadeTime = 0,
 					   const int& pLoops = -1,
 					   const double& pPosition = 0.0);
@@ -195,7 +195,7 @@ namespace SDL2_Engine {
 			Created: 10/10/2017
 			Modified: 10/10/2017
 
-			return bool - Returns true if the Resources Manager was setup correctly
+			return bool - Returns true if the Audio Manager was setup correctly
 		*/
 		bool createInterface() override;
 

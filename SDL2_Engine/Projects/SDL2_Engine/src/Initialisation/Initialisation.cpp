@@ -14,7 +14,7 @@
 #include "../Audio/Audio.hpp"
 #include "../Resources/Resources.hpp"
 //TODO: Add UI management
-//TODO: Add scene management
+#include "../Scenes/SceneManager.hpp"
 
 //! Include the SDL functions
 #include <SDL.h>
@@ -41,6 +41,7 @@ namespace SDL2_Engine {
 			//Store a reference to the required Global objects
 			Window* window = nullptr;
 			Rendering::Renderer* renderer = nullptr;
+			Scenes::SceneManager* sceneManager = nullptr;
 
 			//Create the Logger object
 			if (Globals::addInterface<Debug::Logger>(pSetup.loggerValues)) {
@@ -82,7 +83,7 @@ namespace SDL2_Engine {
 
 					//Check for Local Resources
 					if (!(int)errorNum && pSetup.initialiseSystems & EInitialiseSystems::Local_Resources) 
-						if (!Globals::addInterface<Resources>()) errorNum = EInitialisationError::Local_Resources_Initialisation_Failed;
+						if (!Globals::addInterface<Resources>(renderer->getRenderer())) errorNum = EInitialisationError::Local_Resources_Initialisation_Failed;
 
 					//Check for UI
 					if (!(int)errorNum && pSetup.initialiseSystems & EInitialiseSystems::UI) {
@@ -90,12 +91,21 @@ namespace SDL2_Engine {
 					}
 
 					//Setup the Scene Manager
-					//TODO
+					if (!(int)errorNum)
+						if (!(sceneManager = Globals::addInterface<Scenes::SceneManager>(pSetup.sceneManagerValues))) errorNum = EInitialisationError::Scene_Management_Initialisation_Failed;
 					
 					//Run the Game Loop
 					if (!(int)errorNum) {
-						while (/*Scene Manager Running*/true)
+						do {
+							//Update SDL events
+							SDL_PumpEvents();
+
+							//Update the global objects
+							Globals::update();
+
+							//Render the frame
 							renderer->presentFrame();
+						} while (sceneManager->isRunning());
 					}
 				}
 

@@ -24,7 +24,7 @@ namespace SDL2_Engine {
 		 *		Name: Controllers
 		 *		Author: Mitchell Croft
 		 *		Created: 25/07/2017
-		 *		Modified: 06/10/2017
+		 *		Modified: 11/10/2017
 		 *		
 		 *		Purpose:
 		 *		Track and manage connected XInput physical devices as
@@ -293,7 +293,7 @@ namespace SDL2_Engine {
 			/*
 				Controllers : update - Update the GamePads input states
 				Created: 25/07/2017
-				Modified: 22/09/2017
+				Modified: 11/10/2017
 			*/
 			void update() override;
 

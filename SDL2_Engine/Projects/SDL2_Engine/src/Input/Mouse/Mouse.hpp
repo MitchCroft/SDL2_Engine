@@ -22,12 +22,13 @@ namespace SDL2_Engine {
 		 *		Name: Mouse
 		 *		Author: Mitchell Croft
 		 *		Created: 06/10/2017
-		 *		Modified: 06/10/2017
+		 *		Modified: 11/10/2017
 		 *		
 		 *		Purpose:
 		 *		Handle changes in mouse movement and presses
 		**/
 		class SDL2_LIB_INC Mouse : public Utilities::IGlobal {
+		public:
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////----------------------------------------Modifiers------------------------------------////////
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -141,11 +142,11 @@ namespace SDL2_Engine {
 			/*
 				Mouse : createInterface - Empty function
 				Created: 06/10/2017
-				Modified: 06/10/2017
+				Modified: 11/10/2017
 
 				return bool - Always returns true
 			*/
-			inline bool createInterface() override { return true; }
+			bool createInterface() override;
 
 			/*
 				Window : destroyInterface - Deallocate the resources used by the Mouse object
@@ -157,7 +158,7 @@ namespace SDL2_Engine {
 			/*
 				Window : update - Update the position values and cursor values of the mouse
 				Created: 06/10/2017
-				Modified: 06/10/2017
+				Modified: 11/10/2017
 			*/
 			void update() override;
 

@@ -6,6 +6,7 @@
 #include "../Window/WindowInitialiser.hpp"
 #include "../Rendering/RendererInitialiser.hpp"
 #include "../Audio/AudioInitialiser.hpp"
+#include "../Scenes/SceneManagerInitialiser.hpp"
 
 namespace SDL2_Engine {
 	namespace Initialisation {
@@ -27,7 +28,7 @@ namespace SDL2_Engine {
 		};
 
 		//! Flag the Engine systems that are to be initialised
-		enum class EInitialiseSystems {
+		enum class EInitialiseSystems : char {
 			//! Global Time object, providing delta and runtime tracking functionality
 			Time			= 1 << 0,
 
@@ -61,7 +62,7 @@ namespace SDL2_Engine {
 		**/
 		struct SDL2_LIB_INC SDL2_Engine_Initialiser {
 			//! Indicate the engine systems that should be initialised
-			Utilities::Bitmask<EInitialiseSystems> initialiseSystems;
+			Utilities::Bitmask<EInitialiseSystems> initialiseSystems = EInitialiseSystems::All;
 
 			//! Store the values used to initialise the Logger object
 			LoggerInitialiser loggerValues;
@@ -74,6 +75,9 @@ namespace SDL2_Engine {
 
 			//! Store the values used to initialise the Audio object
 			AudioInitialiser audioValues;
+
+			//! Store the values used to initialise the Scene Manager object
+			SceneManagerInitialiser* sceneManagerValues = nullptr;
 		};
 
 		/*

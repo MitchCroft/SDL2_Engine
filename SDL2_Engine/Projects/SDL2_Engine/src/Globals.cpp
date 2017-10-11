@@ -16,17 +16,17 @@ namespace SDL2_Engine {
 	 *		Name: GlobalsInternalData
 	 *		Author: Mitchell Croft
 	 *		Created: 04/10/2017
-	 *		Modified: 04/10/2017
+	 *		Modified: 11/10/2017
 	 *		
 	 *		Purpose:
 	 *		Store internal standard library objects
 	**/
 	struct Globals::GlobalsInternalData {
 		//! Store the map of the separate Global interfaces
-		std::unordered_map<typeID, Utilities::IGlobal*> interfaces;
+		std::unordered_map<Utilities::typeID, Utilities::IGlobal*> interfaces;
 
 		//! Store the order in which to update the Global interfaces
-		std::vector<typeID> updateOrder;
+		std::vector<Utilities::typeID> updateOrder;
 	};
 
 	/*
@@ -39,14 +39,14 @@ namespace SDL2_Engine {
 	/*
 		Globals : introduceInterface - Setup a new interface object for addition into the Globals map
 		Created: 19/07/2017
-		Modified: 09/10/2017
+		Modified: 11/10/2017
 
 		param[in] pInter - A pointer to the new interface object to setup
 		param[in] pID - The ID of the original type of the interface
 
 		return IGlobal* - Returns a pointer if the interface was created successfully or nullptr if it failed
 	*/
-	Utilities::IGlobal* Globals::introduceInterface(Utilities::IGlobal* pInter, const typeID& pID) {
+	Utilities::IGlobal* Globals::introduceInterface(Utilities::IGlobal* pInter, const Utilities::typeID& pID) {
 		//Attempt to setup the interface
 		if (!pInter->createInterface()) {
 			//Destroy the interface
@@ -70,24 +70,24 @@ namespace SDL2_Engine {
 	/*
 		Globals : interfaceExists - Check to see if a specified interface exists
 		Created: 04/10/2017
-		Modified: 04/10/2017
+		Modified: 11/10/2017
 
 		param[in] pID - The ID of the interface to search for
 
 		return bool - Returns true if an Interface with the specified ID exists in the Manager
 	*/
-	bool Globals::interfaceExists(const typeID& pID) const { return (mData->interfaces.find(pID) != mData->interfaces.end()); }
+	bool Globals::interfaceExists(const Utilities::typeID& pID) const { return (mData->interfaces.find(pID) != mData->interfaces.end()); }
 
 	/*
 		Globals : retrieve - Retrieve a pointer to the specified interface
 		Created: 04/10/2017
-		Modified: 04/10/2017
+		Modified: 11/10/2017
 
 		param[in] pID - The ID of the interface to search for
 
 		return IGlobal* - Returns a IGlobal interface pointer to the specified interface
 	*/
-	Utilities::IGlobal* Globals::retrieve(const typeID& pID) const {
+	Utilities::IGlobal* Globals::retrieve(const Utilities::typeID& pID) const {
 		//Look for the interface
 		auto iter = mData->interfaces.find(pID);
 

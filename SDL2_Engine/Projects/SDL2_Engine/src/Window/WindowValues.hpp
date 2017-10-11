@@ -28,8 +28,11 @@ namespace SDL2_Engine {
 		//! Window is created maximised
 		Maximised = 1 << 7,
 
+		//! The window has focus 
+		Focus	  = 1 << 9,
+
 		//! Window should support high DPI displays
-		High_DPI = 1 << 13,
+		High_DPI  = 1 << 13,
 
 		//! Window will always appear on top of other windows
 		Forced_Top = 1 << 15,

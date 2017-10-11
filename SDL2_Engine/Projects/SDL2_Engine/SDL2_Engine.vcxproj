@@ -202,6 +202,10 @@
     <ClInclude Include="src\Resources\ResourceTypes\LocalResourceSFX.hpp" />
     <ClInclude Include="src\Resources\ResourceTypes\LocalResourceTexture.hpp" />
     <ClInclude Include="src\Resources\ResourceValues.hpp" />
+    <ClInclude Include="src\Scenes\ISceneBase.hpp" />
+    <ClInclude Include="src\Scenes\SceneManager.hpp" />
+    <ClInclude Include="src\Scenes\SceneManagerInitialiser.hpp" />
+    <ClInclude Include="src\Scenes\ScenesValues.hpp" />
     <ClInclude Include="src\Utilities\Endian\Endian.hpp" />
     <ClInclude Include="src\Utilities\IGlobal.hpp" />
     <ClInclude Include="src\Math.hpp" />
@@ -209,6 +213,7 @@
     <ClInclude Include="src\Utilities\Action.hpp" />
     <ClInclude Include="src\Utilities\Bitmask.hpp" />
     <ClInclude Include="src\Utilities\DebugCallback.hpp" />
+    <ClInclude Include="src\Utilities\TypeID.hpp" />
     <ClInclude Include="src\Window\Window.hpp" />
     <ClInclude Include="src\Window\WindowInitialiser.hpp" />
     <ClInclude Include="src\Window\WindowValues.hpp" />
@@ -236,6 +241,8 @@
     <ClCompile Include="src\Resources\ResourceTypes\LocalResourceMusic.cpp" />
     <ClCompile Include="src\Resources\ResourceTypes\LocalResourceSFX.cpp" />
     <ClCompile Include="src\Resources\ResourceTypes\LocalResourceTexture.cpp" />
+    <ClCompile Include="src\Scenes\ISceneBase.cpp" />
+    <ClCompile Include="src\Scenes\SceneManager.cpp" />
     <ClCompile Include="src\Time.cpp" />
     <ClCompile Include="src\Utilities\DebugCallback.cpp" />
     <ClCompile Include="src\Utilities\Endian\Endian.cpp" />

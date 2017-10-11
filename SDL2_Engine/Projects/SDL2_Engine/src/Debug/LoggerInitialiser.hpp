@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../__LibraryManagement.hpp"
 #include <cstdio>
 
 namespace SDL2_Engine {
@@ -13,7 +14,7 @@ namespace SDL2_Engine {
 		 *		Purpose:
 		 *		Store initialisation values for the Logger object
 		**/
-		struct LoggerInitialiser {
+		struct SDL2_LIB_INC LoggerInitialiser {
 			//! Flag if the Logger should output to a log file (Default false)
 			bool storeLog;
 

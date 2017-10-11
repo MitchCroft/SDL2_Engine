@@ -178,7 +178,7 @@ namespace SDL2_Engine {
 				Created: 09/10/2017
 				Modified: 09/10/2017
 
-				return bool - Returns true if the Resources Manager was setup correctly
+				return bool - Returns true if the Renderer was setup correctly
 			*/
 			bool createInterface() override;
 

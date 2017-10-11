@@ -72,29 +72,29 @@
     <OutDir>$(ProjectDir)bin\exes\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)int\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)_d</TargetName>
-    <IncludePath>$(ProjectDir)dep\SDL2_Engine\include;$(ProjectDir)dep\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)dep\SDL2_Engine\include;$(ProjectDir)dep\glm;$(ProjectDir)dep\SDL2\SDL2_ttf-2.0.14\include\;$(ProjectDir)dep\SDL2\SDL2_mixer-2.0.1\include\;$(ProjectDir)dep\SDL2\SDL2_image-2.0.1\include\;$(ProjectDir)dep\SDL2\SDL2-2.0.5\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration);$(ProjectDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget);$(ProjectDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget);$(ProjectDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget);$(ProjectDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(ProjectDir)bin\exes\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)int\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)</TargetName>
-    <IncludePath>$(ProjectDir)dep\SDL2_Engine\include;$(ProjectDir)dep\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)dep\SDL2_Engine\include;$(ProjectDir)dep\glm;$(ProjectDir)dep\SDL2\SDL2_ttf-2.0.14\include\;$(ProjectDir)dep\SDL2\SDL2_mixer-2.0.1\include\;$(ProjectDir)dep\SDL2\SDL2_image-2.0.1\include\;$(ProjectDir)dep\SDL2\SDL2-2.0.5\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration);$(ProjectDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget);$(ProjectDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget);$(ProjectDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget);$(ProjectDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)bin\exes\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)int\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)_d</TargetName>
-    <IncludePath>$(ProjectDir)dep\SDL2_Engine\include;$(ProjectDir)dep\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)dep\SDL2_Engine\include;$(ProjectDir)dep\glm;$(ProjectDir)dep\SDL2\SDL2_ttf-2.0.14\include\;$(ProjectDir)dep\SDL2\SDL2_mixer-2.0.1\include\;$(ProjectDir)dep\SDL2\SDL2_image-2.0.1\include\;$(ProjectDir)dep\SDL2\SDL2-2.0.5\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration);$(ProjectDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget);$(ProjectDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget);$(ProjectDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget);$(ProjectDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)bin\exes\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)int\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)</TargetName>
-    <IncludePath>$(ProjectDir)dep\SDL2_Engine\include;$(ProjectDir)dep\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)dep\SDL2_Engine\include;$(ProjectDir)dep\glm;$(ProjectDir)dep\SDL2\SDL2_ttf-2.0.14\include\;$(ProjectDir)dep\SDL2\SDL2_mixer-2.0.1\include\;$(ProjectDir)dep\SDL2\SDL2_image-2.0.1\include\;$(ProjectDir)dep\SDL2\SDL2-2.0.5\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration);$(ProjectDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget);$(ProjectDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget);$(ProjectDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget);$(ProjectDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -109,7 +109,7 @@ xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.dll
 xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.lib" "$(ProjectDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration)\" /f /d /y</Command>
     </PreBuildEvent>
     <Link>
-      <AdditionalDependencies>SDL2_Engine_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2_Engine_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -125,7 +125,7 @@ xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.dll
 xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.lib" "$(ProjectDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration)\" /f /d /y</Command>
     </PreBuildEvent>
     <Link>
-      <AdditionalDependencies>SDL2_Engine_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2_Engine_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -140,7 +140,7 @@ xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.lib
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>SDL2_Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2_Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>xcopy "$(SolutionDir)Projects\SDL2_Engine\src\*.hpp" "$(ProjectDir)dep\SDL2_Engine\include\" /f /s /y
@@ -161,7 +161,7 @@ xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.lib
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>SDL2_Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2_Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>xcopy "$(SolutionDir)Projects\SDL2_Engine\src\*.hpp" "$(ProjectDir)dep\SDL2_Engine\include\" /f /s /y
@@ -172,6 +172,10 @@ xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.lib
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\TestScene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\TestScene.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

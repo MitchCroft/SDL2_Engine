@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../__LibraryManagement.hpp"
 #include <type_traits>
 
 namespace SDL2_Engine {
@@ -70,7 +71,7 @@ namespace SDL2_Engine {
 		 *		Name: Bitmask
 		 *		Author: Mitchell Croft
 		 *		Created: 13/02/2017
-		 *		Modified: 18/07/2017
+		 *		Modified: 11/10/2017
 		 *
 		 *		Purpose:
 		 *		Provide a method for gathering and using
@@ -78,7 +79,7 @@ namespace SDL2_Engine {
 		 *		an indiscriminate number of types and values
 		**/
 		template<typename T>
-		class Bitmask {
+		class SDL2_LIB_INC Bitmask {
 		public:
 			//! Define the underlying type that is used by this object
 			typedef typename Implementation::__EnumBaseType__<T, std::is_enum<T>::value>::type baseType;
@@ -141,9 +142,57 @@ namespace SDL2_Engine {
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////-----------------------------------Binary Operators----------------------------------////////
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
+			
+			/*
+				Bitmask : nor - Perform a simple bitwise NOR operation 
+				Created: 11/10/2017
+				Modified: 11/10/2017
+
+				param[in] pVal - A value that can be converted to the integral 'baseType' for the operation
+
+				return baseType - Returns a 'baseType' value with the results of the NOR operation
+			*/
+			template<typename U>
+			inline baseType nor(const U& pVal) const noexcept { return ~(mMask | (baseType)pVal); }
 
 			/*
-				Bitmask : Bitwise AND Operator - Preform a simple bitwise AND operation
+				Bitmask : norEquals - Perform a simple bitwise NOR operation and assign the Bitmask to the result
+				Created: 11/10/2017
+				Modified: 11/10/2017
+
+				param[in] pVal - A value that can be converted to the integral 'baseType' for the operation
+
+				return Bitmask& - Returns a reference to itself
+			*/
+			template<typename U>
+			inline Bitmask& norEquals(const U& pVal) const noexcept { mMask = ~(mMask | (baseType)pVal); return *this; }
+
+			/*
+				Bitmask : nand - Perform a simple bitwise NAND operation
+				Created: 11/10/2017
+				Modified: 11/10/2017
+
+				param[in] pVal - A value that can be converted to the integral 'baseType' for the operation
+
+				return baseType - Returns a 'baseType' value with the results of the NAND operation
+			*/
+			template<typename U>
+			inline baseType nand(const U& pVal) const noexcept { return ~(mMask & (baseType)pVal); }
+
+			/*
+				Bitmask : nandEquals - Perform a simple bitwise NAND operation and assign the Bitmask to the result
+				Created: 11/10/2017
+				Modified: 11/10/2017
+
+				param[in] pVal - A value that can be converted to the integral 'baseType' for the operation
+
+				return Bitmask& - Returns a reference to itself
+			*/
+			template<typename U>
+			inline Bitmask nandEquals(const U& pVal) const noexcept { mMask = ~(mMask & (baseType)pVal); return *this; }
+
+			/*
+				Bitmask : Bitwise AND Operator - Perform a simple bitwise AND operation
 				Created: 18/07/2017
 				Modified: 18/07/2017
 
@@ -155,7 +204,7 @@ namespace SDL2_Engine {
 			inline baseType operator&(const U& pVal) const noexcept { return (mMask & (baseType)pVal); }
 
 			/*
-				Bitmask : Bitwise AND Assignment Operator - Preform a simple bitwise AND operation and assign the Bitmask to the result
+				Bitmask : Bitwise AND Assignment Operator - Perform a simple bitwise AND operation and assign the Bitmask to the result
 				Created: 18/07/2017
 				Modified: 18/07/2017
 
@@ -167,7 +216,7 @@ namespace SDL2_Engine {
 			inline Bitmask& operator&=(const U& pVal) noexcept { mMask &= (baseType)pVal; return *this; }
 
 			/*
-				Bitmask : Bitwise OR Operator - Preform a simple bitwise OR operation
+				Bitmask : Bitwise OR Operator - Perform a simple bitwise OR operation
 				Created: 18/07/2017
 				Modified: 18/07/2017
 
@@ -179,7 +228,7 @@ namespace SDL2_Engine {
 			inline baseType operator|(const U& pVal) const noexcept { return (mMask | (baseType)pVal); }
 
 			/*
-				Bitmask : Bitwise OR Assignment Operator - Preform a simple bitwise OR operation and assign the Bitmask to the result
+				Bitmask : Bitwise OR Assignment Operator - Perform a simple bitwise OR operation and assign the Bitmask to the result
 				Created: 18/07/2017
 				Modified: 18/07/2017
 
@@ -191,7 +240,7 @@ namespace SDL2_Engine {
 			inline Bitmask& operator|=(const U& pVal) noexcept { mMask |= (baseType)pVal; return *this; }
 
 			/*
-				Bitmask : Bitwise XOR Operator - Preform a simple bitwise XOR operation
+				Bitmask : Bitwise XOR Operator - Perform a simple bitwise XOR operation
 				Created: 18/07/2017
 				Modified: 18/07/2017
 
@@ -203,7 +252,7 @@ namespace SDL2_Engine {
 			inline baseType operator^(const U& pVal) const noexcept { return (mMask ^ (baseType)pVal); }
 
 			/*
-				Bitmask : Bitwise XOR Assignment Operator - Preform a simple bitwise XOR operation and assign the Bitmask to the result
+				Bitmask : Bitwise XOR Assignment Operator - Perform a simple bitwise XOR operation and assign the Bitmask to the result
 				Created: 18/07/2017
 				Modified: 18/07/2017
 
@@ -215,7 +264,7 @@ namespace SDL2_Engine {
 			inline Bitmask& operator^=(const U& pVal) noexcept { mMask ^= (baseType)pVal; return *this; }
 
 			/*
-				Bitmask : Bit Shift Left Operator - Preform a simple bitwise shift of bits to the left by a defined amount
+				Bitmask : Bit Shift Left Operator - Perform a simple bitwise shift of bits to the left by a defined amount
 				Created: 18/07/2017
 				Modified: 18/07/2017
 
@@ -226,7 +275,7 @@ namespace SDL2_Engine {
 			inline int operator<<(const int& pShift) const noexcept { return (mMask << pShift); }
 
 			/*
-				Bitmask : Bit Shift Left Assignment Operator - Preform a simple bitwise shift of bits to the left and assign the Bitmask to the result
+				Bitmask : Bit Shift Left Assignment Operator - Perform a simple bitwise shift of bits to the left and assign the Bitmask to the result
 				Created: 18/07/2017
 				Modified: 18/07/2017
 
@@ -237,7 +286,7 @@ namespace SDL2_Engine {
 			inline Bitmask& operator<<=(const int& pShift) noexcept { mMask <<= pShift; return *this; }
 
 			/*
-				Bitmask : Bit Shift Right Operator - Preform a simple bitwise shift of bits to the right by a defined amount
+				Bitmask : Bit Shift Right Operator - Perform a simple bitwise shift of bits to the right by a defined amount
 				Created: 18/07/2017
 				Modified: 18/07/2017
 
@@ -248,7 +297,7 @@ namespace SDL2_Engine {
 			inline int operator>>(const int& pShift) const noexcept { return (mMask >> pShift); }
 
 			/*
-				Bitmask : Bit Shift Right Assignment Operator - Preform a simple bitwise shift of bits to the right and assign the Bitmask to the result
+				Bitmask : Bit Shift Right Assignment Operator - Perform a simple bitwise shift of bits to the right and assign the Bitmask to the result
 				Created: 18/07/2017
 				Modified: 18/07/2017
 

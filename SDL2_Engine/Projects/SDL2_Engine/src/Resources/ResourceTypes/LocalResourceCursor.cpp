@@ -157,7 +157,7 @@ namespace SDL2_Engine {
 			const Math& math = Globals::get<Math>();
 
 			//Retrieve the FPS
-			mFPS = math.largest(OBJ["fps"].readVal<xdec>(), 0.001f);
+			mFPS = (float)math.largest(OBJ["fps"].readVal<xdec>(), 0.001);
 
 			//Convert FPS to inverse
 			mFPS = (1.f / mFPS);

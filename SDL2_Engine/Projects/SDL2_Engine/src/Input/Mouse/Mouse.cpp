@@ -4,6 +4,7 @@
 #include "../../Globals.hpp"
 #include "../../Time.hpp"
 #include "../../Resources/ResourceTypes/LocalResourceCursor.hpp"
+#include "../../Window/Window.hpp"
 
 //! Include the SDL objects
 #include <SDL.h>
@@ -161,6 +162,21 @@ namespace SDL2_Engine {
 		Mouse::Mouse() : mData(nullptr) {}
 
 		/*
+			Mouse : createInterface - Empty function
+			Created: 06/10/2017
+			Modified: 11/10/2017
+
+			return bool - Always returns true
+		*/
+		bool Mouse::createInterface() {
+			//Create the data object
+			mData = new MouseInternalData();
+
+			//Return success
+			return true;
+		}
+
+		/*
 			Window : destroyInterface - Deallocate the resources used by the Mouse object
 			Created: 06/10/2017
 			Modified: 06/10/2017
@@ -170,15 +186,15 @@ namespace SDL2_Engine {
 		/*
 			Window : update - Update the position values and cursor values of the mouse
 			Created: 06/10/2017
-			Modified: 06/10/2017
+			Modified: 11/10/2017
 		*/
 		void Mouse::update() {
+			//Check that the Window has focus
+			if (!Globals::get<Window>().hasProperty(EWindowProperties::Focus)) return;
+
 			//Save the old mouse values
 			memcpy_s(mData->mousePoints[STATE_PRE], sizeof(int) * AXIS_TOTAL, mData->mousePoints[STATE_CUR], sizeof(int) * AXIS_TOTAL);
 			memcpy_s(mData->mouseStates[STATE_PRE], sizeof(bool) * BTN_TOTAL, mData->mouseStates[STATE_CUR], sizeof(bool) * BTN_TOTAL);
-
-			//Update SDL events
-			SDL_PumpEvents();
 
 			//Update the mouse coordinates
 			int btnMask = SDL_GetMouseState(&mData->mousePoints[STATE_CUR][AXIS_X], &mData->mousePoints[STATE_CUR][AXIS_Y]);

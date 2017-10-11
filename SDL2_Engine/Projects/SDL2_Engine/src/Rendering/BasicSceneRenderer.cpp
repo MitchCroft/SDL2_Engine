@@ -232,18 +232,22 @@ namespace SDL2_Engine {
 			pixels[0] = ~0U;
 
 			//Store the following process success state in a flag
-			bool successFlag = false;
+			bool successFlag = true;
 
 			//Convert the surface to a Texture
 			mBlank = SDL_CreateTextureFromSurface(pRenderer, tempSurface);
 
 			//Check the Texture was created successfully
-			if (successFlag = !mBlank) 
+			if (!mBlank) {
 				Globals::get<Debug::Logger>().logError("BasicSceneRenderer failed to convert the 1x1 RGBA surface to an SDL_Texture. Error: %s", SDL_GetError());
+				successFlag = false;
+			}
 
 			//Set the blend mode for the blank texture
-			else if (successFlag = (SDL_SetTextureBlendMode(mBlank, SDL_BLENDMODE_BLEND) != 0)) 
+			else if (SDL_SetTextureBlendMode(mBlank, SDL_BLENDMODE_BLEND)) {
 				Globals::get<Debug::Logger>().logError("BasicSceneRenderer failed to apply SDL_BLENDMODE_BLEND to the 1x1 RGBA Blank Texture. Error: %s", SDL_GetError());
+				successFlag = false;
+			}
 
 			//Free the temp surface
 			SDL_FreeSurface(tempSurface);

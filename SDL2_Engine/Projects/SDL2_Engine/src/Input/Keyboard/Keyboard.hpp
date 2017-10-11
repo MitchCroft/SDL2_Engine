@@ -15,7 +15,7 @@ namespace SDL2_Engine {
 		 *		Name: Keyboard
 		 *		Author: Mitchell Croft
 		 *		Created: 19/07/2017
-		 *		Modified: 06/10/2017
+		 *		Modified: 11/10/2017
 		 *
 		 *		Purpose:
 		 *		Handle changes in keyboard input used for the modification of
@@ -126,7 +126,7 @@ namespace SDL2_Engine {
 			/*
 				Keyboard : update - Update the Keyboard input states
 				Created: 19/07/2017
-				Modified: 22/09/2017
+				Modified: 11/10/2017
 			*/
 			void update() override;
 

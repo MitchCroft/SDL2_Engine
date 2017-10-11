@@ -4,6 +4,7 @@
 #include "../../Globals.hpp"
 #include "../../Time.hpp"
 #include "../../Math.hpp"
+#include "../../Window/Window.hpp"
 
 //! Include the STL objects used to track keyed values
 #include <unordered_map>
@@ -405,9 +406,12 @@ namespace SDL2_Engine {
 		/*
 			Controllers : update - Update the GamePads input states
 			Created: 25/07/2017
-			Modified: 22/09/2017
+			Modified: 11/10/2017
 		*/
 		void Controllers::update() {
+			//Check that the Window has focus
+			if (!Globals::get<Window>().hasProperty(EWindowProperties::Focus)) return;
+
 			//Get the Global Objects
 			const Time& time = Globals::get<Time>();
 			const Math& math = Globals::get<Math>();

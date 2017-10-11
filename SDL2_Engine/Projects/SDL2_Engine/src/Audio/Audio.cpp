@@ -395,7 +395,7 @@ namespace SDL2_Engine {
 	*/
 	bool Audio::increaseSFXChannels() {
 		//Check if the maximum can be reached
-		if (mData->maximumSFXChannels != -1 && mData->SFXChannels >= mData->maximumSFXChannels) 
+		if (mData->maximumSFXChannels != -1 && (int)mData->SFXChannels >= mData->maximumSFXChannels) 
 			return false;
 
 		//Allocate a new channel

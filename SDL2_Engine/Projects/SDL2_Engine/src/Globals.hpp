@@ -2,22 +2,17 @@
 
 //! Include the library management definitions
 #include "__LibraryManagement.hpp"
-
-//! Get information on types used
-#include <typeinfo>
+#include "Utilities/TypeID.hpp"
 
 namespace SDL2_Engine {
 	//! Prototype the IGlobal interface
 	namespace Utilities { class IGlobal; }
 
-	//! Define the type used to identify the separate interfaces
-	typedef size_t typeID;
-
 	/*
 	 *		Name: Globals
 	 *		Author: Mitchell Croft
 	 *		Created: 19/07/2017
-	 *		Modified: 09/10/2017
+	 *		Modified: 11/10/2017
 	 *		
 	 *		Purpose:
 	 *		Manage a number of Global Interface objects from a single location.
@@ -31,7 +26,7 @@ namespace SDL2_Engine {
 		/*
 			Globals : addInterface - Add a new interface object to the Globals singleton
 			Created: 19/07/2017
-			Modified: 09/10/2017
+			Modified: 11/10/2017
 
 			Template T - The type of Interface based object to be added to the Globals object
 			Template TArgs - Parameter pack of initialisation types
@@ -46,20 +41,20 @@ namespace SDL2_Engine {
 			static_assert(std::is_base_of<Utilities::IGlobal, T>::value, "Interfaces added to the Globals singleton object are required to inherit from the abstract IGlobal object");
 
 			//Get the ID of the type
-			const typeID id = typeToID<T>();
+			const auto id = Utilities::typeToID<T>();
 
 			//Check if the interface already exists
 			if (mInstance->interfaceExists(id))
 				return false;
 
 			//Add the interface to the Globals object
-			return mInstance->introduceInterface(new T(pArgs...), id);
+			return (T*)mInstance->introduceInterface(new T(pArgs...), id);
 		}
 
 		/*
 			Globals : get - Get an interface of the specified type from the Globals manager
 			Created: 19/07/2017
-			Modified: 04/10/2017
+			Modified: 11/10/2017
 
 			Template T - The type of Interface to retrieve from the Globals object
 
@@ -74,7 +69,7 @@ namespace SDL2_Engine {
 			static_assert(std::is_base_of<Utilities::IGlobal, T>::value, "Interfaces retrieved from the Globals singleton object are required to inherit from the abstract IGlobal object");
 
 			//Return the Interface
-			return *(T*)mInstance->retrieve(typeToID<T>()); 
+			return *(T*)mInstance->retrieve(Utilities::typeToID<T>()); 
 		}
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,27 +77,9 @@ namespace SDL2_Engine {
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		/*
-			Globals : typeToID - Convert a template type value into a unique hash code
-			Created: 19/07/2017
-			Modified: 19/07/2017
-
-			Template T - A generic, non-void type
-
-			return typeID - Returns the ID as typeID value
-		*/
-		template<typename T>
-		static inline typeID typeToID() {
-			//Get the type information
-			const std::type_info& type = typeid(T);
-
-			//Return the hash code
-			return type.hash_code();
-		}
-
-		/*
 			Globals : interfaceExists - Check to see if an interface of a specific type exists
 			Created: 04/10/2017
-			Modified: 04/10/2017
+			Modified: 11/10/2017
 
 			Template T - The type of interface to check for
 
@@ -114,7 +91,7 @@ namespace SDL2_Engine {
 			static_assert(std::is_base_of<Utilities::IGlobal, T>::value, "Interfaces retrieved from the Globals singleton object are required to inherit from the abstract IGlobal object");
 
 			//Convert type to ID
-			return mInstance->interfaceExists(typeToID<T>());
+			return mInstance->interfaceExists(Utilities::typeToID<T>());
 		}
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -167,12 +144,12 @@ namespace SDL2_Engine {
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		//! Setup an interface object for inclusion in the Globals object
-		Utilities::IGlobal* introduceInterface(Utilities::IGlobal* pInter, const typeID& pID);
+		Utilities::IGlobal* introduceInterface(Utilities::IGlobal* pInter, const Utilities::typeID& pID);
 
 		//! Check if an interface with a specified ID exists in the current manager
-		bool interfaceExists(const typeID& pID) const;
+		bool interfaceExists(const Utilities::typeID& pID) const;
 
 		//! Retrieve the pointer to the specified interface
-		Utilities::IGlobal* retrieve(const typeID& pID) const;
+		Utilities::IGlobal* retrieve(const Utilities::typeID& pID) const;
 	};
 }

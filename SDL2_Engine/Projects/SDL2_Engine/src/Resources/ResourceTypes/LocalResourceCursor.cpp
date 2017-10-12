@@ -47,7 +47,7 @@ namespace SDL2_Engine {
 
 			param[in] pPath - The path of the Objx file to load
 		*/
-		__LocalResource<Cursor>::__LocalResource(const char* pPath) : LocalResourceBase(EResourceType::Cursor), mFrames(nullptr), mFrameCount(0), mFPS(0.f) {
+		__LocalResource<Cursor>::__LocalResource(const char* pPath) : ILocalResourceBase(EResourceType::Cursor), mFrames(nullptr), mFrameCount(0), mFPS(0.f) {
 			//Get a reference to the Logger object
 			const Debug::Logger& log = Globals::get<Debug::Logger>();
 

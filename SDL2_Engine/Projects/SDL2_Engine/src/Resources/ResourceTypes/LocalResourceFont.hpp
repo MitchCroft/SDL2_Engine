@@ -21,7 +21,7 @@ namespace SDL2_Engine {
 		 *		Specialise the LocalResource object to operate on TTF_Font objects
 		**/
 		template<>
-		class SDL2_LIB_INC __LocalResource<Font> : public LocalResourceBase {
+		class SDL2_LIB_INC __LocalResource<Font> : public ILocalResourceBase {
 		public:
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////---------------------------------------Data------------------------------------------////////

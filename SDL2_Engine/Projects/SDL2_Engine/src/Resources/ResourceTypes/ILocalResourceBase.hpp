@@ -14,7 +14,7 @@ namespace SDL2_Engine {
 		 *		Purpose:
 		 *		Provide a base point for resources to be created from
 		**/
-		class SDL2_LIB_INC LocalResourceBase {
+		class SDL2_LIB_INC ILocalResourceBase {
 		public:
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////------------------------------------Information--------------------------------------////////
@@ -43,14 +43,14 @@ namespace SDL2_Engine {
 
 				param[in] pType - The type of resource that is being instantiated
 			*/
-			LocalResourceBase(const EResourceType& pType) : type(pType), mStatus(EResourceLoadStatus::Unloaded) {}
+			ILocalResourceBase(const EResourceType& pType) : type(pType), mStatus(EResourceLoadStatus::Unloaded) {}
 
 			/*
 				LocalResourceBase : Destructor - Force disposal call
 				Created: 04/10/2017
 				Modified: 04/10/2017
 			*/
-			inline virtual ~LocalResourceBase() {}
+			inline virtual ~ILocalResourceBase() {}
 
 			/*
 				LocalResourceBase : dispose - Clear allocated memory

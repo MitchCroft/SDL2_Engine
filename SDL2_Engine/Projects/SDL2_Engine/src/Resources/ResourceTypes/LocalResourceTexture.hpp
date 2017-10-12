@@ -22,7 +22,7 @@ namespace SDL2_Engine {
 		 *		Specialise the LocalResource object to operate on SDL2_Texture objects
 		**/
 		template<>
-		class SDL2_LIB_INC __LocalResource<Texture> : public LocalResourceBase {
+		class SDL2_LIB_INC __LocalResource<Texture> : public ILocalResourceBase {
 		public:
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////---------------------------------------Data------------------------------------------////////

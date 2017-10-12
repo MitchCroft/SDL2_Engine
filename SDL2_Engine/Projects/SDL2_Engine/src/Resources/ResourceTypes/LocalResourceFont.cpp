@@ -38,7 +38,7 @@ namespace SDL2_Engine {
 			param[in] pSize - The point size to use for the font
 			param[in] pIndex - Optional index of the font face to load from the file (Default 0)
 		*/
-		__LocalResource<Font>::__LocalResource(const char* pPath, const int& pSize, const long& pIndex /* = 0*/) : LocalResourceBase(EResourceType::Font), font(nullptr) {
+		__LocalResource<Font>::__LocalResource(const char* pPath, const int& pSize, const long& pIndex /* = 0*/) : ILocalResourceBase(EResourceType::Font), font(nullptr) {
 			//Load the font
 			font = TTF_OpenFontIndex(pPath, pSize, pIndex);
 

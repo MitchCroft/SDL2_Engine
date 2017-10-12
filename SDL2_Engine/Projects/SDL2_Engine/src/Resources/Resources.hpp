@@ -16,7 +16,7 @@ struct SDL_Renderer;
 
 namespace SDL2_Engine {
 	//! Define a simple alias' to be used for the Local Resource objects
-	typedef std::shared_ptr<ResourceTypes::LocalResourceBase> LocalResourceBase;
+	typedef std::shared_ptr<ResourceTypes::ILocalResourceBase> LocalResourceBase;
 	template<typename T> using LocalResource = std::shared_ptr<ResourceTypes::__LocalResource<T>>;
 
 	/*

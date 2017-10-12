@@ -38,7 +38,7 @@ namespace SDL2_Engine {
 			param[in] pPath - The path of the image file to load
 			param[in] pBlendMode - The SDL_BlendMode value to be applied to the texture
 		*/
-		__LocalResource<Texture>::__LocalResource(SDL_Renderer* pRenderer, const char* pPath, const int& pBlendMode /* = 0*/) : LocalResourceBase(EResourceType::Texture), texture(nullptr) {
+		__LocalResource<Texture>::__LocalResource(SDL_Renderer* pRenderer, const char* pPath, const int& pBlendMode /* = 0*/) : ILocalResourceBase(EResourceType::Texture), texture(nullptr) {
 			//Load the texture from the file
 			texture = IMG_LoadTexture(pRenderer, pPath);
 

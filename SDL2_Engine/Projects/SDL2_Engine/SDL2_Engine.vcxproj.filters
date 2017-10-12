@@ -72,9 +72,6 @@
     <ClInclude Include="src\Resources\ResourceTypes\LocalResource.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Resources\ResourceTypes\LocalResourceBase.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Resources\ResourceTypes\LocalResourceTexture.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -157,6 +154,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Scenes\SceneManagerInitialiser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\UIValues.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\Canvas.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resources\ResourceTypes\ILocalResourceBase.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\UIElements\Interfaces\IUIBase.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\UIElements\Interfaces\IUIAction.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -243,6 +255,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Scenes\SceneManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\UIElements\Interfaces\IUIBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Canvas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

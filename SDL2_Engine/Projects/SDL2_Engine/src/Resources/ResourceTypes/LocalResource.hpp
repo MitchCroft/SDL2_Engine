@@ -4,7 +4,7 @@
 #include "../../__LibraryManagement.hpp"
 
 //! Include the Resource Base type
-#include "LocalResourceBase.hpp"
+#include "ILocalResourceBase.hpp"
 
 namespace SDL2_Engine {
 	namespace ResourceTypes {

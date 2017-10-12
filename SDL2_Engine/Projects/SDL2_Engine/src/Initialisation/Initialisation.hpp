@@ -45,7 +45,7 @@ namespace SDL2_Engine {
 			Local_Resources = 1 << 4,
 
 			//! Manage users interaction with and displaying of elements
-			UI				= 1 << 5 | Rendering | Input,
+			UI				= (1 << 5) | Rendering | Input,
 
 			//! Automatically handles the loading of all systems
 			All				= Time | Input | Rendering | Audio | Local_Resources | UI
@@ -55,7 +55,7 @@ namespace SDL2_Engine {
 		 *		Name: SDL2_Engine_Initialiser
 		 *		Author: Mitchell Croft
 		 *		Created: 06/10/2017
-		 *		Modified: 06/10/2017
+		 *		Modified: 12/10/2017
 		 *		
 		 *		Purpose:
 		 *		Store the initialisation setup parameters 

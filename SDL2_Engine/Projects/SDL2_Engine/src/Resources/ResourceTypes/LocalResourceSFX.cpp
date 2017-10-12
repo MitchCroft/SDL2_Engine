@@ -36,7 +36,7 @@ namespace SDL2_Engine {
 
 			param[in] pPath - The path of the sound effect file to load
 		*/
-		__LocalResource<SFX>::__LocalResource(const char* pPath) : LocalResourceBase(EResourceType::SFX), sfx(nullptr) {
+		__LocalResource<SFX>::__LocalResource(const char* pPath) : ILocalResourceBase(EResourceType::SFX), sfx(nullptr) {
 			//Load the sound effect
 			sfx = Mix_LoadWAV(pPath);
 

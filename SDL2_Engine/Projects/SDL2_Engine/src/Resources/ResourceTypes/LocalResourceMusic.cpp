@@ -36,7 +36,7 @@ namespace SDL2_Engine {
 
 			param[in] pPath - The path of the music file to load
 		*/
-		__LocalResource<Music>::__LocalResource(const char* pPath) : LocalResourceBase(EResourceType::Music), music(nullptr) {
+		__LocalResource<Music>::__LocalResource(const char* pPath) : ILocalResourceBase(EResourceType::Music), music(nullptr) {
 			//Load the sound effect
 			music = Mix_LoadMUS(pPath);
 

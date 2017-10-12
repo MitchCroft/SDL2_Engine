@@ -62,7 +62,7 @@ namespace SDL2_Engine {
 		 *		}
 		**/
 		template<>
-		class SDL2_LIB_INC __LocalResource<Cursor> : public LocalResourceBase {
+		class SDL2_LIB_INC __LocalResource<Cursor> : public ILocalResourceBase {
 		public:
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////---------------------------------------Data------------------------------------------////////

@@ -33,7 +33,7 @@ namespace SDL2_Engine {
 
 			param[in] pPath - The path of the data to load
 		*/
-		__LocalResource<Generic>::__LocalResource(const char* pPath) : LocalResourceBase(EResourceType::Generic), mData(nullptr) {
+		__LocalResource<Generic>::__LocalResource(const char* pPath) : ILocalResourceBase(EResourceType::Generic), mData(nullptr) {
 			//Attempt to open the file
 			FILE* file;
 			fopen_s(&file, pPath, "rb");

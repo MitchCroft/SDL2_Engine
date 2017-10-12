@@ -194,7 +194,7 @@
     <ClInclude Include="src\Rendering\ISceneRenderer.hpp" />
     <ClInclude Include="src\Resources\Resources.hpp" />
     <ClInclude Include="src\Resources\ResourceTypes\LocalResource.hpp" />
-    <ClInclude Include="src\Resources\ResourceTypes\LocalResourceBase.hpp" />
+    <ClInclude Include="src\Resources\ResourceTypes\ILocalResourceBase.hpp" />
     <ClInclude Include="src\Resources\ResourceTypes\LocalResourceCursor.hpp" />
     <ClInclude Include="src\Resources\ResourceTypes\LocalResourceFont.hpp" />
     <ClInclude Include="src\Resources\ResourceTypes\LocalResourceGeneric.hpp" />
@@ -206,6 +206,10 @@
     <ClInclude Include="src\Scenes\SceneManager.hpp" />
     <ClInclude Include="src\Scenes\SceneManagerInitialiser.hpp" />
     <ClInclude Include="src\Scenes\ScenesValues.hpp" />
+    <ClInclude Include="src\UI\Canvas.hpp" />
+    <ClInclude Include="src\UI\UIElements\Interfaces\IUIAction.hpp" />
+    <ClInclude Include="src\UI\UIElements\Interfaces\IUIBase.hpp" />
+    <ClInclude Include="src\UI\UIValues.hpp" />
     <ClInclude Include="src\Utilities\Endian\Endian.hpp" />
     <ClInclude Include="src\Utilities\IGlobal.hpp" />
     <ClInclude Include="src\Math.hpp" />
@@ -244,6 +248,8 @@
     <ClCompile Include="src\Scenes\ISceneBase.cpp" />
     <ClCompile Include="src\Scenes\SceneManager.cpp" />
     <ClCompile Include="src\Time.cpp" />
+    <ClCompile Include="src\UI\Canvas.cpp" />
+    <ClCompile Include="src\UI\UIElements\Interfaces\IUIBase.cpp" />
     <ClCompile Include="src\Utilities\DebugCallback.cpp" />
     <ClCompile Include="src\Utilities\Endian\Endian.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />

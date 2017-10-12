@@ -1,5 +1,8 @@
 #pragma once
 
+//! Include the SDL2_Engine objects
+#include "../__LibraryManagement.hpp"
+
 namespace SDL2_Engine {
 	namespace Utilities {
 		/*
@@ -13,7 +16,7 @@ namespace SDL2_Engine {
 		 *		on from. This is not a valid type and should not be used
 		**/
 		template<typename T>
-		class Action {
+		class SDL2_LIB_INC Action {
 		public:
 			/*
 				Action (Default) : Constructor - Unused, inclusion is to provide user help on failed compile
@@ -36,7 +39,7 @@ namespace SDL2_Engine {
 		 *		indiscriminate amount of parameters
 		**/
 		template<typename TReturn, typename ... TArgs>
-		class Action<TReturn(TArgs...)> {
+		class SDL2_LIB_INC Action<TReturn(TArgs...)> {
 		public:
 			//! Define a type for the Action object
 			typedef TReturn(*signature)(TArgs...);
@@ -126,7 +129,7 @@ namespace SDL2_Engine {
 		 *		indiscriminate amount of parameters
 		**/
 		template<typename ... TArgs>
-		class Action<void(TArgs...)> {
+		class SDL2_LIB_INC Action<void(TArgs...)> {
 		public:
 			//! Define a type for the Action object
 			typedef void(*signature)(TArgs...);

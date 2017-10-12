@@ -21,7 +21,7 @@ namespace SDL2_Engine {
 		 *		Specialise the LocalResource object to operate on Mix_Chunk objects
 		**/
 		template<>
-		class SDL2_LIB_INC __LocalResource<SFX> : public LocalResourceBase {
+		class SDL2_LIB_INC __LocalResource<SFX> : public ILocalResourceBase {
 		public:
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////---------------------------------------Data------------------------------------------////////

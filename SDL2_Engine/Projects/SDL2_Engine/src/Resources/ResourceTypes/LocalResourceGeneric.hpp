@@ -18,7 +18,7 @@ namespace SDL2_Engine {
 		 *		Specialise the LocalResource object to operate on generic files
 		**/
 		template<>
-		class SDL2_LIB_INC __LocalResource<Generic> : public LocalResourceBase {
+		class SDL2_LIB_INC __LocalResource<Generic> : public ILocalResourceBase {
 		public:
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////---------------------------------------Data------------------------------------------////////

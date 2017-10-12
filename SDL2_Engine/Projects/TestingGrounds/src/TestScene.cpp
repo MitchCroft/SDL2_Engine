@@ -4,12 +4,19 @@
 #include <Window/Window.hpp>
 #include <Scenes/SceneManager.hpp>
 #include <Input/Keyboard/Keyboard.hpp>
+#include <Input/AxisInput.hpp>
 #include <Resources/ResourceTypes/LocalResourceTexture.hpp>
 #include <Rendering/Renderer.hpp>
+#include <Rendering/Colour.hpp>
 #include <Time.hpp>
 #include <Math.hpp>
 
 #include <SDL.h>
+
+using namespace SDL2_Engine;
+using namespace SDL2_Engine::Rendering;
+using namespace SDL2_Engine::Input;
+using namespace SDL2_Engine::Scenes;
 
 /*
 	TestScene : createScene - Initialise the values for the Test Scene
@@ -20,10 +27,10 @@
 */
 bool TestScene::createScene() {
 	//Load the texture
-	mTexture = SDL2_Engine::Globals::get<SDL2_Engine::Resources>().loadResource<SDL2_Engine::Texture>("face.png");
+	mTexture = Globals::get<Resources>().loadResource<Texture>("face.png");
 
 	//Return if the texture was loaded correctly
-	return (mTexture->status() == SDL2_Engine::EResourceLoadStatus::Loaded);
+	return (mTexture->status() == EResourceLoadStatus::Loaded);
 }
 
 /*
@@ -39,8 +46,8 @@ void TestScene::destroyScene() {}
 	Modified: 11/10/2017
 */
 void TestScene::update() {
-	if (SDL2_Engine::Globals::get<SDL2_Engine::Input::Keyboard>().keyPressed(SDL2_Engine::Input::EKeyboardKeyCodes::Space)) 
-		SDL2_Engine::Globals::get<SDL2_Engine::Scenes::SceneManager>().quit();
+	if (Globals::get<Keyboard>().keyPressed(EKeyboardKeyCodes::Space)) 
+		Globals::get<SceneManager>().quit();
 }
 
 /*
@@ -50,8 +57,20 @@ void TestScene::update() {
 */
 void TestScene::render() {
 	//Get the size of the window
-	auto dim = SDL2_Engine::Globals::get<SDL2_Engine::Window>().getWindowDimensions();
+	auto dim = Globals::get<Window>().getWindowDimensions();
+
+	//Get the "test" virtual axis
+	const float SCALE = (Globals::get<AxisInput>().getAxis("test") + 1) / 2.f;
+
+	//Get the lerp colour
+	auto lerp = Colour(Colour::White).lerp(Colour::Black, SCALE);
+
+	//Get a reference to the renderer
+	Renderer& rend = Globals::get<Renderer>();
+
+	//Colour the background
+	rend.drawRect({ 0, 0, dim.x, dim.y }, lerp, true);
 
 	//Draw the image
-	SDL2_Engine::Globals::get<SDL2_Engine::Rendering::Renderer>().drawTexture(mTexture->texture, { dim.x / 2 - 50, dim.y / 2 - 50, 100, 100 }, nullptr, SDL2_Engine::Rendering::Color::White, cosf((float)SDL2_Engine::Globals::get<SDL2_Engine::Time>().getElapsed()) * SDL2_Engine::Globals::get<SDL2_Engine::Math>().Rad2Deg);
+	rend.drawTexture(mTexture->texture, { dim.x / 2 - 50, dim.y / 2 - 50, 100, 100 }, nullptr, Color::White, cosf((float)Globals::get<SDL2_Engine::Time>().getElapsed()) * Globals::get<Math>().Rad2Deg);
 }

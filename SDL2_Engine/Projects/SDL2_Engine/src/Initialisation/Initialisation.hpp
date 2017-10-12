@@ -4,6 +4,7 @@
 //! Include the Initialisation objects
 #include "../Debug/LoggerInitialiser.hpp"
 #include "../Window/WindowInitialiser.hpp"
+#include "../Input/AxisInputInitialiser.hpp"
 #include "../Rendering/RendererInitialiser.hpp"
 #include "../Audio/AudioInitialiser.hpp"
 #include "../Scenes/SceneManagerInitialiser.hpp"
@@ -20,6 +21,7 @@ namespace SDL2_Engine {
 			Controllers_Initialisation_Failed,
 			Keyboard_Initialisation_Failed,
 			Mouse_Initialisation_Failed,
+			Input_Initialisation_Failed,
 			Rendering_Initialisation_Failed,
 			Audio_Initialisation_Failed,
 			Local_Resources_Initialisation_Failed,
@@ -70,6 +72,9 @@ namespace SDL2_Engine {
 			//! Store the values used to initialise the Window object
 			WindowInitialiser windowValues;
 
+			//! Store the values used to initialise the Input Object
+			AxisInputInitialiser inputValues;
+
 			//! Store the values used to initialise the Renderer object
 			RendererInitialiser rendererValues;
 
@@ -84,7 +89,7 @@ namespace SDL2_Engine {
 			SDL2_Engine_Init - Initialise the SDL2_Engine and begin operation
 			Author: Mitchell Croft
 			Created: 06/10/2017
-			Modified: 11/10/2017
+			Modified: 12/10/2017
 
 			param[in] pSetup - An SDL2_Engine_Initialiser object defining how the program should be created
 

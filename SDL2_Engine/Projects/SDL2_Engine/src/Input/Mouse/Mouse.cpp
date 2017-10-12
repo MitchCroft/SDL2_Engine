@@ -86,40 +86,49 @@ namespace SDL2_Engine {
 		}
 
 		/*
-			Mouse : x - Get the X position of the mouse
-			Created: 06/10/2017
-			Modified: 06/10/2017
+			Mouse : getPos - Get the position of the Mouse, relative to the Window
+			Created: 12/10/2017
+			Modified: 12/10/2017
 
-			return const int& - Returns a constant reference to the mouse X position
+			return Point - Return the X and Y position values as a Point object
 		*/
-		const int& Mouse::x() const { return mData->mousePoints[STATE_CUR][AXIS_X]; }
+		Point Mouse::getPos() const { return{ mData->mousePoints[STATE_CUR][AXIS_X] , mData->mousePoints[STATE_CUR][AXIS_Y] }; }
 
 		/*
-			Mouse : y - Get the Y position of the mouse
-			Created: 06/10/2017
-			Modified: 06/10/2017
+			Mouse : getPos - Get a specific Mouse axis position, relative to the Window
+			Created: 12/10/2017
+			Modified: 12/10/2017
 
-			return const int& - Returns a constant reference to the mouse Y position
+			param[in] pAxis - An EMouseAxis value defining the axis to retrieve
+
+			return const int& - Returns a constant int reference to the position value
 		*/
-		const int& Mouse::y() const { return mData->mousePoints[STATE_CUR][AXIS_Y]; }
+		const int& Mouse::getPos(const EMouseAxis& pAxis) const { return mData->mousePoints[STATE_CUR][(int)pAxis]; }
 
 		/*
-			Mouse : deltaX - Get the change in X position from the last cycle
-			Created: 06/10/2017
-			Modified: 06/10/2017
+			Mouse : getDelta - Get the delta position of the Mouse
+			Created: 12/10/2017
+			Modified: 12/10/2017
 
-			return int - Returns the difference as an int
+			return Point - Returns the X and Y delta position values as a Point object
 		*/
-		int Mouse::deltaX() const { return (mData->mousePoints[STATE_PRE][AXIS_X] - mData->mousePoints[STATE_CUR][AXIS_X]); }
+		Point Mouse::getDelta() const {
+			return{
+				(mData->mousePoints[STATE_PRE][AXIS_X] - mData->mousePoints[STATE_CUR][AXIS_X]),
+				(mData->mousePoints[STATE_PRE][AXIS_Y] - mData->mousePoints[STATE_CUR][AXIS_Y])
+			};
+		}
 
 		/*
-			Mouse : deltaY - Get the change in Y position from the last cycle
-			Created: 06/10/2017
-			Modified: 06/10/2017
+			Mouse : getDelta - Get a specific Mouse axis' delta position
+			Created: 12/10/2017
+			Modified: 12/10/2017
 
-			return int - Returns the difference
+			param[in] pAxis - AN EMouseAxis value defining the axis to retrieve
+
+			return int - Returns the delta position as an int
 		*/
-		int Mouse::deltaY() const { return (mData->mousePoints[STATE_PRE][AXIS_Y] - mData->mousePoints[STATE_CUR][AXIS_Y]); }
+		int Mouse::getDelta(const EMouseAxis& pAxis) const { return (mData->mousePoints[STATE_PRE][(int)pAxis] - mData->mousePoints[STATE_CUR][(int)pAxis]); }
 
 		/*
 			Mouse : buttonDown - Checks to see if the specified mouse button is currently down

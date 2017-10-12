@@ -8,11 +8,9 @@
 
 //! Include the STL objects used to track keyed values
 #include <unordered_map>
-#include <string>
 
 //! Include the required SDL2_Engine objects
 #include "GamePad.hpp"
-#include "VirtualAxis.hpp"
 #include "VibrationDescription.hpp"
 
 //! Declare a simple enum to store GamePad indexes
@@ -80,12 +78,6 @@ namespace SDL2_Engine {
 
 			//! Store the Vibration Progress values for each individual physical device
 			std::unordered_map<EGamePadID, VibrationProgress> vibrationValues;
-
-			//! Store a map of the Virtual Axis' that need monitoring
-			std::unordered_multimap<std::string, VirtualAxis> monitoredAxis;
-
-			//! Store separate states of information for the Virtual Axis
-			std::unordered_map<std::string, float> inputAxis[STATE_TOTAL];
 		};
 
 		/*
@@ -236,109 +228,6 @@ namespace SDL2_Engine {
 		}
 
 		/*
-			Controllers : vAxis - Retrieve the value of a Virtual Axis being monitored
-			Created: 22/09/2017
-			Modified: 06/10/2017
-
-			param[in] pAxis - A string defining the name of the Axis to retrieve
-
-			return const float& - Returns the value of the Virtual Axis as a const float reference
-		*/
-		const float& Controllers::vAxis(const std::string& pAxis) const noexcept { return mData->inputAxis[STATE_CUR][pAxis]; }
-
-		/*
-			Controllers : vAxisDelta - Retrieve the change in axis value since the last cycle
-			Created: 22/09/2017
-			Modified: 06/10/2017
-
-			param[in] pAxis - A string defining the name of the Axis to retrieve
-
-			return float - Returns a float value containing the change in the Virtual Axis' value
-		*/
-		float Controllers::vAxisDelta(const std::string& pAxis) const noexcept { return (mData->inputAxis[STATE_CUR][pAxis] - mData->inputAxis[STATE_PRE][pAxis]); }
-
-		/*
-			Controllers : vBtnDown - Treat the Virtual Axis as a button and check if it is currently 'down'
-			Created: 22/09/2017
-			Modified: 06/10/2017
-
-			param[in] pAxis - A string defining the name of the Axis to retrieve
-
-			return bool - Returns true if the Virtual Axis is not equal to zero
-		*/
-		bool Controllers::vBtnDown(const std::string& pAxis) const noexcept { return (mData->inputAxis[STATE_CUR][pAxis] != 0.f); }
-
-		/*
-			Controllers : vBtnPressed - Treat the Virtual Axis as a button and check if it was 'pressed'
-			Created: 22/09/2017
-			Modified: 06/10/2017
-
-			param[in] pAxis - A string defining the name of the Axis to retrieve
-
-			return bool - Returns true the first cycle the Virtual Axis is not equal to zero
-		*/
-		bool Controllers::vBtnPressed(const std::string& pAxis) const noexcept { return (mData->inputAxis[STATE_CUR][pAxis] && !mData->inputAxis[STATE_PRE][pAxis]); }
-
-		/*
-			Controllers : vBtnReleased - Treat the Virtual Axis as a button and check if it was 'released'
-			Created: 22/09/2017
-			Modified: 06/10/2017
-
-			param[in] pAxis - A string defining the name of the Axis to retrieve
-
-			return bool - Returns true the first cycle the Virtual Axis is equal to zero
-		*/
-		bool Controllers::vBtnReleased(const std::string& pAxis) const noexcept { return (!mData->inputAxis[STATE_CUR][pAxis] && mData->inputAxis[STATE_PRE][pAxis]); }
-
-		/*
-			Controllers : addVirtualAxis - Add a new Virtual Axis description to the monitor list
-			Created: 22/09/2017
-			Modified: 06/10/2017
-
-			param[in] pAxis - The Virtual Axis object describing the new Virtual Axis
-		*/
-		void Controllers::addVirtualAxis(const VirtualAxis& pAxis) const noexcept { mData->monitoredAxis.insert(std::pair<std::string, VirtualAxis>(pAxis.name, pAxis)); }
-
-		/*
-			Controllers : addVirtualAxis - Add an array of Virtual Axis descriptions to the monitor list
-			Created: 22/09/2017
-			Modified: 22/09/2017
-
-			param[in] pAxis - A pointer to the array of Virtual Axis objects to monitor
-			param[in] pCount - The number of Virtual Axis objects stored in the array
-		*/
-		void Controllers::addVirtualAxis(const VirtualAxis*& pAxis, const size_t& pCount) const noexcept {
-			for (size_t i = 0; i < pCount; i++) 
-				mData->monitoredAxis.insert(std::pair<std::string, VirtualAxis>(pAxis[i].name, pAxis[i]));
-		}
-
-		/*
-			Controllers : removeVirtualAxis - Clear all Virtual Axis' with a specific name
-			Created: 22/09/2017
-			Modified: 06/10/2017
-
-			param[in] pAxis - A string defining the name of the Axis to remove
-		*/
-		void Controllers::removeVirtualAxis(const std::string& pAxis) const noexcept {
-			//Clear all traces of the axis
-			mData->monitoredAxis.erase(pAxis); 
-			mData->inputAxis[STATE_CUR].erase(pAxis); 
-			mData->inputAxis[STATE_PRE].erase(pAxis);
-		}
-
-		/*
-			Controllers : removeVirtualAxis - Clear all Virtual Axis'
-			Created: 22/09/2017
-			Modified: 22/09/2017
-		*/
-		void Controllers::removeVirtualAxis() const noexcept {
-			//Clear all Virtual Axis
-			mData->monitoredAxis.clear();
-			mData->inputAxis[STATE_CUR].clear();
-			mData->inputAxis[STATE_PRE].clear();
-		}
-
-		/*
 			Controllers : getPollInterval - Get the amount of time between checks for recently connected GamePads
 			Created: 22/09/2017
 			Modified: 22/09/2017
@@ -406,7 +295,7 @@ namespace SDL2_Engine {
 		/*
 			Controllers : update - Update the GamePads input states
 			Created: 25/07/2017
-			Modified: 11/10/2017
+			Modified: 12/10/2017
 		*/
 		void Controllers::update() {
 			//Check that the Window has focus
@@ -429,137 +318,10 @@ namespace SDL2_Engine {
 			for (int i = GAMEPAD_ONE; i < GAMEPAD_TOTAL; i++)
 				mData->gamepads[i].update(attemptReconnect);
 
-			//Update the internal values
-			updateVirtualAxis(time, math);
-			updateVibrations(time, math);
-		}
-
-		/*
-			Controllers : updateVirtualAxis - Update the Virtual Axis that are being monitored and their respective values
-			Created: 22/09/2017
-			Modified: 06/10/2017
-
-			param[in] pTime - The Time object in use for this cycle
-			param[in] pMath - The Math object in use for this cycle
-		*/
-		void Controllers::updateVirtualAxis(const Time& pTime, const Math& pMath) const {
-			//Loop through all monitored Axis'
-			for (int i = (int)mData->monitoredAxis.bucket_count() - 1; i >= 0; i--) {
-				//Get the first element
-				auto bucket = mData->monitoredAxis.begin(i);
-
-				//Get the final iterator
-				auto end = mData->monitoredAxis.end(i);
-
-				//Check there are elements in the bucket
-				if (bucket == end) continue;
-
-				//Store the name of the Virtual Axis
-				const std::string& V_AXIS_NAME = bucket->first;
-
-				//Store the number of Axis' contributing to these values
-				size_t contributingAxis = 0U;
-
-				//Store the strongest contributer
-				float strongestAxis = 0.f;
-
-				//Store the average gravity of all Virtual Axis for this name
-				float gravAvg = 0.f;
-
-				//Copy the previous value of the axis
-				mData->inputAxis[STATE_PRE][V_AXIS_NAME] = mData->inputAxis[STATE_CUR][V_AXIS_NAME];
-
-				//Loop through all monitored Virtual Axis with the same name
-				for (; bucket != end; ++bucket) {
-					//Add to the contributing Axis' counter
-					++contributingAxis;
-
-					//Get a reference to current Virtual Axis
-					const VirtualAxis& axis = bucket->second;
-
-					//Add the gravity to the running sum
-					gravAvg += axis.gravity;
-
-					//Store the strength of this input
-					float axisStrength = 0.f;
-
-					///////////////////////////////////////////////////////////////////////////////////////////////
-					////                                Input Is Based on Axis                                 ////
-					///////////////////////////////////////////////////////////////////////////////////////////////
-					if (axis.inputType == EGamePadInputType::Axis) {
-						//Get the axis strength value
-						const float AXIS_VALUE = rawAxis(axis.aAxis, axis.gamePad);
-
-						//Store the sign of the axis value
-						const float SIGN = pMath.sign(AXIS_VALUE);
-
-						//Store the dead zone 
-						const float DEAD_ZONE_SQ = axis.aDeadZone * axis.aDeadZone;
-
-						//Normalise the axis value
-						const float AXIS_NORM_SQ = (AXIS_VALUE * AXIS_VALUE) - DEAD_ZONE_SQ;
-
-						//Scale the axis strength based on the dead zone
-						if (AXIS_NORM_SQ) axisStrength += (AXIS_NORM_SQ / (1.f - DEAD_ZONE_SQ)) * SIGN;
-					}
-
-					///////////////////////////////////////////////////////////////////////////////////////////////
-					////                              Input Is Based on Buttons                                ////
-					///////////////////////////////////////////////////////////////////////////////////////////////
-					else {
-						//Get the GamePad
-						GamePad pad = getGamePad(axis.gamePad);
-
-						//Check for positive button press(es)
-						if (pad->btnDown({ axis.bPosBtn, axis.bAltPosBtn }))
-							axisStrength += 1.f;
-
-						//Check for negative button press(es)
-						if (pad->btnDown({ axis.bNegBtn, axis.bAltNegBtn }))
-							axisStrength -= 1.f;
-					}
-
-					//Apply the sensitivity and inversion flags
-					axisStrength *= axis.sensitivity * (axis.invert ? -1.f : 1.f);
-
-					//Check if the strength is stronger then the current
-					if (abs(axisStrength) > abs(strongestAxis)) strongestAxis = axisStrength;
-				}
-
-				//Add the strength to the current input state
-				if (strongestAxis && abs(strongestAxis) > abs(mData->inputAxis[STATE_CUR][V_AXIS_NAME])) 
-					mData->inputAxis[STATE_CUR][V_AXIS_NAME] = pMath.clamp(mData->inputAxis[STATE_CUR][V_AXIS_NAME] + strongestAxis * pTime.getDelta(), -1.f, 1.f);
-
-				//Otherwise apply gravity
-				else if (gravAvg && mData->inputAxis[STATE_CUR][V_AXIS_NAME]) {
-					//Get the inverse direction
-					const float INV_DIR = pMath.sign(mData->inputAxis[STATE_CUR][V_AXIS_NAME]) * -1.f;
-
-					//Average out the gravity values
-					gravAvg /= (float)contributingAxis;
-
-					//Get the value after gravity is applied
-					const float APP_GRAV_VAL = mData->inputAxis[STATE_CUR][V_AXIS_NAME] + gravAvg * INV_DIR * pTime.getDelta();
-
-					//Assign the axis value
-					mData->inputAxis[STATE_CUR][V_AXIS_NAME] = (pMath.sign(APP_GRAV_VAL) == INV_DIR ? 0.f : APP_GRAV_VAL);
-				}
-			}
-		}
-
-		/*
-			Controllers : updateVibrations - Update the GamePads Vibration Values
-			Created: 22/09/2017
-			Modified: 22/09/2017
-
-			param[in] pTime - The Time object in use for this cycle
-			param[in] pMath - The Math object in use for this cycle
-		*/
-		void Controllers::updateVibrations(const Time& pTime, const Math& pMath) const {
 			//Check there are Vibration Descriptions to process
 			if (mData->vibrationValues.size()) {
 				//Add to the vibration timer
-				mData->vibrationTimer += pTime.getRealDelta();
+				mData->vibrationTimer += time.getRealDelta();
 
 				//Check if the timer is over the frequency value
 				if (mData->vibrationTimer >= mData->vibrationFrequency) {
@@ -573,7 +335,7 @@ namespace SDL2_Engine {
 						VibrationProgress& val = it->second;
 
 						//Add the elapsed time 
-						val.timer += mData->vibrationFrequency * integral * pTime.getScale();
+						val.timer += mData->vibrationFrequency * integral * time.getScale();
 
 						//Get the GamePad that is being accessed
 						GamePad pad = getGamePad(it->first);
@@ -593,7 +355,7 @@ namespace SDL2_Engine {
 								val.desc.scaleFunc(scale, val.timer / val.desc.vibrationLength);
 
 								//Clamp the value to 0 - 1 
-								scale = pMath.clamp01(scale);
+								scale = math.clamp01(scale);
 							}
 
 							//Otherwise scale constantly

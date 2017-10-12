@@ -181,11 +181,14 @@
     <ClInclude Include="src\Input\Controllers\ControllerValues.hpp" />
     <ClInclude Include="src\Input\Controllers\GamePad.hpp" />
     <ClInclude Include="src\Input\Controllers\VibrationDescription.hpp" />
-    <ClInclude Include="src\Input\Controllers\VirtualAxis.hpp" />
+    <ClInclude Include="src\Input\AxisInput.hpp" />
+    <ClInclude Include="src\Input\AxisInputInitialiser.hpp" />
     <ClInclude Include="src\Input\Keyboard\Keyboard.hpp" />
     <ClInclude Include="src\Input\Keyboard\KeyboardValues.hpp" />
     <ClInclude Include="src\Debug\Logger.hpp" />
     <ClInclude Include="src\Input\Mouse\Mouse.hpp" />
+    <ClInclude Include="src\Input\Mouse\MouseValues.hpp" />
+    <ClInclude Include="src\Input\VirtualAxis.hpp" />
     <ClInclude Include="src\Rendering\BasicSceneRenderer.hpp" />
     <ClInclude Include="src\Rendering\Colour.hpp" />
     <ClInclude Include="src\Rendering\Renderer.hpp" />
@@ -232,8 +235,11 @@
     <ClCompile Include="src\Initialisation\Initialisation.cpp" />
     <ClCompile Include="src\Input\Controllers\Controllers.cpp" />
     <ClCompile Include="src\Input\Controllers\GamePad.cpp" />
+    <ClCompile Include="src\Input\AxisInput.cpp" />
+    <ClCompile Include="src\Input\AxisInputInitialiser.cpp" />
     <ClCompile Include="src\Input\Keyboard\Keyboard.cpp" />
     <ClCompile Include="src\Input\Mouse\Mouse.cpp" />
+    <ClCompile Include="src\Input\VirtualAxis.cpp" />
     <ClCompile Include="src\Rendering\BasicSceneRenderer.cpp" />
     <ClCompile Include="src\Rendering\Colour.cpp" />
     <ClCompile Include="src\Rendering\Renderer.cpp" />

@@ -13,7 +13,7 @@ namespace SDL2_Engine {
 		 *		Name: Colour
 		 *		Author: Mitchell Croft
 		 *		Created: 09/10/2017
-		 *		Modified: 09/10/2017
+		 *		Modified: 12/10/2017
 		 *		
 		 *		Purpose:
 		 *		Provide a method for storing simple 32-bit colour values and a selection
@@ -233,6 +233,22 @@ namespace SDL2_Engine {
 				param[in] pCopy - The Colour object to copy the values of
 			*/
 			inline Colour(const Colour& pCopy) : ID(pCopy.ID) {}
+
+			/////////////////////////////////////////////////////////////////////////////////////////////////////
+			////////--------------------------------------Functions--------------------------------------////////
+			/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+			/*
+				Colour : lerp - Linearly interpolate the values of the current towards a second
+				Created: 12/10/2017
+				Modified: 12/10/2017
+
+				param[in] pSecond - The Colour object that marks the 'end' goal of the interpolation
+				param[in] pT - A 0-1 scale indicating the progress of the interpolation
+
+				return Colour - Returns a Colour object with the interpolated values
+			*/
+			Colour lerp(const Colour& pSecond, const float& pT) const;
 
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////--------------------------------------Operators--------------------------------------////////

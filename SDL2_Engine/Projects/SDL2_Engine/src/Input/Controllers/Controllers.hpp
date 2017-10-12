@@ -5,13 +5,10 @@
 #include "../../Utilities/IGlobal.hpp"
 #include "../../Utilities/Bitmask.hpp"
 
-#include "VirtualAxis.hpp"
+#include "ControllerValues.hpp"
 
 
 namespace SDL2_Engine {
-	//! Prototype the Time and Math objects
-	class Time; class Math;
-
 	namespace Input {
 		//! Prototype the GamePad object
 		class _GamePad;
@@ -24,7 +21,7 @@ namespace SDL2_Engine {
 		 *		Name: Controllers
 		 *		Author: Mitchell Croft
 		 *		Created: 25/07/2017
-		 *		Modified: 11/10/2017
+		 *		Modified: 12/10/2017
 		 *		
 		 *		Purpose:
 		 *		Track and manage connected XInput physical devices as
@@ -126,100 +123,6 @@ namespace SDL2_Engine {
 			void resetVibration(const Utilities::Bitmask<EGamePadID>& pIDs) const noexcept;
 
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
-			////////-------------------------------------Virtual Inputs----------------------------------////////
-			/////////////////////////////////////////////////////////////////////////////////////////////////////
-			
-			/*
-				Controllers : vAxis - Retrieve the value of a Virtual Axis being monitored
-				Created: 22/09/2017
-				Modified: 06/10/2017
-
-				param[in] pAxis - A string defining the name of the Axis to retrieve
-
-				return const float& - Returns the value of the Virtual Axis as a const float reference
-			*/
-			const float& vAxis(const std::string& pAxis) const noexcept;
-
-			/*
-				Controllers : vAxisDelta - Retrieve the change in axis value since the last cycle
-				Created: 22/09/2017
-				Modified: 06/10/2017
-
-				param[in] pAxis - A string defining the name of the Axis to retrieve
-
-				return float - Returns a float value containing the change in the Virtual Axis' value
-			*/
-			float vAxisDelta(const std::string& pAxis) const noexcept;
-
-			/*
-				Controllers : vBtnDown - Treat the Virtual Axis as a button and check if it is currently 'down'
-				Created: 22/09/2017
-				Modified: 06/10/2017
-
-				param[in] pAxis - A string defining the name of the Axis to retrieve
-
-				return bool - Returns true if the Virtual Axis is not equal to zero
-			*/
-			bool vBtnDown(const std::string& pAxis) const noexcept;
-
-			/*
-				Controllers : vBtnPressed - Treat the Virtual Axis as a button and check if it was 'pressed'
-				Created: 22/09/2017
-				Modified: 06/10/2017
-
-				param[in] pAxis - A string defining the name of the Axis to retrieve
-
-				return bool - Returns true the first cycle the Virtual Axis is not equal to zero
-			*/
-			bool vBtnPressed(const std::string& pAxis) const noexcept;
-
-			/*
-				Controllers : vBtnReleased - Treat the Virtual Axis as a button and check if it was 'released'
-				Created: 22/09/2017
-				Modified: 06/10/2017
-
-				param[in] pAxis - A string defining the name of the Axis to retrieve
-
-				return bool - Returns true the first cycle the Virtual Axis is equal to zero
-			*/
-			bool vBtnReleased(const std::string& pAxis) const noexcept;
-
-			/*
-				Controllers : addVirtualAxis - Add a new Virtual Axis description to the monitor list
-				Created: 22/09/2017
-				Modified: 22/09/2017
-
-				param[in] pAxis - The Virtual Axis object describing the new Virtual Axis
-			*/
-			void addVirtualAxis(const VirtualAxis& pAxis) const noexcept;
-
-			/*
-				Controllers : addVirtualAxis - Add an array of Virtual Axis descriptions to the monitor list
-				Created: 22/09/2017
-				Modified: 22/09/2017
-
-				param[in] pAxis - A pointer to the array of Virtual Axis objects to monitor
-				param[in] pCount - The number of Virtual Axis objects stored in the array
-			*/
-			void addVirtualAxis(const VirtualAxis*& pAxis, const size_t& pCount) const noexcept;
-
-			/*
-				Controllers : removeVirtualAxis - Clear all Virtual Axis' with a specific name
-				Created: 22/09/2017
-				Modified: 06/10/2017
-
-				param[in] pAxis - A string defining the name of the Axis to remove
-			*/
-			void removeVirtualAxis(const std::string& pAxis) const noexcept;
-
-			/*
-				Controllers : removeVirtualAxis - Clear all Virtual Axis'
-				Created: 22/09/2017
-				Modified: 22/09/2017
-			*/
-			void removeVirtualAxis() const noexcept;
-
-			/////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////-------------------------------------Timing Values-----------------------------------////////
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 			
@@ -293,7 +196,7 @@ namespace SDL2_Engine {
 			/*
 				Controllers : update - Update the GamePads input states
 				Created: 25/07/2017
-				Modified: 11/10/2017
+				Modified: 12/10/2017
 			*/
 			void update() override;
 
@@ -301,13 +204,6 @@ namespace SDL2_Engine {
 			//! Define the internal protected elements for the Controllers
 			struct ControllersInternalData;
 			ControllersInternalData* mData;
-
-			/////////////////////////////////////////////////////////////////////////////////////////////////////
-			////////-------------------------------------Update Internal---------------------------------////////
-			/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-			void updateVirtualAxis(const Time& pTime, const Math& pMath) const;
-			void updateVibrations(const Time& pTime, const Math& pMath) const;
 		};
 	}
 }

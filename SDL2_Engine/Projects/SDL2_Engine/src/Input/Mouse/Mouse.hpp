@@ -1,6 +1,10 @@
 #pragma once
 
+//! Include the SDL2_Engine objects
 #include "../../Utilities/IGlobal.hpp"
+#include "MouseValues.hpp"
+
+//! Include required STL objects
 #include <memory>
 
 namespace SDL2_Engine {
@@ -14,15 +18,15 @@ namespace SDL2_Engine {
 	template<typename T>
 	using LocalResource = std::shared_ptr<ResourceTypes::__LocalResource<T>>;
 
-	namespace Input {
-		//! Store the ID values of the mouse buttons that can be checked
-		enum class EMouseButton { Left, Middle, Right, Extra1, Extra2 };
+	//! Define a simple Point structure
+	struct Point { int x, y; };
 
+	namespace Input {
 		/*
 		 *		Name: Mouse
 		 *		Author: Mitchell Croft
 		 *		Created: 06/10/2017
-		 *		Modified: 11/10/2017
+		 *		Modified: 12/10/2017
 		 *		
 		 *		Purpose:
 		 *		Handle changes in mouse movement and presses
@@ -58,40 +62,44 @@ namespace SDL2_Engine {
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			/*
-				Mouse : x - Get the X position of the mouse
-				Created: 06/10/2017
-				Modified: 06/10/2017
+				Mouse : getPos - Get the position of the Mouse, relative to the Window
+				Created: 12/10/2017
+				Modified: 12/10/2017
 
-				return const int& - Returns a constant reference to the mouse X position
+				return Point - Return the X and Y position values as a Point object
 			*/
-			const int& x() const;
+			Point getPos() const;
 
 			/*
-				Mouse : y - Get the Y position of the mouse
-				Created: 06/10/2017
-				Modified: 06/10/2017
+				Mouse : getPos - Get a specific Mouse axis position, relative to the Window
+				Created: 12/10/2017
+				Modified: 12/10/2017
 
-				return const int& - Returns a constant reference to the mouse Y position
+				param[in] pAxis - An EMouseAxis value defining the axis to retrieve
+
+				return const int& - Returns a constant int reference to the position value
 			*/
-			const int& y() const;
+			const int& getPos(const EMouseAxis& pAxis) const;
 
 			/*
-				Mouse : deltaX - Get the change in X position from the last cycle
-				Created: 06/10/2017
-				Modified: 06/10/2017
+				Mouse : getDelta - Get the delta position of the Mouse
+				Created: 12/10/2017
+				Modified: 12/10/2017
 
-				return int - Returns the difference as an int
-			*/	
-			int deltaX() const;
+				return Point - Returns the X and Y delta position values as a Point object
+			*/
+			Point getDelta() const;
 
 			/*
-				Mouse : deltaY - Get the change in Y position from the last cycle
-				Created: 06/10/2017
-				Modified: 06/10/2017
+				Mouse : getDelta - Get a specific Mouse axis' delta position
+				Created: 12/10/2017
+				Modified: 12/10/2017
 
-				return int - Returns the difference 
+				param[in] pAxis - AN EMouseAxis value defining the axis to retrieve
+
+				return int - Returns the delta position as an int
 			*/
-			int deltaY() const;
+			int getDelta(const EMouseAxis& pAxis) const;
 
 			/*
 				Mouse : buttonDown - Checks to see if the specified mouse button is currently down

@@ -11,9 +11,6 @@ namespace SDL2_Engine {
 			All		= One | Two | Three | Four
 		};
 
-		//! Define the different input types that can be received from a connected GamePad
-		enum class EGamePadInputType { Button, Axis };
-
 		//! List the different axis that can be read from a GamePad
 		enum class EGamePadAxisCodes {
 			//! Null input, axis not checked

@@ -18,12 +18,8 @@ namespace SDL2_Engine {
 
 		//! List the different keyboard key codes that can be read from
 		enum class EKeyboardKeyCodes : unsigned int {
-			//! Mouse buttons
-			Mouse_Left = 0x01,
-			Mouse_Right = 0x02,
-			Mouse_Middle = 0x04,
-			Mouse_X1 = 0x05,
-			Mouse_X2 = 0x06,
+			//! Default
+			Null,
 
 			//! Alpha keys
 			Space = 0x20,

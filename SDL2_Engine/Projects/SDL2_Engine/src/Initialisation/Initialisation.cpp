@@ -10,6 +10,7 @@
 #include "../Input/Controllers/Controllers.hpp"
 #include "../Input/Keyboard/Keyboard.hpp"
 #include "../Input/Mouse/Mouse.hpp"
+#include "../Input/AxisInput.hpp"
 #include "../Rendering/Renderer.hpp"
 #include "../Audio/Audio.hpp"
 #include "../Resources/Resources.hpp"
@@ -71,6 +72,9 @@ namespace SDL2_Engine {
 
 						//Create the Mouse object
 						else if (!Globals::addInterface<Input::Mouse>()) errorNum = EInitialisationError::Mouse_Initialisation_Failed;
+
+						//Create the Input object
+						else if (!Globals::addInterface<Input::AxisInput>(pSetup.inputValues)) errorNum = EInitialisationError::Input_Initialisation_Failed;
 					}
 					
 					//Check for Rendering

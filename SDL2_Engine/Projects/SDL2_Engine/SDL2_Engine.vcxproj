@@ -214,6 +214,7 @@
     <ClInclude Include="src\UI\UIElements\Interfaces\IUIBase.hpp" />
     <ClInclude Include="src\UI\UIValues.hpp" />
     <ClInclude Include="src\Utilities\Endian\Endian.hpp" />
+    <ClInclude Include="src\Utilities\FString.hpp" />
     <ClInclude Include="src\Utilities\IGlobal.hpp" />
     <ClInclude Include="src\Math.hpp" />
     <ClInclude Include="src\Time.hpp" />

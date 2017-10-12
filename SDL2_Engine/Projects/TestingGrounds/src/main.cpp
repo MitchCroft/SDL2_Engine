@@ -25,7 +25,7 @@ int main() {
 	VirtualAxis def[4];
 
 	def[0].inputType = EInputDevice::GamePads;
-	strcpy_s(def[0].name, "test");
+	def[0].name = "test";
 	def[0].sensitivity = 1;
 	def[0].gravity = 1;
 	def[0].gamePads = EGamePadID::One;
@@ -34,7 +34,7 @@ int main() {
 	def[0].bNegBtn = EGamePadBtnCodes::B;
 
 	def[1].inputType = EInputDevice::GamePads;
-	strcpy_s(def[1].name, "test");
+	def[1].name = "test";
 	def[1].sensitivity = 1;
 	def[1].gravity = 1;
 	def[1].gamePads = EGamePadID::One;
@@ -43,14 +43,14 @@ int main() {
 	def[1].aDeadZone = 0.1f;
 
 	def[2].inputType = EInputDevice::Keyboard;
-	strcpy_s(def[2].name, "test");
+	def[2].name = "test";
 	def[2].sensitivity = 1;
 	def[2].gravity = 1;
 	def[2].kPosBtn = EKeyboardKeyCodes::Arrow_Up;
 	def[2].kNegBtn = EKeyboardKeyCodes::Arrow_Down;
 
 	def[3].inputType = EInputDevice::Mouse;
-	strcpy_s(def[3].name, "test");
+	def[3].name = "test";
 	def[3].sensitivity = 1;
 	def[3].gravity = 1;
 	def[3].mAxis = EMouseAxis::X;

@@ -106,7 +106,7 @@ namespace SDL2_Engine {
 
 			param[in] pAxis - The Virtual Axis object describing the new Virtual Axis
 		*/
-		void AxisInput::addAxis(const VirtualAxis& pAxis) { mData->monitoredAxis.insert(std::pair<std::string, VirtualAxis>(std::string(pAxis.name), pAxis)); }
+		void AxisInput::addAxis(const VirtualAxis& pAxis) { mData->monitoredAxis.insert(std::pair<std::string, VirtualAxis>(pAxis.name.c_str(), pAxis)); }
 
 		/*
 			AxisInput : addAxis -  Add an array of Virtual Axis descriptions to the monitor list
@@ -118,7 +118,7 @@ namespace SDL2_Engine {
 		*/
 		void AxisInput::addAxis(const VirtualAxis* pAxis, const size_t& pCount) {
 			for (size_t i = 0; i < pCount; i++)
-				mData->monitoredAxis.insert(std::pair<std::string, VirtualAxis>(std::string(pAxis[i].name), pAxis[i]));
+				mData->monitoredAxis.insert(std::pair<std::string, VirtualAxis>(pAxis[i].name.c_str(), pAxis[i]));
 		}
 
 		/*

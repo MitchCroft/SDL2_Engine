@@ -2,12 +2,15 @@
 
 #include <Globals.hpp>
 #include <Window/Window.hpp>
+#include <Debug/Logger.hpp>
 #include <Scenes/SceneManager.hpp>
 #include <Input/Keyboard/Keyboard.hpp>
 #include <Input/AxisInput.hpp>
 #include <Resources/ResourceTypes/LocalResourceTexture.hpp>
 #include <Rendering/Renderer.hpp>
 #include <Rendering/Colour.hpp>
+#include <UI/Canvas.hpp>
+#include <UI/UIElements/UIPanel.hpp>
 #include <Time.hpp>
 #include <Math.hpp>
 
@@ -17,6 +20,8 @@ using namespace SDL2_Engine;
 using namespace SDL2_Engine::Rendering;
 using namespace SDL2_Engine::Input;
 using namespace SDL2_Engine::Scenes;
+using namespace SDL2_Engine::UI;
+using namespace SDL2_Engine::UI::UIElements;
 
 /*
 	TestScene : createScene - Initialise the values for the Test Scene
@@ -46,8 +51,27 @@ void TestScene::destroyScene() {}
 	Modified: 11/10/2017
 */
 void TestScene::update() {
+	Globals::get<Debug::Logger>().log("Delta Time: ", (1.f / Globals::get<Time>().getDelta()));
+
 	if (Globals::get<Keyboard>().keyPressed(EKeyboardKeyCodes::Space)) 
 		Globals::get<SceneManager>().quit();
+
+	if (Globals::get<Keyboard>().keyPressed(EKeyboardKeyCodes::Return)) {
+		//Get the bounds of the screen
+		const auto& bounds = Globals::get<Window>().getWindowDimensions();
+
+		//Create the UI Panel
+		auto panel = Globals::get<Canvas>().createUI<UIPanel>();
+
+		//Set the position
+		panel->setLocation({ rand() % bounds.x, rand() % bounds.y, 100, 100 });
+
+		//Set the image
+		panel->setImage(mTexture->texture);
+
+		//Set random colour filter
+		panel->setFilterColour(rand());
+	}
 }
 
 /*

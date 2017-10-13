@@ -135,39 +135,32 @@ namespace SDL2_Engine {
 		/*
 			Logger : setOutputLocation - Set the folder location where the log file will be created
 			Created: 20/07/2017
-			Modified: 05/10/2017
+			Modified: 13/10/2017
 
 			param[in] pLocation - A string indicating the file location to store the file
 		*/
 		void Logger::setOutputLocation(const char* pLocation) {
 			//Save the new location
-			*mLogLocation = pLocation;
+			mLogLocation = pLocation;
 
 			//Ensure that that is folder location
-			*mLogLocation = mLogLocation->substr(0, mLogLocation->find_last_of("/\\") + 1);
+			mLogLocation = mLogLocation.substr(0, mLogLocation.find_last_of("/\\") + 1);
 
 			//Check that there is a position left to save it
-			if (!mLogLocation->length()) throw new std::runtime_error("Logger was given an invalid output location");
+			if (!mLogLocation.length()) throw new std::runtime_error("Logger was given an invalid output location");
 		}
 
 		/*
 			Logger : Constructor - Initialise with default values
 			Created: 20/07/2017
-			Modified: 06/10/2017
+			Modified: 13/10/2017
 
 			param[in] pSetup - Defines how the Logger should be setup
 		*/
 		Logger::Logger(const Initialisation::LoggerInitialiser& pSetup) : 
 			mLogOutput(pSetup.storeLog), 
-			mLogLocation(new std::string(pSetup.logLocation)) 
+			mLogLocation(pSetup.logLocation)
 		{}
-
-		/*
-			Logger : destroyInterface - Deallocate the memory used by the logger values
-			Created: 20/07/2017
-			Modified: 20/07/2017
-		*/
-		void Logger::destroyInterface() { if (mLogLocation) delete mLogLocation; mLogLocation = nullptr; }
 
 		/*
 			Logger : outputMessage - Uniform messaging function used to relay the text to the destinations
@@ -219,14 +212,14 @@ namespace SDL2_Engine {
 		/*
 			Logger : outputToFile - Output the message to the specified output file
 			Created: 20/07/2017
-			Modified: 05/10/2017
+			Modified: 13/10/2017
 
 			param[in] pTime - The timestamp for when the event occurred
 			param[in] pMessage - The text to be output to the file
 		*/
 		void Logger::outputToFile(const char* pTime, const char* pMessage) const {
 			//Try and open the log file
-			std::wofstream file((*mLogLocation + "Logger.log").c_str(), std::ios::out | std::ios::app);
+			std::wofstream file((mLogLocation + "Logger.log").c_str(), std::ios::out | std::ios::app);
 
 			//Ensure the file is open
 			if (!file.is_open()) throw std::runtime_error("Failed to to open the log file at the specified location");

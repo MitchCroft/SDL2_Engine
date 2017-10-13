@@ -131,7 +131,7 @@ namespace SDL2_Engine {
 			/*
 				LocalResource (Cursor) : Constructor - Initialise with default values
 				Created: 05/10/2017
-				Modified: 05/10/2017
+				Modified: 13/10/2017
 
 				param[in] pPath - The path of the Objx file to load
 			*/

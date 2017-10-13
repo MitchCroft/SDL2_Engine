@@ -16,7 +16,7 @@ namespace SDL2_Engine {
 		 *		Name: AxisInput
 		 *		Author: Mitchell Croft
 		 *		Created: 12/10/2017
-		 *		Modified: 12/10/2017
+		 *		Modified: 13/10/2017
 		 *		
 		 *		Purpose:
 		 *		Provide an interface for managing and evaluating Virtual Axis
@@ -101,6 +101,17 @@ namespace SDL2_Engine {
 				param[in] pCount - The number of Virtual Axis objects stored in the array
 			*/
 			void addAxis(const VirtualAxis* pAxis, const size_t& pCount);
+
+			/*
+				AxisInput : hasAxis - Check to see if a Virtual Axis exists in the monitor list
+				Created: 13/10/2017
+				Modified: 13/10/2017
+
+				param[in] pAxis - A string defining the name of the Axis to retrieve
+
+				return bool - Returns true if the specified axis name exists
+			*/
+			bool hasAxis(const char* pAxis) const;
 
 			/*
 				AxisInput : removeAxis - Clear all Virtual Axis' with a specific name

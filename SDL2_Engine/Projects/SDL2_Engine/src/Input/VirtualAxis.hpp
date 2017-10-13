@@ -6,10 +6,7 @@
 #include "Keyboard/KeyboardValues.hpp"
 #include "Mouse/MouseValues.hpp"
 #include "../Utilities/Bitmask.hpp"
-#include "../Utilities/FString.hpp"
-
-//! Define a maximum length for Virtual Axis names
-#define VIRTUAL_AXIS_NAME_MAX 32
+#include "AxisInputValues.hpp"
 
 namespace SDL2_Engine {
 	namespace Input {
@@ -23,7 +20,7 @@ namespace SDL2_Engine {
 		 *		Name: VirtualAxis
 		 *		Author: Mitchell Croft
 		 *		Created: 30/01/2017
-		 *		Modified: 12/10/2017
+		 *		Modified: 13/10/2017
 		 *
 		 *		Purpose:
 		 *		Store value used to monitor a named virtual axis across either
@@ -38,7 +35,7 @@ namespace SDL2_Engine {
 			EInputDevice inputType;
 
 			//! Store the 'name' given to this Virtual Axis
-			Utilities::FString<VIRTUAL_AXIS_NAME_MAX> name;
+			vAxisName name;
 
 			//! Store the additional strength scale applied to the Input movements
 			float sensitivity;

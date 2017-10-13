@@ -1,11 +1,13 @@
 #pragma once
 
-#include <cstdio>
-
-//! Include required values
+//! Include SDL2_Engine objects
 #include "../__LibraryManagement.hpp"
 #include "../Utilities/Bitmask.hpp"
+#include "../Utilities/FString.hpp"
 #include "WindowValues.hpp"
+
+//! Get the maximum length of a file name
+#include <cstdio>
 
 namespace SDL2_Engine {
 	namespace Initialisation {
@@ -20,7 +22,7 @@ namespace SDL2_Engine {
 		**/
 		struct SDL2_LIB_INC WindowInitialiser {
 			//! The name to be applied to the window of the application (Default "SDL2_Engine Application")
-			char title[FILENAME_MAX];
+			Utilities::FString<FILENAME_MAX> title;
 
 			//! The dimensions to initialise the window with (Default 1280x720)
 			size_t width, height;

@@ -18,6 +18,76 @@ using namespace Objx;
 namespace SDL2_Engine {
 	namespace ResourceTypes {
 		/*
+			deductLocation - Deduct the location of relative resources, stripping superfluous characters
+			Author: Mitchell Croft
+			Created: 13/10/2017
+			Modified: 13/10/2017
+
+			param[in] pParent - The original string location of a file
+			param[in] pRelative - The file path of the second file, relative to pParent
+
+			return std::string - Returns the clean filepath as a new std::string object
+		*/
+		std::string deductLocation(const std::string pParent, const std::string pRelative) {
+			//Check if the pRelative is actually relative
+			if (pRelative.find(':') != pRelative.npos) return pRelative;
+
+			//Store a std::string of the current filepath
+			std::string current = "";
+
+			//Optomise the parent std::string
+			int index = -1;
+			size_t prog = 0;
+			while (true) {
+				//Grab the next std::string section
+				std::string sub = pParent.substr(prog, (index = pParent.find_first_of("/\\", index + 1)) + 1 - prog);
+
+				//Check there was text extracted
+				if (index == pParent.npos) break;
+
+				//Check if its the current directory shorthand
+				else if (sub == "./" || sub == ".\\") continue;
+
+				//Check if its the directory up shorthand
+				else if (sub == "../" || sub == "..\\")
+					current = current.substr(0, current.find_last_of("/\\", current.length() - 2)) + '/';
+
+				//Otherwise concatenate
+				else current += sub;
+
+				//Increase the progress
+				prog += sub.length();
+			}
+
+			//Optomise the relative std::string
+			index = -1;
+			prog = 0;
+			while (true) {
+				//Grab the next std::string section
+				std::string sub = pRelative.substr(prog, (index = pRelative.find_first_of("/\\", index + 1)) + 1 - prog);
+
+				//Check if its the current directory shorthand
+				if (sub == "./" || sub == ".\\") continue;
+
+				//Check if its the directory up shorthand
+				else if (sub == "../" || sub == "..\\")
+					current = current.substr(0, current.find_last_of("/\\", current.length() - 2)) + '/';
+
+				//Otherwise concatenate
+				else current += sub;
+
+				//Check there was text extracted
+				if (index == pRelative.npos) break;
+
+				//Increase the progress
+				prog += sub.length();
+			}
+
+			//Return the combination
+			return current;
+		}
+
+		/*
 			LocalResource (Cursor) : dispose - Unload resource information
 			Created: 05/10/2017
 			Modified: 05/10/2017
@@ -43,7 +113,7 @@ namespace SDL2_Engine {
 		/*
 			LocalResource (Cursor) : Constructor - Initialise with default values
 			Created: 05/10/2017
-			Modified: 05/10/2017
+			Modified: 13/10/2017
 
 			param[in] pPath - The path of the Objx file to load
 		*/
@@ -188,8 +258,8 @@ namespace SDL2_Engine {
 			const std::string FILE_PATH = pPath;
 
 			//Get the directory of the source image file
-			const std::string SRC_LOC = FILE_PATH.substr(FILE_PATH.find_last_of("/\\") + 1) + OBJ["source"].readVal<xstring>();
-
+			const std::string SRC_LOC = deductLocation(pPath, OBJ["source"].readVal<xstring>());
+			
 			//Load the spritesheet/source image
 			SDL_Surface* spritesheetSrc = IMG_Load(SRC_LOC.c_str());
 

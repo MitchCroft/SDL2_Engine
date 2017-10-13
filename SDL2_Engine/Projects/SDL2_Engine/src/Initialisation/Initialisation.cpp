@@ -14,8 +14,8 @@
 #include "../Rendering/Renderer.hpp"
 #include "../Audio/Audio.hpp"
 #include "../Resources/Resources.hpp"
-//TODO: Add UI management
 #include "../Scenes/SceneManager.hpp"
+#include "../UI/Canvas.hpp"
 
 //! Include the SDL functions
 #include <SDL.h>
@@ -26,7 +26,7 @@ namespace SDL2_Engine {
 			SDL2_Engine_Init - Initialise the SDL2_Engine and begin operation
 			Author: Mitchell Croft
 			Created: 06/10/2017
-			Modified: 12/10/2017
+			Modified: 13/10/2017
 
 			param[in] pSetup - An SDL2_Engine_Initialiser object defining how the program should be created
 
@@ -94,9 +94,8 @@ namespace SDL2_Engine {
 						if (!(sceneManager = Globals::addInterface<Scenes::SceneManager>(pSetup.sceneManagerValues))) errorNum = EInitialisationError::Scene_Management_Initialisation_Failed;
 
 					//Check for UI
-					if (!(int)errorNum && pSetup.initialiseSystems & EInitialiseSystems::UI) {
-						//TODO
-					}
+					if (!(int)errorNum && pSetup.initialiseSystems & EInitialiseSystems::UI) 
+						if (!Globals::addInterface<UI::Canvas>(pSetup.canvasValues)) errorNum = EInitialisationError::UI_Initialisation_Failed;
 					
 					//Run the Game Loop
 					if (!(int)errorNum) {

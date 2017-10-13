@@ -6,7 +6,9 @@
 //! Include the required SDL2_Engine objects
 #include "../__LibraryManagement.hpp"
 #include "../Utilities/IGlobal.hpp"
+#include "LoggerValues.hpp"
 #include "DebugColor.hpp"
+
 
 namespace SDL2_Engine {
 	//! Prototype the Initialiser
@@ -17,7 +19,7 @@ namespace SDL2_Engine {
 		 *		Name: Logger
 		 *		Author: Mitchell Croft
 		 *		Created: 20/07/2017
-		 *		Modified: 06/10/2017
+		 *		Modified: 13/10/2017
 		 *		
 		 *		Purpose:
 		 *		Allow for the logging of text to the output window and/or
@@ -32,14 +34,14 @@ namespace SDL2_Engine {
 			/*
 				Logger : log - Compile a log message from an indiscriminate amount of arguments
 				Created: 20/07/2017
-				Modified: 20/07/2017
+				Modified: 13/10/2017
 
 				param[in] pArgs - A parameter pack of values to string-ify
 			*/
 			template<typename ... TArgs>
 			void log(const TArgs& ... pArgs) const {
 				//Create a stream to hold the constructed string
-				std::wostringstream o;
+				std::ostringstream o;
 
 				//Build the string from the values
 				buildString(o, pArgs...);
@@ -117,16 +119,16 @@ namespace SDL2_Engine {
 			/*
 				Logger : getOutputLocation - Get the folder location where the log file is being generated
 				Created: 20/07/2017
-				Modified: 05/10/2017
+				Modified: 13/10/2017
 
-				return const std::string& - Returns the location as a string
+				return const filepath& - Returns the location as a string
 			*/
-			inline const std::string& getOutputLocation() const noexcept { return *mLogLocation; }
+			inline const filepath& getOutputLocation() const noexcept { return mLogLocation; }
 
 			/*
 				Logger : setOutputLocation - Set the folder location where the log file will be created
 				Created: 20/07/2017
-				Modified: 05/10/2017
+				Modified: 13/10/2017
 
 				param[in] pLocation - A string indicating the file location to store the file
 			*/
@@ -139,7 +141,7 @@ namespace SDL2_Engine {
 			/*
 				Logger : Constructor - Initialise with default values
 				Created: 20/07/2017
-				Modified: 06/10/2017
+				Modified: 13/10/2017
 
 				param[in] pSetup - Defines how the Logger should be setup
 			*/
@@ -157,9 +159,9 @@ namespace SDL2_Engine {
 			/*
 				Logger : destroyInterface - Deallocate the memory used by the logger values
 				Created: 20/07/2017
-				Modified: 20/07/2017
+				Modified: 13/10/2017
 			*/
-			void destroyInterface() override;
+			inline void destroyInterface() override {}
 
 			/*
 				Logger : update - Empty function, required to instantiate instances
@@ -177,8 +179,7 @@ namespace SDL2_Engine {
 			bool mLogOutput;
 
 			//! Store the location to output the log file
-			std::string* mLogLocation;
-
+			filepath mLogLocation;
 			
 			/*
 				Logger : outputMessage - Uniform messaging function used to relay the text to the destinations
@@ -204,7 +205,7 @@ namespace SDL2_Engine {
 			/*
 				Logger : outputToFile - Output the message to the specified output file
 				Created: 20/07/2017
-				Modified: 05/10/2017
+				Modified: 13/10/2017
 
 				param[in] pTime - The timestamp for when the event occurred
 				param[in] pMessage - The text to be output to the file

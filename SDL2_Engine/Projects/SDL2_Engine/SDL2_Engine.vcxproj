@@ -175,8 +175,10 @@
     <ClInclude Include="src\Audio\AudioValues.hpp" />
     <ClInclude Include="src\Debug\DebugColor.hpp" />
     <ClInclude Include="src\Debug\LoggerInitialiser.hpp" />
+    <ClInclude Include="src\Debug\LoggerValues.hpp" />
     <ClInclude Include="src\Globals.hpp" />
     <ClInclude Include="src\Initialisation\Initialisation.hpp" />
+    <ClInclude Include="src\Input\AxisInputValues.hpp" />
     <ClInclude Include="src\Input\Controllers\Controllers.hpp" />
     <ClInclude Include="src\Input\Controllers\ControllerValues.hpp" />
     <ClInclude Include="src\Input\Controllers\GamePad.hpp" />
@@ -210,9 +212,13 @@
     <ClInclude Include="src\Scenes\SceneManagerInitialiser.hpp" />
     <ClInclude Include="src\Scenes\ScenesValues.hpp" />
     <ClInclude Include="src\UI\Canvas.hpp" />
+    <ClInclude Include="src\UI\CanvasInitialiser.hpp" />
+    <ClInclude Include="src\UI\CanvasValues.hpp" />
     <ClInclude Include="src\UI\UIElements\Interfaces\IUIAction.hpp" />
     <ClInclude Include="src\UI\UIElements\Interfaces\IUIBase.hpp" />
-    <ClInclude Include="src\UI\UIValues.hpp" />
+    <ClInclude Include="src\UI\UIElements\Interfaces\UIBounds.hpp" />
+    <ClInclude Include="src\UI\UIElements\UIPanel.hpp" />
+    <ClInclude Include="src\UI\UIElements\UIValues.hpp" />
     <ClInclude Include="src\Utilities\Endian\Endian.hpp" />
     <ClInclude Include="src\Utilities\FString.hpp" />
     <ClInclude Include="src\Utilities\IGlobal.hpp" />
@@ -256,7 +262,8 @@
     <ClCompile Include="src\Scenes\SceneManager.cpp" />
     <ClCompile Include="src\Time.cpp" />
     <ClCompile Include="src\UI\Canvas.cpp" />
-    <ClCompile Include="src\UI\UIElements\Interfaces\IUIBase.cpp" />
+    <ClCompile Include="src\UI\CanvasInitialiser.cpp" />
+    <ClCompile Include="src\UI\UIElements\UIPanel.cpp" />
     <ClCompile Include="src\Utilities\DebugCallback.cpp" />
     <ClCompile Include="src\Utilities\Endian\Endian.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />

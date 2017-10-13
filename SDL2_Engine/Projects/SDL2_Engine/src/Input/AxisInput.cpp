@@ -122,6 +122,17 @@ namespace SDL2_Engine {
 		}
 
 		/*
+			AxisInput : hasAxis - Check to see if a Virtual Axis exists in the monitor list
+			Created: 13/10/2017
+			Modified: 13/10/2017
+
+			param[in] pAxis - A string defining the name of the Axis to retrieve
+
+			return bool - Returns true if the specified axis name exists
+		*/
+		bool AxisInput::hasAxis(const char* pAxis) const { return (mData->monitoredAxis.find(pAxis) != mData->monitoredAxis.end()); }
+
+		/*
 			AxisInput : removeAxis - Clear all Virtual Axis' with a specific name
 			Created: 22/09/2017
 			Modified: 12/10/2017

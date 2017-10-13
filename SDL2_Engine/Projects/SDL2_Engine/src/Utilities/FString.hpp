@@ -13,7 +13,7 @@ namespace SDL2_Engine {
 		*		Name: FString
 		*		Author: Mitchell Croft
 		*		Created: 12/10/2017
-		*		Modified: 12/10/2017
+		*		Modified: 13/10/2017
 		*
 		*		Template N - A size_t value defining the maximum length of the string
 		*
@@ -21,7 +21,7 @@ namespace SDL2_Engine {
 		*		Provide basic string functionality with a fixed length
 		**/
 		template<size_t N>
-		class FString {
+		class SDL2_LIB_INC FString {
 		public:
 			//! Ensure that there is at minimum enough space for a character and null terminator
 			static_assert(N >= 1, "FString can not have a fixed length of less then 1. It requires space for at least one character");
@@ -46,7 +46,7 @@ namespace SDL2_Engine {
 
 				param[in] pChar - The single character to store in the FString
 			*/
-			FString(const char& pChar);
+			inline FString(const char& pChar);
 
 			/*
 				FString : Copy Constructor - Initialise with the values of another FString
@@ -69,7 +69,7 @@ namespace SDL2_Engine {
 
 				return FString<N> - Returns an FString object of the same length as the original
 			*/
-			FString toLower() const;
+			inline FString toLower() const;
 
 			/*
 				FString : toUpper - Get a copy of the current, converted to upper case
@@ -78,7 +78,7 @@ namespace SDL2_Engine {
 
 				return FString<N> - Returns an FString object of the same length as the original
 			*/
-			FString toUpper() const;
+			inline FString toUpper() const;
 
 			/*
 				FString : clear - Empty the string of character information
@@ -121,7 +121,7 @@ namespace SDL2_Engine {
 
 				return int - Returns the index of the start of the sequence or -1 if not found
 			*/
-			int find(const char* pSequence, const size_t& pStartIndex = 0U) const;
+			inline int find(const char* pSequence, const size_t& pStartIndex = 0U) const;
 
 			/*
 				FString : rfind - Find the starting index of the last occurrence of a character sequence
@@ -133,7 +133,7 @@ namespace SDL2_Engine {
 
 				return int - Returns the index of the start of the sequence or -1 if not found
 			*/
-			int rfind(const char* pSequence, const size_t& pStartIndex = N) const;
+			inline int rfind(const char* pSequence, const size_t& pStartIndex = N) const;
 
 			/*
 				FString : find_first_of - Find the index of the first occurrence of one of the specified characters
@@ -145,7 +145,7 @@ namespace SDL2_Engine {
 
 				return int - Returns the index of first character encountered as part of pFind
 			*/
-			int find_first_of(const char* pFind, const size_t& pStartIndex = 0) const;
+			inline int find_first_of(const char* pFind, const size_t& pStartIndex = 0) const;
 
 			/*
 				FString : find_first_not_of - Find the index of the first occurrence of not one of the specified characters
@@ -157,7 +157,7 @@ namespace SDL2_Engine {
 
 				return int - Returns the index of the first character not found in pAvoid, or -1 if not found
 			*/
-			int find_first_not_of(const char* pAvoid, const size_t& pStartIndex = 0) const;
+			inline int find_first_not_of(const char* pAvoid, const size_t& pStartIndex = 0) const;
 
 			/*
 				FString :  find_last_of - Find the index of the last occurrence of one of the specified characters
@@ -169,7 +169,7 @@ namespace SDL2_Engine {
 
 				return int - Returns the index of the first character encountered as part of pFind
 			*/
-			int find_last_of(const char* pFind, const size_t& pStartIndex = N) const;
+			inline int find_last_of(const char* pFind, const size_t& pStartIndex = N) const;
 
 			/*
 				FString : find_last_not_of - Find the index of the last occurrence of not one of the specified characters
@@ -181,7 +181,7 @@ namespace SDL2_Engine {
 
 				return int - Returns the index of the last character not found in pAvoid, or -1 if not found
 			*/
-			int find_last_not_of(const char* pAvoid, const size_t& pStartIndex = N) const;
+			inline int find_last_not_of(const char* pAvoid, const size_t& pStartIndex = N) const;
 
 			/*
 				FString : substr - Retrieve a sub section of the current FString
@@ -193,7 +193,7 @@ namespace SDL2_Engine {
 
 				return FString<N> - Returns an FString object of the same length as the original, with the requested characters
 			*/
-			FString substr(const size_t& pStart, const int& pLength = -1) const;
+			inline FString substr(const size_t& pStart, const int& pLength = -1) const;
 
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////------------------------------------Setters------------------------------------------////////
@@ -208,7 +208,7 @@ namespace SDL2_Engine {
 
 				return FString<N>& - Returns a reference to itself
 			*/
-			FString& append(const char* pString);
+			inline FString& append(const char* pString);
 
 			/*
 				FString : prepend - Prepend characters to the beginning of the current
@@ -219,7 +219,7 @@ namespace SDL2_Engine {
 
 				return FString<N>& - Returns a reference to itself
 			*/
-			FString& prepend(const char* pString);
+			inline FString& prepend(const char* pString);
 
 			/*
 				FString : replace - Replace a sequence of characters with another
@@ -231,7 +231,7 @@ namespace SDL2_Engine {
 
 				return FString<N>& - Returns a reference to itself
 			*/
-			FString& replace(const char* pFind, const char* pReplace);
+			inline FString& replace(const char* pFind, const char* pReplace);
 
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////-----------------------------------Operators-----------------------------------------////////
@@ -387,7 +387,7 @@ namespace SDL2_Engine {
 				return FString<N>& - Returns a reference to itself
 			*/
 			template<size_t C>
-			FString& operator=(const FString<C>& pRight);
+			inline FString& operator=(const FString<C>& pRight);
 
 			/*
 				FString : Assignment Operator (C-String) - Assign the current FString to the values of a C-String
@@ -398,7 +398,7 @@ namespace SDL2_Engine {
 
 				return FString<N>& - Returns a reference to itself
 			*/
-			FString& operator=(const char* pRight);
+			inline FString& operator=(const char* pRight);
 
 			/*
 				FString : Subscript Operator (Non-Const) - Provide access to the internal array
@@ -423,11 +423,11 @@ namespace SDL2_Engine {
 			inline const char& operator[](const size_t& pIndex) const { return mString[pIndex]; }
 
 		private:
-			//! Store the char array
-			char mString[N + 1];
-
 			//! Store the length of the string
 			size_t mLength;
+
+			//! Store the char array
+			char mString[N + 1];
 		};
 
 		/*
@@ -438,7 +438,7 @@ namespace SDL2_Engine {
 			param[in] pChar - The single character to store in the FString
 		*/
 		template<size_t N>
-		FString<N>::FString(const char& pChar) : mString("\0"), mLength(0) {
+		inline FString<N>::FString(const char& pChar) : mString("\0"), mLength(0) {
 			//Save the first character
 			mString[0] = pChar;
 
@@ -457,7 +457,7 @@ namespace SDL2_Engine {
 			return FString<N> - Returns an FString object of the same length as the original
 		*/
 		template<size_t N>
-		FString<N> FString<N>::toLower() const {
+		inline FString<N> FString<N>::toLower() const {
 			//Make a copy of the data
 			FString<N> temp(mString);
 
@@ -477,7 +477,7 @@ namespace SDL2_Engine {
 			return FString<N> - Returns an FString object of the same length as the original
 		*/
 		template<size_t N>
-		FString<N> FString<N>::toUpper() const {
+		inline FString<N> FString<N>::toUpper() const {
 			//Make a copy of the data
 			FString<N> temp(mString);
 
@@ -500,7 +500,7 @@ namespace SDL2_Engine {
 			return int - Returns the index of the start of the sequence or -1 if not found
 		*/
 		template<size_t N>
-		int FString<N>::find(const char* pSequence, const size_t& pStartIndex /*= 0*/) const {
+		inline int FString<N>::find(const char* pSequence, const size_t& pStartIndex /*= 0*/) const {
 			//Store the length of the character sequence
 			const int SEQ_LEN = strlen(pSequence);
 
@@ -529,7 +529,7 @@ namespace SDL2_Engine {
 			return int - Returns the index of the start of the sequence or -1 if not found
 		*/
 		template<size_t N>
-		int FString<N>::rfind(const char* pSequence, const size_t& pStartIndex /*= N*/) const {
+		inline int FString<N>::rfind(const char* pSequence, const size_t& pStartIndex /*= N*/) const {
 			//Store the length of the character sequence
 			const int SEQ_LEN = strlen(pSequence);
 
@@ -558,7 +558,7 @@ namespace SDL2_Engine {
 			return int - Returns the index of first character encountered as part of pFind
 		*/
 		template<size_t N>
-		int FString<N>::find_first_of(const char* pFind, const size_t& pStartIndex /*= 0*/) const {
+		inline int FString<N>::find_first_of(const char* pFind, const size_t& pStartIndex /*= 0*/) const {
 			//Store the length of the character sequence
 			const size_t SEQ_LEN = strlen(pFind);
 
@@ -586,7 +586,7 @@ namespace SDL2_Engine {
 			return int - Returns the index of the first character not found in pAvoid, or -1 if not found
 		*/
 		template<size_t N>
-		int FString<N>::find_first_not_of(const char* pAvoid, const size_t& pStartIndex /*= 0*/) const {
+		inline int FString<N>::find_first_not_of(const char* pAvoid, const size_t& pStartIndex /*= 0*/) const {
 			//Store the length of the character sequence
 			const size_t SEQ_LEN = strlen(pAvoid);
 
@@ -622,7 +622,7 @@ namespace SDL2_Engine {
 			return int - Returns the index of the first character encountered as part of pFind
 		*/
 		template<size_t N>
-		int FString<N>::find_last_of(const char* pFind, const size_t& pStartIndex /*= N*/) const {
+		inline int FString<N>::find_last_of(const char* pFind, const size_t& pStartIndex /*= N*/) const {
 			//Store the length of the character sequence
 			const size_t SEQ_LEN = strlen(pFind);
 
@@ -650,7 +650,7 @@ namespace SDL2_Engine {
 			return int - Returns the index of the last character not found in pAvoid, or -1 if not found
 		*/
 		template<size_t N>
-		int FString<N>::find_last_not_of(const char* pAvoid, const size_t& pStartIndex /*= N*/) const {
+		inline int FString<N>::find_last_not_of(const char* pAvoid, const size_t& pStartIndex /*= N*/) const {
 			//Store the length of the character sequence
 			const size_t SEQ_LEN = strlen(pAvoid);
 
@@ -686,7 +686,7 @@ namespace SDL2_Engine {
 			return FString<N> - Returns an FString object of the same length as the original, with the requested characters
 		*/
 		template<size_t N>
-		FString<N> FString<N>::substr(const size_t& pStart, const int& pLength) const {
+		inline FString<N> FString<N>::substr(const size_t& pStart, const int& pLength) const {
 			//Clean the length value
 			const int LENGTH = (pLength < 0 ? (int)mLength - (int)pStart : (pStart + pLength >= mLength ? (int)mLength - (int)pStart : pLength));
 
@@ -719,7 +719,7 @@ namespace SDL2_Engine {
 			return FString<N>& - Returns a reference to itself
 		*/
 		template<size_t N>
-		FString<N>& FString<N>::append(const char* pString) {
+		inline FString<N>& FString<N>::append(const char* pString) {
 			//Get the length of the sequence
 			const size_t LENGTH = strlen(pString);
 
@@ -755,7 +755,7 @@ namespace SDL2_Engine {
 			return FString<N>& - Returns a reference to itself
 		*/
 		template<size_t N>
-		FString<N>& FString<N>::prepend(const char* pString) {
+		inline FString<N>& FString<N>::prepend(const char* pString) {
 			//Get the length of the new characters
 			const size_t LENGTH = strlen(pString);
 
@@ -804,7 +804,7 @@ namespace SDL2_Engine {
 			return FString<N>& - Returns a reference to itself
 		*/
 		template<size_t N>
-		FString<N>& FString<N>::replace(const char* pFind, const char* pReplace) {
+		inline FString<N>& FString<N>::replace(const char* pFind, const char* pReplace) {
 			//Store the length of the c strings
 			const size_t FIND_LEN = strlen(pFind);
 			const size_t REPL_LEN = strlen(pReplace);
@@ -909,7 +909,7 @@ namespace SDL2_Engine {
 		*/
 		template<size_t N>
 		template<size_t C>
-		FString<N>& FString<N>::operator=(const FString<C>& pRight) {
+		inline FString<N>& FString<N>::operator=(const FString<C>& pRight) {
 			//Store the number of characters to copy
 			const size_t TO_CPY = (pRight.length() < N ? pRight.length() : N);
 

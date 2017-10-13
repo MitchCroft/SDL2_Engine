@@ -1,7 +1,8 @@
 #pragma once
 
+//! Include the SDL2_Engine objects
 #include "../__LibraryManagement.hpp"
-#include <cstdio>
+#include "LoggerValues.hpp"
 
 namespace SDL2_Engine {
 	namespace Initialisation {
@@ -9,7 +10,7 @@ namespace SDL2_Engine {
 		 *		Name: LoggerInitialiser
 		 *		Author: Mitchell Croft
 		 *		Created: 06/10/2017
-		 *		Modified: 10/10/2017
+		 *		Modified: 13/10/2017
 		 *		
 		 *		Purpose:
 		 *		Store initialisation values for the Logger object
@@ -19,12 +20,12 @@ namespace SDL2_Engine {
 			bool storeLog;
 
 			//! Store the location to output the log file to (Default "./")
-			char logLocation[FILENAME_MAX];
+			Debug::filepath logLocation;
 
 			/*
 				LoggerInitialiser : Constructor - Initialise with default values
 				Created: 06/10/2017
-				Modified: 06/10/2017
+				Modified: 12/10/2017
 			*/
 			LoggerInitialiser();
 		};

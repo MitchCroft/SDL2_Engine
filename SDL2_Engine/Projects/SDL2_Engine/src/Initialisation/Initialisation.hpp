@@ -8,6 +8,7 @@
 #include "../Rendering/RendererInitialiser.hpp"
 #include "../Audio/AudioInitialiser.hpp"
 #include "../Scenes/SceneManagerInitialiser.hpp"
+#include "../UI/CanvasInitialiser.hpp"
 
 namespace SDL2_Engine {
 	namespace Initialisation {
@@ -25,8 +26,8 @@ namespace SDL2_Engine {
 			Rendering_Initialisation_Failed,
 			Audio_Initialisation_Failed,
 			Local_Resources_Initialisation_Failed,
-			UI_Initialisation_Failed,
 			Scene_Management_Initialisation_Failed,
+			UI_Initialisation_Failed,
 		};
 
 		//! Flag the Engine systems that are to be initialised
@@ -57,7 +58,7 @@ namespace SDL2_Engine {
 		 *		Name: SDL2_Engine_Initialiser
 		 *		Author: Mitchell Croft
 		 *		Created: 06/10/2017
-		 *		Modified: 12/10/2017
+		 *		Modified: 13/10/2017
 		 *		
 		 *		Purpose:
 		 *		Store the initialisation setup parameters 
@@ -83,13 +84,16 @@ namespace SDL2_Engine {
 
 			//! Store the values used to initialise the Scene Manager object
 			SceneManagerInitialiser* sceneManagerValues = nullptr;
+
+			//! Store the values used to initialise the Canvas object
+			CanvasInitialiser canvasValues;
 		};
 
 		/*
 			SDL2_Engine_Init - Initialise the SDL2_Engine and begin operation
 			Author: Mitchell Croft
 			Created: 06/10/2017
-			Modified: 12/10/2017
+			Modified: 13/10/2017
 
 			param[in] pSetup - An SDL2_Engine_Initialiser object defining how the program should be created
 

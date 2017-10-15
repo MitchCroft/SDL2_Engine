@@ -15,6 +15,7 @@
 #include <UI/UIElements/UIPanel.hpp>
 #include <UI/UIElements/UILabel.hpp>
 #include <UI/UIElements/UIButton.hpp>
+#include <UI/UIElements/UITextbox.hpp>
 #include <Time.hpp>
 #include <Math.hpp>
 
@@ -26,6 +27,26 @@ using namespace SDL2_Engine::Input;
 using namespace SDL2_Engine::Scenes;
 using namespace SDL2_Engine::UI;
 using namespace SDL2_Engine::UI::UIElements;
+
+/*
+	outputText - Output the Text from a UITextbox object
+	Author: Mitchell Croft
+	Created: 15/10/2017
+	Modified: 15/10/2017
+
+	param[in] pObj - The UI object that triggered the action
+	param[in] pData - The data associated with the UI element for processing
+*/
+void outputUITextboxText(IUIAction* pObj, void* pData) {
+	//Cast the object to a UITextbox object
+	auto txtbox = dynamic_cast<UITextbox*>(pObj);
+
+	//If no object leave
+	if (!txtbox) return;
+
+	//Log the text contained text
+	Globals::get<Debug::Logger>().log("Textbox: ", txtbox->getText());
+}
 
 /*
 	buttonTestCallback - Test the action responses of UI buttons
@@ -42,20 +63,37 @@ void buttonTestCallback(IUIAction* pObj, void* pData) {
 	//Get the window dimensions
 	const Dimension2D& DIM = Globals::get<Window>().getWindowDimensions();
 
-	//Create the UI Button
-	auto btn = canvas.createUI<UIButton>();
+	//Come up with a random UI interactable element
+	if (rand() % 2) {
+		//Create the UI Button
+		auto UI = canvas.createUI<UIButton>();
 
-	//Set the font
-	btn->setFont(Globals::get<Resources>().loadResource<Font>("font.ttf", 24)->font);
+		//Set the font
+		UI->setFont(Globals::get<Resources>().loadResource<Font>("font.ttf", 24)->font);
 
-	//Set the text
-	btn->setText("I am the best");
+		//Set the text
+		UI->setText("I am the best");
 
-	//Set a random position
-	btn->setLocation({ rand() % DIM.x, rand() % DIM.y, 250, 50 });
+		//Set a random position
+		UI->setLocation({ rand() % DIM.x, rand() % DIM.y, 250, 50 });
 
-	//Set the action callback
-	btn->setAction(buttonTestCallback);
+		//Set the action callback
+		UI->setAction(buttonTestCallback);
+	}
+
+	else {
+		//Create the UI Textbox
+		auto UI = canvas.createUI<UITextbox>();
+
+		//Set the font
+		UI->setFont(Globals::get<Resources>().loadResource<Font>("font.ttf", 24)->font);
+
+		//Set a random position
+		UI->setLocation({ rand() % DIM.x, rand() % DIM.y, 250, 50 });
+
+		//Set the action callback
+		UI->setAction(outputUITextboxText);
+	}
 
 	//Rebuild the interaction map
 	canvas.rebuildInteractionMap();
@@ -94,7 +132,7 @@ void TestScene::destroyScene() {}
 */
 void TestScene::update() {
 	//Output Delta Time
-	Globals::get<Debug::Logger>().log("Delta Time: ", (1.f / Globals::get<Time>().getDelta()));
+	//Globals::get<Debug::Logger>().log("Delta Time: ", (1.f / Globals::get<Time>().getDelta()));
 
 	//Quit Application
 	if (Globals::get<Keyboard>().keyPressed(EKeyboardKeyCodes::Escape)) 

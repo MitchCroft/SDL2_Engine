@@ -14,6 +14,9 @@
 //! Include the required STL containers
 #include <vector>
 
+//! Include GLM vector functions
+#include <glm/ext.hpp>
+
 //! Flag the different possible movement directions
 enum { Up, Down, Left, Right, Total };
 
@@ -23,34 +26,24 @@ namespace SDL2_Engine {
 		 *		Name: InteractiveUINode
 		 *		Author: Mitchell Croft
 		 *		Created: 12/10/2017
-		 *		Modified: 13/10/2017
+		 *		Modified: 15/10/2017
 		 *		
 		 *		Purpose:
 		 *		Manage a network of UI elements that can be interacted with by the user
 		**/
 		struct InteractiveUINode {
 			//! Store a pointer to current interactive element
-			UIElements::IUIAction* element  = nullptr;
+			UIElements::IUIAction* element;
 
 			//! Store the cardinal directions 
 			InteractiveUINode* connections[Total];
-		};
 
-		/*
-		 *		Name: NodeDistance
-		 *		Author: Mitchell Croft
-		 *		Created: 13/10/2017
-		 *		Modified: 13/10/2017
-		 *		
-		 *		Purpose:
-		 *		Temporarily store distances between InteractiveUINodes
-		**/
-		struct NodeDistance {
-			//! Store the best fit Node
-			InteractiveUINode* closest = nullptr;
-
-			//! Store the closest distance
-			int distance = INT_MAX;
+			/*
+				InteractiveUINode : Constructor - Initialise with default values
+				Created: 15/10/2017
+				Modified: 15/10/2017
+			*/
+			inline InteractiveUINode() : element(nullptr) { connections[Up] = connections[Down] = connections[Left] = connections[Right] = nullptr; }
 		};
 
 		/*
@@ -79,7 +72,7 @@ namespace SDL2_Engine {
 			Initialisation::CanvasInitialiser setup;
 
 			//! Store the previous position of the mouse
-			Point prevPos;
+			glm::ivec2 prevPos;
 
 			/*
 				CanvasInternalData : Constructor - Initialise with default values
@@ -307,7 +300,7 @@ namespace SDL2_Engine {
 		/*
 			Canvas : rebuildInteractionMap - Rebuild the internal interaction map to allow for users to navigate Actionable UI elements
 			Created: 13/10/2017
-			Modified: 13/10/2017
+			Modified: 15/10/2017
 		*/
 		void Canvas::rebuildInteractionMap() {
 			//Clear the previous map
@@ -342,8 +335,10 @@ namespace SDL2_Engine {
 				//Store the location of current
 				const UIElements::UIBounds& posI = dynamic_cast<UIElements::IUIBase*>(mData->interactiveMap[i].element)->getLocation();
 
-				//Create an array of Distance values
-				NodeDistance distances[Total];
+				//Track the distances between all other UI elements
+				InteractiveUINode* nodes[Total];
+				memset(nodes, 0, sizeof(InteractiveUINode*) * Total);
+				float distances[Total]{ FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX };
 
 				//Loop through the other Nodes
 				for (size_t j = 0; j < mData->mapSize; j++) {
@@ -354,62 +349,41 @@ namespace SDL2_Engine {
 					const UIElements::UIBounds& posJ = dynamic_cast<UIElements::IUIBase*>(mData->interactiveMap[j].element)->getLocation();
 
 					//Store temporary distance values
-					int dist;
+					const glm::vec2 SEP_VEC = posJ.distance(posI);
+
+					//Get the distance
+					const float DIST = glm::length(SEP_VEC);
+
+					//Get the direction
+					const glm::vec2 DIR = glm::normalize(SEP_VEC);
 
 					//Check Up
-					if (posJ.yMax() < posI.yMax()) {
-						//Calculate the distance
-						dist = posI.yMax() - posJ.yMax();
-
-						//Check if distance is less
-						if (dist < distances[Up].distance) {
-							distances[Up].distance = dist;
-							distances[Up].closest = &mData->interactiveMap[j];
-						}
+					if (DIR.y < 0.f && DIST < distances[Up]) {
+						distances[Up] = DIST;
+						nodes[Up] = &mData->interactiveMap[j];
 					}
 
 					//Check down
-					if (posJ.y > posI.y) {
-						//Calculate the distance
-						dist = posJ.y - posI.y;
-
-						//Check if distance is less
-						if (dist < distances[Down].distance) {
-							distances[Down].distance = dist;
-							distances[Down].closest = &mData->interactiveMap[j];
-						}
+					if (DIR.y > 0.f && DIST < distances[Down]) {
+						distances[Down] = DIST;
+						nodes[Down] = &mData->interactiveMap[j];
 					}
 
 					//Check Left
-					if (posJ.xMax() < posI.xMax()) {
-						//Calculate the distance
-						dist = posI.xMax() - posJ.xMax();
-
-						//Check if distance is less
-						if (dist < distances[Left].distance) {
-							distances[Left].distance = dist;
-							distances[Left].closest = &mData->interactiveMap[j];
-						}
+					if (DIR.x < 0.f && DIST < distances[Left]) {
+						distances[Left] = DIST;
+						nodes[Left] = &mData->interactiveMap[j];
 					}
 
 					//Check right
-					if (posJ.x > posI.x) {
-						//Calculate the distance
-						dist = posJ.x - posI.x;
-
-						//Check if distance is less
-						if (dist < distances[Right].distance) {
-							distances[Right].distance = dist;
-							distances[Right].closest = &mData->interactiveMap[j];
-						}
+					if (DIR.x > 0.f && DIST < distances[Right]) {
+						distances[Right] = DIST;
+						nodes[Right] = &mData->interactiveMap[j];
 					}
 				}
 
 				//Store the results in Node Map
-				mData->interactiveMap[i].connections[Up] = distances[Up].closest;
-				mData->interactiveMap[i].connections[Down] = distances[Down].closest;
-				mData->interactiveMap[i].connections[Left] = distances[Left].closest;
-				mData->interactiveMap[i].connections[Right] = distances[Right].closest;
+				memcpy_s(mData->interactiveMap[i].connections, sizeof(InteractiveUINode*) * Total, nodes, sizeof(InteractiveUINode*) * Total);
 			}
 		}
 
@@ -535,7 +509,7 @@ namespace SDL2_Engine {
 		/*
 			Canvas : updateActionUI - Update the Actionable UI elements
 			Created: 13/10/2017
-			Modified: 13/10/2017
+			Modified: 15/10/2017
 		*/
 		void Canvas::updateActionUI() {
 			//Update all of the Actionable elements
@@ -547,10 +521,10 @@ namespace SDL2_Engine {
 				const Input::Mouse& MOUSE = Globals::get<Input::Mouse>();
 
 				//Get the new mouse position
-				Point newPos = MOUSE.getPos();
+				glm::ivec2 newPos = MOUSE.getPos();
 
 				//Check if the position has changed
-				if (memcmp(&newPos, &mData->prevPos, sizeof(Point))) {
+				if (newPos != mData->prevPos) {
 					//Reset the selected item index
 					mData->selectedAction = -1;
 

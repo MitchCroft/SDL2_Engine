@@ -5,16 +5,16 @@
 #include "../../Resources/Resources.hpp"
 #include "MouseValues.hpp"
 
-namespace SDL2_Engine {
-	//! Define a simple Point structure
-	struct Point { int x, y; };
+//! Include Vector objects
+#include <glm/vec2.hpp>
 
+namespace SDL2_Engine {
 	namespace Input {
 		/*
 		 *		Name: Mouse
 		 *		Author: Mitchell Croft
 		 *		Created: 06/10/2017
-		 *		Modified: 12/10/2017
+		 *		Modified: 15/10/2017
 		 *		
 		 *		Purpose:
 		 *		Handle changes in mouse movement and presses
@@ -52,11 +52,11 @@ namespace SDL2_Engine {
 			/*
 				Mouse : getPos - Get the position of the Mouse, relative to the Window
 				Created: 12/10/2017
-				Modified: 12/10/2017
+				Modified: 15/10/2017
 
-				return Point - Return the X and Y position values as a Point object
+				return glm::ivec2 - Return the X and Y position values as a Vector2 object
 			*/
-			Point getPos() const;
+			glm::ivec2 getPos() const;
 
 			/*
 				Mouse : getPos - Get a specific Mouse axis position, relative to the Window
@@ -72,11 +72,11 @@ namespace SDL2_Engine {
 			/*
 				Mouse : getDelta - Get the delta position of the Mouse
 				Created: 12/10/2017
-				Modified: 12/10/2017
+				Modified: 15/10/2017
 
-				return Point - Returns the X and Y delta position values as a Point object
+				return glm::ivec2 - Returns the X and Y delta position values as a Vector2 object
 			*/
-			Point getDelta() const;
+			glm::ivec2 getDelta() const;
 
 			/*
 				Mouse : getDelta - Get a specific Mouse axis' delta position

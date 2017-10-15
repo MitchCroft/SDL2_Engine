@@ -3,6 +3,9 @@
 //! Include SDL2_Engine objects
 #include "../../../__LibraryManagement.hpp"
 
+//! Include Vector objects
+#include <glm/vec2.hpp>
+
 namespace SDL2_Engine {
 	namespace UI {
 		namespace UIElements {
@@ -10,7 +13,7 @@ namespace SDL2_Engine {
 			 *		Name: UIBounds
 			 *		Author: Mitchell Croft
 			 *		Created: 13/10/2017
-			 *		Modified: 13/10/2017
+			 *		Modified: 15/10/2017
 			 *		
 			 *		Purpose:
 			 *		Store screen space coordinate values representing positional information
@@ -52,6 +55,28 @@ namespace SDL2_Engine {
 					return bool - Returns true if the point is within the bounds
 				*/
 				inline bool contains(const int& pX, const int& pY) const { return (pX >= x && pX <= xMax() && pY >= y && pY <= yMax()); }
+
+				/*
+					UIBounds : intersects - Determines if the current UIBounds intersects another
+					Created: 15/10/2017
+					Modified: 15/10/2017
+
+					param[in] pOther - The other UIBounds object to test against
+
+					return bool - Returns true if either UIBounds object intersects or contains the other
+				*/
+				inline bool intersects(const UIBounds& pOther) const { return !(xMax() < pOther.x || yMax() < pOther.y || pOther.xMax() < x || pOther.yMax() < y); }
+
+				/*
+					UIBounds : distance - Determines the distance between two UIBounds objects
+					Created: 15/10/2017
+					Modified: 15/10/2017
+
+					param[in] pOther - The other UIBounds object to calculate the distance between
+
+					return glm::ivec2 - Returns the distance difference along the X and Y axis
+				*/
+				inline glm::ivec2 distance(const UIBounds& pOther) const { return{ (x + w / 2) - (pOther.x + pOther.w / 2), (y + h / 2) - (pOther.y + pOther.h / 2) }; }
 
 				/////////////////////////////////////////////////////////////////////////////////////////////////////
 				////////---------------------------------------Construction----------------------------------////////

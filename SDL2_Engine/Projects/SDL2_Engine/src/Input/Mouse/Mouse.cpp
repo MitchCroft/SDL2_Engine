@@ -88,11 +88,11 @@ namespace SDL2_Engine {
 		/*
 			Mouse : getPos - Get the position of the Mouse, relative to the Window
 			Created: 12/10/2017
-			Modified: 12/10/2017
+			Modified: 15/10/2017
 
-			return Point - Return the X and Y position values as a Point object
+			return glm::ivec2 - Return the X and Y position values as a Vector2 object
 		*/
-		Point Mouse::getPos() const { return{ mData->mousePoints[STATE_CUR][AXIS_X] , mData->mousePoints[STATE_CUR][AXIS_Y] }; }
+		glm::ivec2 Mouse::getPos() const { return{ mData->mousePoints[STATE_CUR][AXIS_X] , mData->mousePoints[STATE_CUR][AXIS_Y] }; }
 
 		/*
 			Mouse : getPos - Get a specific Mouse axis position, relative to the Window
@@ -108,11 +108,11 @@ namespace SDL2_Engine {
 		/*
 			Mouse : getDelta - Get the delta position of the Mouse
 			Created: 12/10/2017
-			Modified: 12/10/2017
+			Modified: 15/10/2017
 
-			return Point - Returns the X and Y delta position values as a Point object
+			return glm::ivec2 - Returns the X and Y delta position values as a Vector2 object
 		*/
-		Point Mouse::getDelta() const {
+		glm::ivec2 Mouse::getDelta() const {
 			return{
 				(mData->mousePoints[STATE_PRE][AXIS_X] - mData->mousePoints[STATE_CUR][AXIS_X]),
 				(mData->mousePoints[STATE_PRE][AXIS_Y] - mData->mousePoints[STATE_CUR][AXIS_Y])

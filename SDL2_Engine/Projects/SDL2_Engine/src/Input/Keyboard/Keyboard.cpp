@@ -46,7 +46,7 @@ namespace SDL2_Engine {
 		/*
 			Keyboard : verifyKeyboardInput - Verify the key value that is being tested for appending to the passed in string
 			Created: 20/07/2017
-			Modified: 06/10/2017
+			Modified: 15/10/2017
 
 			param[in/out] pString - A reference to the standard string object to fill
 			param[in] pKey - The virtual key that is being tested for inclusion
@@ -57,11 +57,11 @@ namespace SDL2_Engine {
 		*/
 		bool Keyboard::verifyKeyboardInput(std::string& pString, const EKeyboardKeyCodes& pKey, const int& pMaxLength, const Utilities::Bitmask<EKeyboardInputFlags>& pFlags) const {
 			//Check if the string has reached capacity
-			if (pMaxLength >= 0 && pString.size() >= (unsigned int)pMaxLength && pKey != EKeyboardKeyCodes::Backspace)
+			if (pMaxLength >= 0 && pString.length() >= (unsigned int)pMaxLength && pKey != EKeyboardKeyCodes::Backspace)
 				return false;
 
 			//Store the size of the string prior to modification
-			const size_t STRING_SIZE = pString.size();
+			const size_t STRING_SIZE = pString.length();
 
 			//Check if the key is a backspace
 			if (pKey == EKeyboardKeyCodes::Backspace) {
@@ -82,15 +82,16 @@ namespace SDL2_Engine {
 					0);
 
 				//Check the flags to validate the character
-				if ((isalpha(buffer) && pFlags & EKeyboardInputFlags::Alphabetical) ||
+				if (isprint(buffer) &&
+					((isalpha(buffer) && pFlags & EKeyboardInputFlags::Alphabetical) ||
 					(isdigit(buffer) && pFlags & EKeyboardInputFlags::Numerical) ||
-					(buffer == VK_SPACE && pFlags & EKeyboardInputFlags::Space) ||
-					pFlags & EKeyboardInputFlags::Special)
+						(buffer == VK_SPACE && pFlags & EKeyboardInputFlags::Space) ||
+					pFlags & EKeyboardInputFlags::Special))
 					pString += (char)buffer;
 			}
 
 			//Return if string length is different
-			return (pString.size() != STRING_SIZE);
+			return (pString.length() != STRING_SIZE);
 		}
 
 		/*
@@ -210,7 +211,7 @@ namespace SDL2_Engine {
 		/*
 			Keyboard : modifyStringByKeyboard - Add characters to a standard wide string object based on the keys pressed
 			Created: 20/07/2017
-			Modified: 06/10/2017
+			Modified: 15/10/2017
 
 			param[in/out] pString - A reference to the string object to me modified
 			param[in] pMaxLength - The maximum length that the string can be

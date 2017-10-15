@@ -45,9 +45,7 @@ int main() {
 	horizKey.sensitivity = 1.f;
 	horizKey.gravity = 10.f;
 	horizKey.kPosBtn = EKeyboardKeyCodes::Arrow_Right;
-	horizKey.kAltPosBtn = EKeyboardKeyCodes::D;
 	horizKey.kNegBtn = EKeyboardKeyCodes::Arrow_Left;
-	horizKey.kAltNegBtn = EKeyboardKeyCodes::A;
 	virtualAxis.push_back(horizKey);
 
 	//Vertical
@@ -68,9 +66,7 @@ int main() {
 	vertKey.sensitivity = 1.f;
 	vertKey.gravity = 10.f;
 	vertKey.kPosBtn = EKeyboardKeyCodes::Arrow_Up;
-	vertKey.kAltPosBtn = EKeyboardKeyCodes::W;
 	vertKey.kNegBtn = EKeyboardKeyCodes::Arrow_Down;
-	vertKey.kAltNegBtn = EKeyboardKeyCodes::S;
 	virtualAxis.push_back(vertKey);
 
 	//Confirm

@@ -17,7 +17,7 @@ namespace SDL2_Engine {
 		 *		Name: Canvas
 		 *		Author: Mitchell Croft
 		 *		Created: 11/10/2017
-		 *		Modified: 14/10/2017
+		 *		Modified: 15/10/2017
 		 *		
 		 *		Purpose:
 		 *		Provide a uniform interface for managing the navigation, operation and displaying 
@@ -169,7 +169,7 @@ namespace SDL2_Engine {
 			/*
 				Canvas : rebuildInteractionMap - Rebuild the internal interaction map to allow for users to navigate Actionable UI elements
 				Created: 13/10/2017
-				Modified: 13/10/2017
+				Modified: 15/10/2017
 			*/
 			void rebuildInteractionMap();
 

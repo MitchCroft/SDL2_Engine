@@ -207,6 +207,9 @@
     <ClInclude Include="src\Audio\AudioValues.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\UI\UIElements\UITextbox.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Utilities\DebugCallback.cpp">
@@ -315,6 +318,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Audio\AudioInitialiser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\UIElements\UITextbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

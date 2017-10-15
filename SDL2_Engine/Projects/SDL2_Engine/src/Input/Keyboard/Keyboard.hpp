@@ -6,7 +6,7 @@
 #include "../../Utilities/Bitmask.hpp"
 #include "KeyboardValues.hpp"
 
-//! Include the wstring object
+//! Include the string object
 #include <string>
 
 namespace SDL2_Engine {
@@ -15,7 +15,7 @@ namespace SDL2_Engine {
 		 *		Name: Keyboard
 		 *		Author: Mitchell Croft
 		 *		Created: 19/07/2017
-		 *		Modified: 11/10/2017
+		 *		Modified: 15/10/2017
 		 *
 		 *		Purpose:
 		 *		Handle changes in keyboard input used for the modification of
@@ -78,7 +78,7 @@ namespace SDL2_Engine {
 			/*
 				Keyboard : modifyStringByKeyboard - Add characters to a standard wide string object based on the keys pressed
 				Created: 20/07/2017
-				Modified: 06/10/2017
+				Modified: 15/10/2017
 
 				param[in/out] pString - A reference to the string object to me modified
 				param[in] pMaxLength - The maximum length that the string can be 

@@ -8,7 +8,7 @@
  *		Name: TestScene
  *		Author: Mitchell Croft
  *		Created: 11/10/2017
- *		Modified: 11/10/2017
+ *		Modified: 14/10/2017
  *		
  *		Purpose:
  *		Test the SDL2_Engine functionality
@@ -47,6 +47,7 @@ public:
 
 private:
 
-	//! Store a simple texture
+	//! Store example resources
 	SDL2_Engine::LocalResource<SDL2_Engine::Texture> mTexture;
+	SDL2_Engine::LocalResource<SDL2_Engine::Font> mFont;
 };

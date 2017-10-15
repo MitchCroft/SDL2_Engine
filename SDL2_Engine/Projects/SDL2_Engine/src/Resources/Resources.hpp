@@ -49,7 +49,7 @@ namespace SDL2_Engine {
 		template<typename T, typename ... TArgs>
 		LocalResource<typename std::enable_if<!std::is_same<Texture, T>::value, T>::type> loadResource(TArgs ... pArgs) {
 			//Ensure load type is valid
-			static_assert(std::is_base_of<ResourceTypes::__LocalResourceBase, ResourceTypes::__LocalResource<T>>::value, "Can not load a Local Resource that is of an undefined type");
+			static_assert(std::is_base_of<ResourceTypes::ILocalResourceBase, ResourceTypes::__LocalResource<T>>::value, "Can not load a Local Resource that is of an undefined type");
 
 			//Generate the ID key for the resource
 			const size_t ID = hashData(Utilities::typeToID<T>, pArgs...);

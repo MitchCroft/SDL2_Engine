@@ -5,6 +5,9 @@
 #include <Input/VirtualAxis.hpp>
 #include "TestScene.hpp"
 
+#include <vector>
+using std::vector;
+
 using namespace SDL2_Engine::Initialisation;
 using namespace SDL2_Engine::Input;
 
@@ -22,41 +25,75 @@ int main() {
 	setup.sceneManagerValues = &sceneSetup;
 
 	//Setup the Input Manager Initialiser
-	VirtualAxis def[4];
+	vector<VirtualAxis> virtualAxis;
 
-	def[0].inputType = EInputDevice::GamePads;
-	def[0].name = "test";
-	def[0].sensitivity = 1;
-	def[0].gravity = 1;
-	def[0].gamePads = EGamePadID::One;
-	def[0].gamePadInputType = EGamePadInputType::Button;
-	def[0].bPosBtn = EGamePadBtnCodes::A;
-	def[0].bNegBtn = EGamePadBtnCodes::B;
+	//Horizontal
+	VirtualAxis horizPad;
+	horizPad.inputType = EInputDevice::GamePads;
+	horizPad.name = "horizontal";
+	horizPad.sensitivity = 1.f;
+	horizPad.gravity = 10.f;
+	horizPad.gamePads = EGamePadID::One;
+	horizPad.gamePadInputType = EGamePadInputType::Axis;
+	horizPad.aAxis = EGamePadAxisCodes::Left_X;
+	horizPad.aDeadZone = 0.1f;
+	virtualAxis.push_back(horizPad);
 
-	def[1].inputType = EInputDevice::GamePads;
-	def[1].name = "test";
-	def[1].sensitivity = 1;
-	def[1].gravity = 1;
-	def[1].gamePads = EGamePadID::One;
-	def[1].gamePadInputType = EGamePadInputType::Axis;
-	def[1].aAxis = EGamePadAxisCodes::Right_X;
-	def[1].aDeadZone = 0.1f;
+	VirtualAxis horizKey;
+	horizKey.inputType = EInputDevice::Keyboard;
+	horizKey.name = "horizontal";
+	horizKey.sensitivity = 1.f;
+	horizKey.gravity = 10.f;
+	horizKey.kPosBtn = EKeyboardKeyCodes::Arrow_Right;
+	horizKey.kAltPosBtn = EKeyboardKeyCodes::D;
+	horizKey.kNegBtn = EKeyboardKeyCodes::Arrow_Left;
+	horizKey.kAltNegBtn = EKeyboardKeyCodes::A;
+	virtualAxis.push_back(horizKey);
 
-	def[2].inputType = EInputDevice::Keyboard;
-	def[2].name = "test";
-	def[2].sensitivity = 1;
-	def[2].gravity = 1;
-	def[2].kPosBtn = EKeyboardKeyCodes::Arrow_Up;
-	def[2].kNegBtn = EKeyboardKeyCodes::Arrow_Down;
+	//Vertical
+	VirtualAxis vertPad;
+	vertPad.inputType = EInputDevice::GamePads;
+	vertPad.name = "vertical";
+	vertPad.sensitivity = 1.f;
+	vertPad.gravity = 10.f;
+	vertPad.gamePads = EGamePadID::One;
+	vertPad.gamePadInputType = EGamePadInputType::Axis;
+	vertPad.aAxis = EGamePadAxisCodes::Left_Y;
+	vertPad.aDeadZone = 0.1f;
+	virtualAxis.push_back(vertPad);
 
-	def[3].inputType = EInputDevice::Mouse;
-	def[3].name = "test";
-	def[3].sensitivity = 1;
-	def[3].gravity = 1;
-	def[3].mAxis = EMouseAxis::X;
+	VirtualAxis vertKey;
+	vertKey.inputType = EInputDevice::Keyboard;
+	vertKey.name = "vertical";
+	vertKey.sensitivity = 1.f;
+	vertKey.gravity = 10.f;
+	vertKey.kPosBtn = EKeyboardKeyCodes::Arrow_Up;
+	vertKey.kAltPosBtn = EKeyboardKeyCodes::W;
+	vertKey.kNegBtn = EKeyboardKeyCodes::Arrow_Down;
+	vertKey.kAltNegBtn = EKeyboardKeyCodes::S;
+	virtualAxis.push_back(vertKey);
 
-	setup.inputValues.defaultAxis = def;
-	setup.inputValues.count = 4;
+	//Confirm
+	VirtualAxis confPad;
+	confPad.inputType = EInputDevice::GamePads;
+	confPad.name = "confirm";
+	confPad.sensitivity = 1.f;
+	confPad.gravity = 10.f;
+	confPad.gamePads = EGamePadID::One;
+	confPad.gamePadInputType = EGamePadInputType::Button;
+	confPad.bPosBtn = EGamePadBtnCodes::A;
+	virtualAxis.push_back(confPad);
+
+	VirtualAxis confKey;
+	confKey.inputType = EInputDevice::Keyboard;
+	confKey.name = "confirm";
+	confKey.sensitivity = 1.f;
+	confKey.gravity = 10.f;
+	confKey.kAltPosBtn = EKeyboardKeyCodes::Space;
+	virtualAxis.push_back(confKey);
+
+	setup.inputValues.defaultAxis = virtualAxis.data();
+	setup.inputValues.count = virtualAxis.size();
 
 	//Initialise the SDL2_Engine
 	auto errorNum = SDL2_Engine_Init(setup);

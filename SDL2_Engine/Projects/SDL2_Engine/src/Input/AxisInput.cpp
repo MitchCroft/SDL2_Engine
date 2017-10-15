@@ -267,6 +267,9 @@ namespace SDL2_Engine {
 							//Get the axis strength value
 							const float AXIS_VALUE = controllers.rawAxis(axis.aAxis, axis.gamePads.getValue());
 
+							//Check if there is enough input to get out of the dead zone
+							if (AXIS_VALUE <= axis.aDeadZone) break;
+
 							//Store the sign of the axis value
 							const float SIGN = math.sign(AXIS_VALUE);
 

@@ -40,7 +40,7 @@ namespace SDL2_Engine {
 			size_t prog = 0;
 			while (true) {
 				//Grab the next std::string section
-				std::string sub = pParent.substr(prog, (index = pParent.find_first_of("/\\", index + 1)) + 1 - prog);
+				std::string sub = pParent.substr(prog, (index = (int)pParent.find_first_of("/\\", index + 1)) + 1 - prog);
 
 				//Check there was text extracted
 				if (index == pParent.npos) break;
@@ -64,7 +64,7 @@ namespace SDL2_Engine {
 			prog = 0;
 			while (true) {
 				//Grab the next std::string section
-				std::string sub = pRelative.substr(prog, (index = pRelative.find_first_of("/\\", index + 1)) + 1 - prog);
+				std::string sub = pRelative.substr(prog, (index = (int)pRelative.find_first_of("/\\", index + 1)) + 1 - prog);
 
 				//Check if its the current directory shorthand
 				if (sub == "./" || sub == ".\\") continue;

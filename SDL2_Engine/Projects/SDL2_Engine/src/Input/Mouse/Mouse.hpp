@@ -2,22 +2,10 @@
 
 //! Include the SDL2_Engine objects
 #include "../../Utilities/IGlobal.hpp"
+#include "../../Resources/Resources.hpp"
 #include "MouseValues.hpp"
 
-//! Include required STL objects
-#include <memory>
-
 namespace SDL2_Engine {
-	//! Prototype the Cursor identifying struct
-	struct Cursor;
-
-	//! Prototype the LocalResource 
-	namespace ResourceTypes { template<typename T> class __LocalResource; }
-
-	//! Define the alias for the Local Resources
-	template<typename T>
-	using LocalResource = std::shared_ptr<ResourceTypes::__LocalResource<T>>;
-
 	//! Define a simple Point structure
 	struct Point { int x, y; };
 

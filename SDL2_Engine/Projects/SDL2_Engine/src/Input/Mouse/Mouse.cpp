@@ -209,7 +209,7 @@ namespace SDL2_Engine {
 			int btnMask = SDL_GetMouseState(&mData->mousePoints[STATE_CUR][AXIS_X], &mData->mousePoints[STATE_CUR][AXIS_Y]);
 
 			//Update the current key states
-			for (size_t i = 1; i < BTN_TOTAL; i++) 
+			for (size_t i = 0; i < BTN_TOTAL; i++) 
 				mData->mouseStates[STATE_CUR][i] = (btnMask & (1 << i) ? true : false);
 
 			//Check if there is a cursor assigned

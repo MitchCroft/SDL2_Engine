@@ -66,7 +66,7 @@ namespace SDL2_Engine {
 					Created: 13/10/2017
 					Modified: 13/10/2017
 
-					return const Colour& - returns a constant reference to the internal Colour object
+					return const Colour& - Returns a constant reference to the internal Colour object
 				*/
 				inline const Rendering::Colour& getBorderColour() const { return mBorderColour; }
 

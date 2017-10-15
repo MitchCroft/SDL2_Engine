@@ -57,15 +57,12 @@ namespace SDL2_Engine {
 		 *		Name: CanvasInternalData
 		 *		Author: Mitchell Croft
 		 *		Created: 12/10/2017
-		 *		Modified: 13/10/2017
+		 *		Modified: 14/10/2017
 		 *		
 		 *		Purpose:
 		 *		Store internal Canvas data values
 		**/
 		struct Canvas::CanvasInternalData {
-			//! Store a vector of the UI elements to introduce to the Canvas next cycle
-			std::vector<UIElements::IUIBase*> toAdd;
-
 			//! Store all of the UI elements on the Canvas
 			std::vector<UIElements::IUIBase*> uiElements;
 
@@ -129,7 +126,7 @@ namespace SDL2_Engine {
 			for (size_t i = 0; i < mData->mapSize; i++) {
 				//Check for pointer match
 				if (mData->interactiveMap[i].element == pObj) {
-					mData->selectedAction = i;
+					mData->selectedAction = (int)i;
 					return true;
 				}
 			}
@@ -158,7 +155,7 @@ namespace SDL2_Engine {
 
 				//Check the tag
 				if (buffer->getTag() == pTag) {
-					mData->selectedAction = i;
+					mData->selectedAction = (int)i;
 					return true;
 				}
 			}
@@ -343,7 +340,7 @@ namespace SDL2_Engine {
 			//Setup the connections between the Nodes
 			for (size_t i = 0; i < mData->mapSize; i++) {
 				//Store the location of current
-				const UIElements::UIBounds& posI = ((UIElements::IUIBase*)mData->interactiveMap[i].element)->getLocation();
+				const UIElements::UIBounds& posI = dynamic_cast<UIElements::IUIBase*>(mData->interactiveMap[i].element)->getLocation();
 
 				//Create an array of Distance values
 				NodeDistance distances[Total];
@@ -354,7 +351,7 @@ namespace SDL2_Engine {
 					if (i == j) continue;
 
 					//Get the position of this other
-					const UIElements::UIBounds& posJ = ((UIElements::IUIBase*)mData->interactiveMap[j].element)->getLocation();
+					const UIElements::UIBounds& posJ = dynamic_cast<UIElements::IUIBase*>(mData->interactiveMap[j].element)->getLocation();
 
 					//Store temporary distance values
 					int dist;
@@ -460,10 +457,6 @@ namespace SDL2_Engine {
 				destroyInteractiveMap();
 
 				//Destroy the stored UI elements
-				for (int i = (int)mData->toAdd.size() - 1; i >= 0; --i) {
-					mData->toAdd[i]->destroyUI();
-					delete mData->toAdd[i];
-				}
 				for (int i = (int)mData->uiElements.size() - 1; i >= 0; --i) {
 					mData->uiElements[i]->destroyUI();
 					delete mData->uiElements[i];
@@ -500,15 +493,6 @@ namespace SDL2_Engine {
 				}
 			}
 
-			//Check if there are new UI elements to add to the active list
-			if (mData->toAdd.size()) {
-				//Insert the elements into the active list
-				mData->uiElements.insert(mData->uiElements.end(), mData->toAdd.begin(), mData->toAdd.end());
-
-				//Clear the waiting list
-				mData->toAdd.clear();
-			}
-
 			//Update the Actionable items
 			updateActionUI();
 			
@@ -542,7 +526,7 @@ namespace SDL2_Engine {
 			}
 
 			//Add the element to the internal list
-			mData->toAdd.push_back(pNew);
+			mData->uiElements.push_back(pNew);
 
 			//Return the successful object
 			return pNew;
@@ -574,12 +558,12 @@ namespace SDL2_Engine {
 					UIElements::IUIBase* buffer = nullptr;
 					for (size_t i = 0; i < mData->mapSize; i++) {
 						//Get the element
-						buffer = (UIElements::IUIBase*)mData->interactiveMap[i].element;
+						buffer = dynamic_cast<UIElements::IUIBase*>(mData->interactiveMap[i].element);
 
 						//Check if contains mouse
 						if (buffer->getLocation().contains(newPos.x, newPos.y)) {
 							//Set the selected item index
-							mData->selectedAction = i;
+							mData->selectedAction = (int)i;
 
 							//Break the search
 							break;
@@ -610,10 +594,10 @@ namespace SDL2_Engine {
 							else dir = (vertical < 0 ? Down : Up);
 
 							//Get the next selected object
-							UIElements::IUIAction* next = mData->interactiveMap[mData->selectedAction].connections[dir]->element;
+							auto next = mData->interactiveMap[mData->selectedAction].connections[dir];
 
 							//Set the new activated object
-							if (next) setActionObject(next);
+							if (next) setActionObject(next->element);
 						}
 					}
 				}
@@ -635,7 +619,7 @@ namespace SDL2_Engine {
 					//Check if the mouse should be considered
 					if (!takeAction && MOUSE.buttonPressed(Input::EMouseButton::Left)) {
 						//Get the selected object
-						UIElements::IUIBase* buffer = (UIElements::IUIBase*)mData->interactiveMap[mData->selectedAction].element;
+						UIElements::IUIBase* buffer = dynamic_cast<UIElements::IUIBase*>(mData->interactiveMap[mData->selectedAction].element);
 
 						//Take action if clicked while in UI bounds
 						takeAction = buffer->getLocation().contains(newPos.x, newPos.y);

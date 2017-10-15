@@ -165,7 +165,7 @@ namespace SDL2_Engine {
 		const Initialisation::WindowInitialiser* setup = mData->setup;
 
 		//Create the SDL Window
-		mData->window = SDL_CreateWindow(setup->title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, setup->width, setup->height, setup->properties.getMask());
+		mData->window = SDL_CreateWindow(setup->title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, (int)setup->width, (int)setup->height, setup->properties.getMask());
 
 		//Check the window loaded correctly
 		if (!mData->window) {

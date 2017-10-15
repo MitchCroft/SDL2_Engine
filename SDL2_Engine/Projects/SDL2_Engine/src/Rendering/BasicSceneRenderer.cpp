@@ -163,7 +163,8 @@ namespace SDL2_Engine {
 			//Position the text
 			switch (pAlignment) {
 			case ETextAlignment::Center:
-				pos.x += pos.w / 2;
+				pos.x -= pos.w / 2;
+				pos.y -= pos.h / 2;
 				break;
 			case ETextAlignment::Right:
 				pos.x += pos.w;

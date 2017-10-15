@@ -567,7 +567,7 @@ namespace SDL2_Engine {
 				//Compare character sequence
 				for (size_t j = 0; j < SEQ_LEN; j++) {
 					if (mString[i] == pFind[j])
-						return i;
+						return (int)i;
 				}
 			}
 
@@ -631,7 +631,7 @@ namespace SDL2_Engine {
 				//Compare character sequence
 				for (size_t j = 0; j < SEQ_LEN; j++) {
 					if (mString[i] == pFind[j])
-						return i;
+						return (int)i;
 				}
 			}
 

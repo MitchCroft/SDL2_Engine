@@ -20,7 +20,7 @@ namespace SDL2_Engine {
 			 *		Name: IUIAction
 			 *		Author: Mitchell Croft
 			 *		Created: 11/10/2017
-			 *		Modified: 11/10/2017
+			 *		Modified: 14/10/2017
 			 *		
 			 *		Purpose:
 			 *		Provide an interface for UI elements that can perform an action in response to
@@ -84,15 +84,23 @@ namespace SDL2_Engine {
 				*/
 				inline IUIAction() : mActionCallback(nullptr), mActionData(nullptr), mState(EActionState::Default) {}
 
+				/*
+					IUIAction : DEstructor - Allow for the deallocation of memory
+					Created: 14/10/2017
+					Modified: 14/10/2017
+				*/
+				virtual ~IUIAction() {}
+
+			protected:
+				//! Store the current state of the Object
+				EActionState mState;
+
 			private:
 				//! Store a UIAction object
 				UIAction mActionCallback;
 
 				//! Store the data pointer to pass to the action
 				void* mActionData;
-
-				//! Store the current state of the Object
-				EActionState mState;
 			};
 		}
 	}

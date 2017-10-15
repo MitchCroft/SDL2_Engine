@@ -84,7 +84,7 @@ namespace SDL2_Engine {
 		if (channel == -1) return -1;
 
 		//Play the sound effect
-		if ((channel = Mix_FadeInChannelTimed(channel, pSFX, pLoops, pFadeTime, pRunTime)) == -1)
+		if ((channel = Mix_FadeInChannelTimed(channel, pSFX, (int)pLoops, (int)pFadeTime, (int)pRunTime)) == -1)
 			Globals::get<Debug::Logger>().logError("Audio failed to play the sound effect during a call to playSFX(...). Error: %s", SDL_GetError());
 
 		//Set the volume of the sound
@@ -127,7 +127,7 @@ namespace SDL2_Engine {
 		param[in] pChannel - The channel to stop, or -1 to stop all
 		param[in] pDelay - The time in milliseconds to wait before stopping the channels (Default 0)
 	*/
-	void Audio::stopSFX(const int& pChannel, const size_t& pDelay /*= 0*/) { Mix_ExpireChannel(pChannel, pDelay); }
+	void Audio::stopSFX(const int& pChannel, const size_t& pDelay /*= 0*/) { Mix_ExpireChannel(pChannel, (int)pDelay); }
 
 	/*
 		Audio : fadeOutSFX - Fade out a playing sound effect
@@ -137,7 +137,7 @@ namespace SDL2_Engine {
 		param[in] pChannel - The channel to fade out, or -1 to stop all
 		param[in] pFadeTime - The time in milliseconds to fade out the channels over
 	*/
-	void Audio::fadeOutSFX(const int& pChannel, const size_t& pFadeTime) { Mix_FadeOutChannel(pChannel, pFadeTime); }
+	void Audio::fadeOutSFX(const int& pChannel, const size_t& pFadeTime) { Mix_FadeOutChannel(pChannel, (int)pFadeTime); }
 
 	/*
 		Audio : reserveChannel - Retrieve a channel that will be reserved, and not used for random sound effects
@@ -278,7 +278,7 @@ namespace SDL2_Engine {
 		param[in] pFadeTime - Optional time in milliseconds to fade out the music over (Default 0)
 	*/
 	void Audio::stopMusic(const size_t& pFadeTime /*= 0*/) {
-		if (!Mix_FadeOutMusic(pFadeTime))
+		if (!Mix_FadeOutMusic((int)pFadeTime))
 			Globals::get<Debug::Logger>().logError("Audio failed to stop music over %i milliseconds. Error: %s", pFadeTime, SDL_GetError());
 	}
 
@@ -340,7 +340,7 @@ namespace SDL2_Engine {
 		}
 
 		//Open the Audio device
-		if (Mix_OpenAudio(setup->frequency, (unsigned short)setup->format, setup->outputChannels, setup->audioBufferSize)) {
+		if (Mix_OpenAudio((int)setup->frequency, (unsigned short)setup->format, (int)setup->outputChannels, (int)setup->audioBufferSize)) {
 			//Output the error
 			Globals::get<Debug::Logger>().logError("Audio failed to open the Mixer Audio device. Error: %s", SDL_GetError());
 			return false;
@@ -351,7 +351,7 @@ namespace SDL2_Engine {
 		mData->maximumSFXChannels = (setup->maximumSFXChannels >= 0 ?  math.largest((int)setup->initialSFXChannels, setup->maximumSFXChannels) : -1);
 
 		//Allocate the initial SFX channels
-		mData->SFXChannels = Mix_AllocateChannels(setup->initialSFXChannels);
+		mData->SFXChannels = Mix_AllocateChannels((int)setup->initialSFXChannels);
 
 		//Allocate the initial vector flags
 		mData->channelStatus.resize(mData->SFXChannels);
@@ -399,7 +399,7 @@ namespace SDL2_Engine {
 			return false;
 
 		//Allocate a new channel
-		mData->SFXChannels = Mix_AllocateChannels(mData->SFXChannels + 1);
+		mData->SFXChannels = Mix_AllocateChannels((int)mData->SFXChannels + 1);
 
 		//Resize the status vector
 		mData->channelStatus.resize(mData->SFXChannels);

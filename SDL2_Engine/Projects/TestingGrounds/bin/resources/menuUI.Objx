@@ -1,0 +1,93 @@
+icon = {
+	type = "panel"
+
+	x = 615
+	y = 30
+	width = 50
+	height = 50
+
+	image = "./face.png"
+}
+
+title = {
+	type = "label"
+
+	x = 640
+	y = 200
+
+	text = "Text Logger"
+
+	font = "./font.ttf"
+	fontSize = 36
+
+	colour = "33FFA7FF"
+
+	alignment = "center"
+
+	renderType = "blended"
+}
+
+userInput = {
+	type = "textbox"
+
+	x = 440
+	y = 300
+	width = 400
+	height = 50
+
+	font = "./font.ttf"
+	fontSize = 16
+
+	maxLength = 32
+	inputFlags = "all"
+
+	textColours = [
+		"FFFFFF9A",
+		"AAAAA8FF",
+		"545454FF"
+	]
+
+	fillColours = [
+		"CDCDCD9A",
+		"B6FF33FF",
+		"FFF533FF"
+	]
+
+	borderColours = [
+		"00000000",
+		"FF0000FF",
+		"00FF00FF"
+	]
+}
+
+submission = {
+	type = "button"
+
+	x = 540
+	y = 400
+	width = 200
+	height = 50
+
+	text = "Submit Text"
+
+	font = "./font.ttf"
+	fontSize = 16
+
+	textColours = [
+		"FFFFFF9A",
+		"2099E99A",
+		"0774BDFF"
+	]
+
+	fillColours = [
+		"CDCDCD9A",
+		"9D55D1FF",
+		"E916E9FF"
+	]
+
+	borderColours = [
+		"00000000",
+		"C64745FF",
+		"FA0703FF"
+	]
+}

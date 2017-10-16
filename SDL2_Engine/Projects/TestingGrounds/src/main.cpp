@@ -5,11 +5,37 @@
 #include <Input/VirtualAxis.hpp>
 #include "TestScene.hpp"
 
+#include <Globals.hpp>
+#include <Debug/Logger.hpp>
+#include <UI/Canvas.hpp>
+
+#include <UI/UIElements/Interfaces/IUIAction.hpp>
+#include <UI/UIElements/UITextbox.hpp>
+
 #include <vector>
 using std::vector;
 
 using namespace SDL2_Engine::Initialisation;
 using namespace SDL2_Engine::Input;
+
+void setupUIAction(SDL2_Engine::UI::UIElements::IUIAction* pObject, const SDL2_Engine::UI::uiTag& pTag) {
+	//Check the assigned tag
+	if (pTag == "submission") {
+		pObject->setAction([](SDL2_Engine::UI::UIElements::IUIAction* pItem, void* pData) {
+			//Get the user input box
+			SDL2_Engine::UI::UIElements::UITextbox* txtBox = dynamic_cast<SDL2_Engine::UI::UIElements::UITextbox*>(SDL2_Engine::Globals::get<SDL2_Engine::UI::Canvas>().getUI("userInput"));
+
+			//Get the logger object
+			const SDL2_Engine::Debug::Logger& LOG = SDL2_Engine::Globals::get<SDL2_Engine::Debug::Logger>();
+
+			//Check if the UI element was found
+			if (!txtBox) LOG.log("Textbox with tag 'userInput' was not found...");
+
+			//Otherwise output the text
+			else LOG.log("Textbox 'userInput': ", txtBox->getText());
+		});
+	}
+}
 
 int main() {
 	//Create an initialisation object
@@ -85,11 +111,13 @@ int main() {
 	confKey.name = "confirm";
 	confKey.sensitivity = 1.f;
 	confKey.gravity = 10.f;
-	confKey.kAltPosBtn = EKeyboardKeyCodes::Space;
+	confKey.kAltPosBtn = EKeyboardKeyCodes::Return;
 	virtualAxis.push_back(confKey);
 
 	setup.inputValues.defaultAxis = virtualAxis.data();
 	setup.inputValues.count = virtualAxis.size();
+
+	setup.canvasValues.actionSetup = setupUIAction;
 
 	//Initialise the SDL2_Engine
 	auto errorNum = SDL2_Engine_Init(setup);

@@ -48,7 +48,7 @@ namespace SDL2_Engine {
 			Local_Resources = 1 << 4,
 
 			//! Manage users interaction with and displaying of elements
-			UI				= (1 << 5) | Rendering | Input,
+			UI				= (1 << 5) | Rendering | Input | Local_Resources,
 
 			//! Automatically handles the loading of all systems
 			All				= Time | Input | Rendering | Audio | Local_Resources | UI

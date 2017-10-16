@@ -76,7 +76,7 @@
     <TargetName>$(ProjectName)_d</TargetName>
     <ExtensionsToDeleteOnClean>$(ExtensionsToDeleteOnClean)</ExtensionsToDeleteOnClean>
     <IncludePath>$(SolutionDir)dep\glm\;$(SolutionDir)dep\Objx\include\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\include\;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\include\;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\include\;$(SolutionDir)dep\SDL2\SDL2-2.0.5\include\;$(SolutionDir)dep\dirent\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)dep\Objx\lib\$(Platform)\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)dep\Objx\lib\$(Platform)\$(Configuration)\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -85,7 +85,7 @@
     <TargetName>$(ProjectName)_d</TargetName>
     <ExtensionsToDeleteOnClean>$(ExtensionsToDeleteOnClean)</ExtensionsToDeleteOnClean>
     <IncludePath>$(SolutionDir)dep\glm\;$(SolutionDir)dep\Objx\include\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\include\;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\include\;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\include\;$(SolutionDir)dep\SDL2\SDL2-2.0.5\include\;$(SolutionDir)dep\dirent\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)dep\Objx\lib\$(Platform)\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)dep\Objx\lib\$(Platform)\$(Configuration)\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -94,7 +94,7 @@
     <TargetName>$(ProjectName)</TargetName>
     <ExtensionsToDeleteOnClean>$(ExtensionsToDeleteOnClean)</ExtensionsToDeleteOnClean>
     <IncludePath>$(SolutionDir)dep\glm\;$(SolutionDir)dep\Objx\include\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\include\;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\include\;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\include\;$(SolutionDir)dep\SDL2\SDL2-2.0.5\include\;$(SolutionDir)dep\dirent\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)dep\Objx\lib\$(Platform)\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)dep\Objx\lib\$(Platform)\$(Configuration)\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -103,7 +103,7 @@
     <TargetName>$(ProjectName)</TargetName>
     <ExtensionsToDeleteOnClean>$(ExtensionsToDeleteOnClean)</ExtensionsToDeleteOnClean>
     <IncludePath>$(SolutionDir)dep\glm\;$(SolutionDir)dep\Objx\include\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\include\;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\include\;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\include\;$(SolutionDir)dep\SDL2\SDL2-2.0.5\include\;$(SolutionDir)dep\dirent\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)dep\Objx\lib\$(Platform)\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)dep\Objx\lib\$(Platform)\$(Configuration)\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget);$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -117,7 +117,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Objx.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;user32.lib;XInput.lib;Msvcrtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Objx_d.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;user32.lib;XInput.lib;Msvcrtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -132,7 +132,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Objx.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;user32.lib;XInput.lib;Msvcrtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Objx_d.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;user32.lib;XInput.lib;Msvcrtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

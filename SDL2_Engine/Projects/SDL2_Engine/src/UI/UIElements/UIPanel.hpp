@@ -18,6 +18,15 @@ namespace SDL2_Engine {
 			 *
 			 *		Purpose:
 			 *		A simple display utility for a solid colour or texture
+			 *		
+			 *		Notes:
+			 *		This UI component can be initialised by default through the Canvas.loadCanvasFromObjx function.
+			 *		Settable values are:
+			 *		
+			 *		fillColour - A string value defining the hexadecimal colour value to fill the panel in (Eg. "FF0000FF" for red)
+			 *		filterColour - A string value defining the hexadecimal colour value to tint the displayed image (Eg. "00FF00FF" for green)
+			 *		borderColour - A string value defining the hexadecimal colour value to outline the Panel (Eg. "0000FFFF" for blue)
+			 *		image - A string defining the relative filepath to the texture to load (Eg. "./imgs/example.png")
 			**/
 			class SDL2_LIB_INC UIPanel : public IUIBase {
 			public:
@@ -111,7 +120,7 @@ namespace SDL2_Engine {
 				/*
 					UIPanel : render - Function to facilitate the the rendering of images once per cycle
 					Created: 13/10/2017
-					Modified: 13/10/2017
+					Modified: 16/10/2017
 				*/
 				void render() override;
 

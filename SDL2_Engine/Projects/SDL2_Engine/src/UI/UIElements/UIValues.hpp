@@ -11,6 +11,9 @@
 
 namespace SDL2_Engine {
 	namespace UI {
+		//! Export the required FString implementation
+		template class SDL2_LIB_INC Utilities::FString<UI_TAG_LENGTH_MAX>;
+
 		//! Create a base typedef for Tag strings
 		typedef Utilities::FString<UI_TAG_LENGTH_MAX> uiTag;
 

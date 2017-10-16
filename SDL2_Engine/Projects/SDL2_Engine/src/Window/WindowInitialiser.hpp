@@ -11,6 +11,9 @@
 
 namespace SDL2_Engine {
 	namespace Initialisation {
+		//! Export the required FString implementation
+		template class SDL2_LIB_INC Utilities::FString<FILENAME_MAX>;
+
 		/*
 		 *		Name: WindowInitialiser
 		 *		Author: Mitchell Croft

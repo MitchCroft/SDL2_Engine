@@ -5,6 +5,9 @@
 #include "../Utilities/IGlobal.hpp"
 #include "UIElements/UIValues.hpp"
 
+//! Prototype the Objx Node
+namespace Objx { class Node; }
+
 namespace SDL2_Engine {
 	//! Prototype the Canvas Initialiser
 	namespace Initialisation { struct CanvasInitialiser; }
@@ -190,7 +193,7 @@ namespace SDL2_Engine {
 			/*
 				Canvas : createInterface - Verify and setup starting information
 				Created: 12/10/2017
-				Modified: 13/10/2017
+				Modified: 16/10/2017
 
 				return bool - Returns true if the Canvas was setup correctly
 			*/
@@ -206,7 +209,7 @@ namespace SDL2_Engine {
 			/*
 				Canvas : update - Update and render the contained UI elements
 				Created: 12/10/2017
-				Modified: 13/10/2017
+				Modified: 16/10/2017
 			*/
 			void update() override;
 
@@ -217,6 +220,9 @@ namespace SDL2_Engine {
 
 			//! Stash template created functions in the Canvas
 			UIElements::IUIBase* stashUI(UIElements::IUIBase* pNew);
+
+			//! Load a UI element from an Objx Node
+			void loadUIElementFromObjx(const char* pOrigin, const char* pName, const Objx::Node& pNode);
 
 			//! Update the Action UI elements
 			void updateActionUI();

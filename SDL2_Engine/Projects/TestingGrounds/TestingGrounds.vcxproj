@@ -73,28 +73,28 @@
     <IntDir>$(SolutionDir)int\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)_d</TargetName>
     <IncludePath>$(SolutionDir)dep\glm\;$(SolutionDir)dep\Objx\include\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\include\;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\include\;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\include\;$(SolutionDir)dep\SDL2\SDL2-2.0.5\include\;$(SolutionDir)dep\SDL2_Engine\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)dep\Objx\lib\$(Platform)\;$(SolutionDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration)\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget)\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)dep\Objx\lib\$(Platform)\$(Configuration)\;$(SolutionDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration)\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(ProjectDir)bin\exes\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)int\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)</TargetName>
     <IncludePath>$(SolutionDir)dep\glm\;$(SolutionDir)dep\Objx\include\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\include\;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\include\;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\include\;$(SolutionDir)dep\SDL2\SDL2-2.0.5\include\;$(SolutionDir)dep\SDL2_Engine\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)dep\Objx\lib\$(Platform)\;$(SolutionDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration)\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget)\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)dep\Objx\lib\$(Platform)\$(Configuration)\;$(SolutionDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration)\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)bin\exes\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)int\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)_d</TargetName>
     <IncludePath>$(SolutionDir)dep\glm\;$(SolutionDir)dep\Objx\include\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\include\;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\include\;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\include\;$(SolutionDir)dep\SDL2\SDL2-2.0.5\include\;$(SolutionDir)dep\SDL2_Engine\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)dep\Objx\lib\$(Platform)\;$(SolutionDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration)\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget)\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)dep\Objx\lib\$(Platform)\$(Configuration)\;$(SolutionDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration)\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)bin\exes\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)int\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)</TargetName>
     <IncludePath>$(SolutionDir)dep\glm\;$(SolutionDir)dep\Objx\include\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\include\;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\include\;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\include\;$(SolutionDir)dep\SDL2\SDL2-2.0.5\include\;$(SolutionDir)dep\SDL2_Engine\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)dep\Objx\lib\$(Platform)\;$(SolutionDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration)\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget)\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)dep\Objx\lib\$(Platform)\$(Configuration)\;$(SolutionDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration)\;$(SolutionDir)dep\SDL2\SDL2_ttf-2.0.14\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2_mixer-2.0.1\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2_image-2.0.1\lib\$(PlatformTarget)\;$(SolutionDir)dep\SDL2\SDL2-2.0.5\lib\$(PlatformTarget)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -109,7 +109,7 @@ xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.dll
 xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.lib" "$(SolutionDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration)\" /f /d /y</Command>
     </PreBuildEvent>
     <Link>
-      <AdditionalDependencies>Objx.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2_Engine_d.lib;%(AdditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Objx_d.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2_Engine_d.lib;%(AdditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x86);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -126,7 +126,7 @@ xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.dll
 xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.lib" "$(SolutionDir)dep\SDL2_Engine\lib\$(Platform)\$(Configuration)\" /f /d /y</Command>
     </PreBuildEvent>
     <Link>
-      <AdditionalDependencies>Objx.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2_Engine_d.lib;%(AdditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Objx_d.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2_Engine_d.lib;%(AdditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(WindowsSDK_LibraryPath_x64);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

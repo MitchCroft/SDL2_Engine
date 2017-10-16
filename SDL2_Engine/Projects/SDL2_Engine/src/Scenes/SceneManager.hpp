@@ -17,7 +17,7 @@ namespace SDL2_Engine {
 		 *		Name: SceneManager
 		 *		Author: Mitchell Croft
 		 *		Created: 11/10/2017
-		 *		Modified: 11/10/2017
+		 *		Modified: 16/10/2017
 		 *		
 		 *		Purpose:
 		 *		Provide an interface for controlling the updating and rendering of
@@ -156,7 +156,7 @@ namespace SDL2_Engine {
 			/*
 				SceneManager : update - Update and render the contained Scenes
 				Created: 11/10/2017
-				Modified: 11/10/2017
+				Modified: 16/10/2017
 			*/
 			void update() override;
 

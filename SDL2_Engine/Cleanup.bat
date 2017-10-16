@@ -7,10 +7,10 @@ RD /q /s ".\SDL2_Engine\"
 rem Clear the Intermidiary folder
 RD /q /s ".\int\"
 
-rem Clean the SDL2_Engine project
+rem Clean the project Bins
 RD /q /s ".\Projects\SDL2_Engine\bin\"
 
-rem Clean the TestingGrounds project
+rem Clean the rebuildable project dependencies
 RD /q /s ".\dep\SDL2_Engine\"
 
 del /s /q ".\Projects\TestingGrounds\bin\exes\*.exe"

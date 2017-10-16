@@ -8,7 +8,10 @@
 
 namespace SDL2_Engine {
 	namespace Debug {
-		//Create a basic typedefine for a filepath
+		//! Export the required FString implementation
+		template class SDL2_LIB_INC Utilities::FString<FILENAME_MAX>;
+
+		//Create a basic type define for a filepath
 		typedef Utilities::FString<FILENAME_MAX> filepath;
 	}
 }

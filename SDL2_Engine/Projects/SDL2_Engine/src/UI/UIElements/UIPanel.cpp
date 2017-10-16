@@ -10,14 +10,20 @@ namespace SDL2_Engine {
 			/*
 				UIPanel : render - Function to facilitate the the rendering of images once per cycle
 				Created: 13/10/2017
-				Modified: 13/10/2017
+				Modified: 16/10/2017
 			*/
 			void UIPanel::render() {
 				//Get the renderer
 				Rendering::Renderer& rend = Globals::get<Rendering::Renderer>();
 
 				//Check if there is an image to draw
-				if (mImage) rend.drawTexture(mImage, *(SDL_Rect*)&mLocation, nullptr, mFilterColour);
+				if (mImage) {
+					//Draw the texture
+					rend.drawTexture(mImage, *(SDL_Rect*)&mLocation, nullptr, mFilterColour);
+
+					//Outline the image
+					rend.drawRect(*(SDL_Rect*)&mLocation, mBorderColour);
+				}
 
 				//Draw the panel
 				else rend.drawRect(*(SDL_Rect*)&mLocation, mFillColour, true, &mBorderColour);

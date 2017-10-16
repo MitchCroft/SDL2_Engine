@@ -6,8 +6,18 @@
 #include "../Input/AxisInput.hpp"
 #include "../Input/Mouse/Mouse.hpp"
 
+#include "../Resources/Resources.hpp"
+#include "../Resources/ResourceTypes/LocalResourceGeneric.hpp"
+#include "../Resources/ResourceTypes/LocalResourceTexture.hpp"
+#include "../Resources/ResourceTypes/LocalResourceFont.hpp"
+
 #include "UIElements/Interfaces/IUIBase.hpp"
 #include "UIElements/Interfaces/IUIAction.hpp"
+
+#include "UIElements/UIPanel.hpp"
+#include "UIElements/UILabel.hpp"
+#include "UIElements/UIButton.hpp"
+#include "UIElements/UITextbox.hpp"
 
 #include "CanvasInitialiser.hpp"
 
@@ -17,11 +27,89 @@
 //! Include GLM vector functions
 #include <glm/ext.hpp>
 
+//! Include required Objx Elements
+#include <Objx_document.hpp>
+#include <Objx_node.hpp>
+#include <Objx_reader.hpp>
+
 //! Flag the different possible movement directions
 enum { Up, Down, Left, Right, Total };
 
 namespace SDL2_Engine {
 	namespace UI {
+		/*
+			deductLocation - Deduct the location of relative resources, stripping superfluous characters
+			Author: Mitchell Croft
+			Created: 13/10/2017
+			Modified: 16/10/2017
+
+			param[in] pParent - The original string location of a file
+			param[in] pRelative - The file path of the second file, relative to pParent
+
+			return std::string - Returns the clean filepath as a new std::string object
+		*/
+		std::string deductLocation(const std::string pParent, const std::string pRelative) {
+			//Check if the pRelative is actually relative
+			if (pRelative.find(':') != pRelative.npos) return pRelative;
+
+			//Store a std::string of the current filepath
+			std::string current = "";
+
+			//Optomise the parent std::string
+			int index = -1;
+			size_t prog = 0;
+			while (true) {
+				//Grab the next std::string section
+				std::string sub = pParent.substr(prog, (index = (int)pParent.find_first_of("/\\", index + 1)) + 1 - prog);
+
+				//Check there was text extracted
+				if (index == pParent.npos) break;
+
+				//Check if its the current directory shorthand
+				else if (sub == "./" || sub == ".\\") continue;
+
+				//Check if its the directory up shorthand
+				else if (sub == "../" || sub == "..\\")
+					current = current.substr(0, current.find_last_of("/\\", current.length() - 2)) + '/';
+
+				//Otherwise concatenate
+				else current += sub;
+
+				//Increase the progress
+				prog += sub.length();
+			}
+
+			//Optomise the relative std::string
+			index = -1;
+			prog = 0;
+			while (true) {
+				//Grab the next std::string section
+				std::string sub = pRelative.substr(prog, (index = (int)pRelative.find_first_of("/\\", index + 1)) + 1 - prog);
+
+				//Increase the progress
+				prog += sub.length();
+
+				//Check if its the current directory shorthand
+				if (sub == "./" || sub == ".\\") continue;
+
+				//Check if its the directory up shorthand
+				else if (sub == "../" || sub == "..\\")
+					current = current.substr(0, current.find_last_of("/\\", current.length() - 2)) + '/';
+
+				//Otherwise concatenate
+				else current += sub;
+
+				//Check there was text extracted
+				if (index == pRelative.npos) {
+					current += pRelative.substr(prog);
+					break;
+				}
+			}
+
+			//Return the combination
+			return current;
+		}
+
 		/*
 		 *		Name: InteractiveUINode
 		 *		Author: Mitchell Croft
@@ -50,12 +138,15 @@ namespace SDL2_Engine {
 		 *		Name: CanvasInternalData
 		 *		Author: Mitchell Croft
 		 *		Created: 12/10/2017
-		 *		Modified: 14/10/2017
+		 *		Modified: 16/10/2017
 		 *		
 		 *		Purpose:
 		 *		Store internal Canvas data values
 		**/
 		struct Canvas::CanvasInternalData {
+			//! Store a temporary pointer to the setup values
+			const Initialisation::CanvasInitialiser* setup;
+
 			//! Store all of the UI elements on the Canvas
 			std::vector<UIElements::IUIBase*> uiElements;
 
@@ -68,20 +159,29 @@ namespace SDL2_Engine {
 			//! Flag the index of the currently selected object
 			int selectedAction;
 
-			//! Store the setup values
-			Initialisation::CanvasInitialiser setup;
-
 			//! Store the previous position of the mouse
 			glm::ivec2 prevPos;
+
+			//! Store the axis used to navigate the interactive elements 
+			Input::vAxisName horizontalAxis;
+			Input::vAxisName verticalAxis;
+			Input::vAxisName confirmAxis;
+
+			//! Store the callbacks used for loading UI elements
+			Utilities::Action<UIElements::IUIBase*(const Objx::Node& pObj)> customLoadUI;
+			Utilities::Action<void(UIElements::IUIAction* pObject, const uiTag& pTag)> actionSetup;
+
+			//! Store the SDL2_Local Resources that are used by loaded UI elements
+			std::vector<LocalResourceBase> loadedResources;
 
 			/*
 				CanvasInternalData : Constructor - Initialise with default values
 				Created: 13/10/2017
-				Modified: 13/10/2017
+				Modified: 16/10/2017
 
 				param[in] pSetup - The CanvasInitialiser object to copy the values of
 			*/
-			inline CanvasInternalData(const Initialisation::CanvasInitialiser& pSetup) : setup(pSetup), interactiveMap(nullptr), mapSize(0), selectedAction(-1) {}
+			inline CanvasInternalData(const Initialisation::CanvasInitialiser& pSetup) : setup(&pSetup), interactiveMap(nullptr), mapSize(0), selectedAction(-1) {}
 		};
 
 		/*
@@ -293,8 +393,76 @@ namespace SDL2_Engine {
 			return bool - Returns true if it was able to load elements from the file
 		*/
 		bool Canvas::loadCanvasFromObjx(const char* pFilepath, const char* pName /*= nullptr*/) {
-			//TODO
-			return false;
+			//Retrieve the logging object
+			Debug::Logger& log = Globals::get<Debug::Logger>();
+
+			//Attempt to load the file
+			LocalResource<Generic> toLoad = Globals::get<Resources>().loadResource<Generic>(pFilepath);
+
+			//Ensure that it was loaded correctly
+			if (toLoad->status() != EResourceLoadStatus::Loaded) {
+				log.logError("Canvas failed to load UI from Objx file '%s'. File was unable to be loaded", pFilepath);
+				return false;
+			}
+
+			//Create the Objx Loader
+			bool flag = false;
+			Objx::Reader reader([&](const Objx::EStatusCode& pCode, const size_t& pLine, const size_t& pColumn, const char* pMsg) {
+				//Output error header
+				if (!flag) log.logError("Canvas encountered an error/errors when attempting to parse the Objx file '%s':", pFilepath);
+
+				//Output error information
+				log.logError("Line: %zu\tColumn: %zu\t\t%s\t(%s, %i)", pLine, pColumn, pMsg, Objx::statusCodeToString(pCode), (int)pCode);
+
+				//Toggle flag
+				flag = true;
+			});
+
+			//Attempt to parse the loaded data
+			const Objx::Document DOC = reader.cparse(toLoad->data());
+
+			//Check if an error was encountered
+			if (flag) return false;
+
+			//Check if there is a specific name to use
+			if (pName) {
+				//Get the element to navigate
+				const Objx::xobjx SELECTED = DOC[pName];
+
+				//Switch on the type of Node
+				switch (SELECTED.getTypeMask()) {
+				case Objx::ETypeMask::TYPE_OBJX:
+					//Loop through properties
+					SELECTED.forEachProp([&](const Objx::xstring& pName, const Objx::xobjx& pObj) {
+						//Load the node
+						loadUIElementFromObjx(pFilepath, pName.c_str(), pObj);
+
+						//Continue the loop
+						return true;
+					});
+					break;
+				case Objx::ETypeMask::TYPE_OBJX | Objx::ETypeMask::TYPE_ARRAY:
+					//Loop through the array
+					for (auto it = SELECTED.cbegin<Objx::xobjx>(); it != SELECTED.cend<Objx::xobjx>(); ++it)
+						loadUIElementFromObjx(pFilepath, "", *it);
+					break;
+				}
+			}
+
+			//Otherwise load from the Document
+			else DOC.forEach([&](const Objx::xstring& pName, const Objx::xobjx& pObj) {
+				//Load the node
+				loadUIElementFromObjx(pFilepath, pName.c_str(), pObj);
+
+				//Continue the loop
+				return true;
+			});
+
+			//Rebuild the interaction map
+			rebuildInteractionMap();
+
+			//Return success
+			return true;
 		}
 
 		/*
@@ -399,20 +567,33 @@ namespace SDL2_Engine {
 		/*
 			Canvas : createInterface - Verify and setup starting information
 			Created: 12/10/2017
-			Modified: 13/10/2017
+			Modified: 16/10/2017
 
 			return bool - Returns true if the Canvas was setup correctly
 		*/
 		bool Canvas::createInterface() {
+			//Get the setup object
+			auto setup = mData->setup;
+			mData->setup = nullptr;
+
+			//Copy over the setup values
+			mData->horizontalAxis = setup->horizontalAxis;
+			mData->verticalAxis = setup->verticalAxis;
+			mData->confirmAxis = setup->confirmAxis;
+
+			//Setup the callback actions
+			mData->customLoadUI = setup->customLoader;
+			mData->actionSetup = setup->actionSetup;
+			
 			//Retrieve the Logger and Axis Input objects
 			const Debug::Logger& LOG = Globals::get<Debug::Logger>();
 			const Input::AxisInput AXIS = Globals::get<Input::AxisInput>();
-			
+
 			//Check to see if the Axis names are present
 			for (size_t i = 0; i < 3; i++) {
 				//Check if the name exists
-				if (!AXIS.hasAxis(mData->setup.axisArray[i].c_str()))
-					LOG.logWarning("Canvas object was given the as yet undefined Virtual Axis '%s' to use for player input navigation", mData->setup.axisArray[i].c_str());
+				if (!AXIS.hasAxis(setup->axisArray[i].c_str()))
+					LOG.logWarning("Canvas object was given the as yet undefined Virtual Axis '%s' to use for player input navigation", setup->axisArray[i].c_str());
 			}
 
 			//Return success
@@ -445,7 +626,7 @@ namespace SDL2_Engine {
 		/*
 			Canvas : update - Update and render the contained UI elements
 			Created: 12/10/2017
-			Modified: 13/10/2017
+			Modified: 16/10/2017
 		*/
 		void Canvas::update() {
 			//Loop through existing active UI elements
@@ -466,6 +647,10 @@ namespace SDL2_Engine {
 					mData->uiElements.erase(mData->uiElements.begin() + i);
 				}
 			}
+
+			//Check if there are elements left
+			if (!mData->uiElements.size() && mData->loadedResources.size())
+				mData->loadedResources.clear();
 
 			//Update the Actionable items
 			updateActionUI();
@@ -507,9 +692,400 @@ namespace SDL2_Engine {
 		}
 
 		/*
+			Canvas : loadUIElementFromObjx - Given an Objx Node descriptor, create a UI element
+			Created: 16/10/2017
+			Modified: 16/10/2017
+
+			param[in] pOrigin - The filepath of the original Objx file loaded
+			param[in] pName - The name that the Node was stored under
+			param[in] pNode - The Objx Node to read UI setup data from
+		*/
+		void Canvas::loadUIElementFromObjx(const char* pOrigin, const char* pName, const Objx::Node& pNode) {
+			//Create a buffer to store the element
+			UIElements::IUIBase* buffer = nullptr;
+
+			/////////////////////////////////////////////////////////////////////////////////////////////////////
+			////////--------------------------------Load Type-Specific Data------------------------------////////
+			/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+			//Get the type of the Node
+			Objx::xstring nodeType = pNode["type"].readVal<Objx::xstring>();
+
+			//If the type is built in, load specific values
+			if (nodeType == "panel") {
+				//Create the panel object
+				UIElements::UIPanel* panel = (UIElements::UIPanel*)stashUI(new UIElements::UIPanel());
+
+				//Check it was created
+				if (!panel) return;
+
+				//Read the Colour Values
+				unsigned int colourBuffer = 0;
+
+				//Get the filter or fill colour
+				const Objx::xstring fillColour = (pNode.hasProperty("filterColour") ? pNode["filterColour"].readVal<Objx::xstring>() : pNode["fillColour"].readVal<Objx::xstring>("FFFFFFFF"));
+
+				//Read the Fill Colour
+				sscanf_s(fillColour.c_str(), "%x", &colourBuffer);
+
+				//Set the fill/filter colour
+				panel->setFillColour(colourBuffer);
+
+				//Get the border colour
+				sscanf_s(pNode["borderColour"].readVal<Objx::xstring>("000000FF").c_str(), "%x", &colourBuffer);
+
+				//Set the border colour
+				panel->setBorderColour(colourBuffer);
+
+				//Load an image
+				if (pNode.hasProperty("image")) {
+					//Attempt to load the picture
+					LocalResource<Texture> img = Globals::get<Resources>().loadResource<Texture>(deductLocation(pOrigin, pNode["image"].readVal<Objx::xstring>()).c_str());
+
+					//Check the status of the image
+					if (img->status() == EResourceLoadStatus::Loaded) {
+						//Assign the image to the panel
+						panel->setImage(img->texture);
+
+						//Store the local resource
+						mData->loadedResources.push_back(img);
+					}
+				}
+
+				//Assign the panel to the buffer
+				buffer = panel;
+			} else if (nodeType == "label") {
+				//Create the label object
+				UIElements::UILabel* label = (UIElements::UILabel*)stashUI(new UIElements::UILabel());
+
+				//Check it was created
+				if (!label) return;
+
+				//Read the text
+				label->setText(pNode["text"].readVal<Objx::xstring>().c_str());
+
+				//Load a font
+				if (pNode.hasProperty("font")) {
+					//Attempt to load the font
+					LocalResource<Font> fnt = Globals::get<Resources>().loadResource<Font>(deductLocation(pOrigin, pNode["font"].readVal<Objx::xstring>()).c_str(), pNode["fontSize"].readVal<Objx::xint>(12), pNode["fontIndex"].readVal<Objx::xint>());
+
+					//Check the status of the font
+					if (fnt->status() == EResourceLoadStatus::Loaded) {
+						//Assign the font to the label
+						label->setFont(fnt->font);
+
+						//Store the local resource
+						mData->loadedResources.push_back(fnt);
+					}
+				}
+
+				//Read the Colour Values
+				unsigned int colourBuffer = 0;
+
+				//Get the text colour
+				sscanf_s(pNode["colour"].readVal<Objx::xstring>("000000FF").c_str(), "%x", &colourBuffer);
+
+				//Set the text Colour
+				label->setColour(colourBuffer);
+
+				//Get the text alignment
+				const Objx::xstring TXT_ALIGN = pNode["alignment"].readVal<Objx::xstring>();
+
+				//Find the alignment
+				if (TXT_ALIGN == "left") label->setAlignment(Rendering::ETextAlignment::Left);
+				else if (TXT_ALIGN == "center") label->setAlignment(Rendering::ETextAlignment::Center);
+				else if (TXT_ALIGN == "right") label->setAlignment(Rendering::ETextAlignment::Right);
+				else label->setAlignment(Rendering::ETextAlignment::Null);
+
+				//Find the rendering type
+				if (pNode["renderType"].readVal<Objx::xstring>() == "blended")
+					label->setRenderType(Rendering::ETextRenderType::Blended);
+				else label->setRenderType(Rendering::ETextRenderType::Solid);
+
+				//Assign the label to the buffer
+				buffer = label;
+			} else if (nodeType == "button") {
+				//Create the label object
+				UIElements::UIButton* btn = (UIElements::UIButton*)stashUI(new UIElements::UIButton());
+
+				//Check it was created
+				if (!btn) return;
+
+				//Read the text
+				btn->setText(pNode["text"].readVal<Objx::xstring>().c_str());
+
+				//Load a font
+				if (pNode.hasProperty("font")) {
+					//Attempt to load the font
+					LocalResource<Font> fnt = Globals::get<Resources>().loadResource<Font>(deductLocation(pOrigin, pNode["font"].readVal<Objx::xstring>()).c_str(), pNode["fontSize"].readVal<Objx::xint>(12), pNode["fontIndex"].readVal<Objx::xint>(0));
+
+					//Check the status of the font
+					if (fnt->status() == EResourceLoadStatus::Loaded) {
+						//Assign the font to the label
+						btn->setFont(fnt->font);
+
+						//Store the local resource
+						mData->loadedResources.push_back(fnt);
+					}
+				}
+
+				//Read the Colour Values
+				unsigned int colourBuffer = 0;
+
+				//Read the text colours
+				if (pNode["textColours"].isType<Objx::xstring*>()) {
+					//Store the string value
+					Objx::xstring val = "";
+
+					//Get the text colours
+					Objx::Node textColours = pNode["textColours"];
+
+					//Loop through the states
+					for (size_t i = 0; i < 3; i++) {
+						//Read the string
+						val = textColours.readArray<Objx::xstring>(i);
+
+						//Check there is a value
+						if (!val.length()) break;
+
+						//Convert the colour value
+						sscanf_s(val.c_str(), "%x", &colourBuffer);
+
+						//Set the text colour
+						btn->setTextColour((UIElements::EActionState)i, colourBuffer);
+					}
+				}
+
+				//Read the fill colours
+				if (pNode["fillColours"].isType<Objx::xstring*>()) {
+					//Store the string value
+					Objx::xstring val = "";
+
+					//Get the fill colours
+					Objx::Node fillColours = pNode["fillColours"];
+
+					//Loop through the states
+					for (size_t i = 0; i < 3; i++) {
+						//Read the string
+						val = fillColours.readArray<Objx::xstring>(i);
+
+						//Check there is a value
+						if (!val.length()) break;
+
+						//Convert the colour value
+						sscanf_s(val.c_str(), "%x", &colourBuffer);
+
+						//Set the text colour
+						btn->setFillColour((UIElements::EActionState)i, colourBuffer);
+					}
+				}
+
+				//Read the border colours
+				if (pNode["borderColours"].isType<Objx::xstring*>()) {
+					//Store the string value
+					Objx::xstring val = "";
+
+					//Get the border colours
+					Objx::Node borderColours = pNode["borderColours"];
+
+					//Loop through the states
+					for (size_t i = 0; i < 3; i++) {
+						//Read the string
+						val = borderColours.readArray<Objx::xstring>(i);
+
+						//Check there is a value
+						if (!val.length()) break;
+
+						//Convert the colour value
+						sscanf_s(val.c_str(), "%x", &colourBuffer);
+
+						//Set the text colour
+						btn->setBorderColour((UIElements::EActionState)i, colourBuffer);
+					}
+				}
+
+				//Find the rendering type
+				if (pNode["renderType"].readVal<Objx::xstring>() == "blended")
+					btn->setRenderType(Rendering::ETextRenderType::Blended);
+				else btn->setRenderType(Rendering::ETextRenderType::Solid);
+
+				//Assign the button to the buffer
+				buffer = btn;
+			} else if (nodeType == "textbox") {
+				//Create the label object
+				UIElements::UITextbox* txt = (UIElements::UITextbox*)stashUI(new UIElements::UITextbox());
+
+				//Check it was created
+				if (!txt) return;
+
+				//Read the text
+				txt->setText(pNode["text"].readVal<Objx::xstring>().c_str());
+
+				//Load a font
+				if (pNode.hasProperty("font")) {
+					//Attempt to load the font
+					LocalResource<Font> fnt = Globals::get<Resources>().loadResource<Font>(deductLocation(pOrigin, pNode["font"].readVal<Objx::xstring>()).c_str(), pNode["fontSize"].readVal<Objx::xint>(12), pNode["fontIndex"].readVal<Objx::xint>(0));
+
+					//Check the status of the font
+					if (fnt->status() == EResourceLoadStatus::Loaded) {
+						//Assign the font to the label
+						txt->setFont(fnt->font);
+
+						//Store the local resource
+						mData->loadedResources.push_back(fnt);
+					}
+				}
+
+				//Read the maximum length
+				txt->setMaxLength(pNode["maxLength"].readVal<Objx::xint>(-1));
+
+				//Read the input flags
+				if (pNode.hasProperty("inputFlags")) {
+					//Create a bitmask to store the value
+					Utilities::Bitmask<Input::EKeyboardInputFlags> flags;
+
+					//Get the flags object
+					Objx::Node inputFlags = pNode["inputFlags"];
+
+					//Iterate through the possible flags
+					for (auto it = inputFlags.cbegin<Objx::xstring>(); it != inputFlags.cend<Objx::xstring>(); ++it) {
+						//Check the string
+						if (*it == "alphabetical")
+							flags |= Input::EKeyboardInputFlags::Alphabetical;
+						else if (*it == "numerical")
+							flags |= Input::EKeyboardInputFlags::Numerical;
+						else if (*it == "special")
+							flags |= Input::EKeyboardInputFlags::Special;
+						else if (*it == "space")
+							flags |= Input::EKeyboardInputFlags::Space;
+						else if (*it == "alphanumerical")
+							flags |= Input::EKeyboardInputFlags::AlphaNumerical;
+						else if (*it == "all")
+							flags |= Input::EKeyboardInputFlags::All;
+					}
+
+					//Set the input flags
+					txt->setInputFlags(flags);
+				}
+
+				//Read the Colour Values
+				unsigned int colourBuffer = 0;
+
+				//Read the text colours
+				if (pNode["textColours"].isType<Objx::xstring*>()) {
+					//Store the string value
+					Objx::xstring val = "";
+
+					//Get the text colours
+					Objx::Node textColours = pNode["textColours"];
+
+					//Loop through the states
+					for (size_t i = 0; i < 3; i++) {
+						//Read the string
+						val = textColours.readArray<Objx::xstring>(i);
+
+						//Check there is a value
+						if (!val.length()) break;
+
+						//Convert the colour value
+						sscanf_s(val.c_str(), "%x", &colourBuffer);
+
+						//Set the text colour
+						txt->setTextColour((UIElements::EActionState)i, colourBuffer);
+					}
+				}
+
+				//Read the fill colours
+				if (pNode["fillColours"].isType<Objx::xstring*>()) {
+					//Store the string value
+					Objx::xstring val = "";
+
+					//Get the fill colours
+					Objx::Node fillColours = pNode["fillColours"];
+
+					//Loop through the states
+					for (size_t i = 0; i < 3; i++) {
+						//Read the string
+						val = fillColours.readArray<Objx::xstring>(i);
+
+						//Check there is a value
+						if (!val.length()) break;
+
+						//Convert the colour value
+						sscanf_s(val.c_str(), "%x", &colourBuffer);
+
+						//Set the text colour
+						txt->setFillColour((UIElements::EActionState)i, colourBuffer);
+					}
+				}
+
+				//Read the border colours
+				if (pNode["borderColours"].isType<Objx::xstring*>()) {
+					//Store the string value
+					Objx::xstring val = "";
+
+					//Get the border colours
+					Objx::Node borderColours = pNode["borderColours"];
+
+					//Loop through the states
+					for (size_t i = 0; i < 3; i++) {
+						//Read the string
+						val = borderColours.readArray<Objx::xstring>(i);
+
+						//Check there is a value
+						if (!val.length()) break;
+
+						//Convert the colour value
+						sscanf_s(val.c_str(), "%x", &colourBuffer);
+
+						//Set the text colour
+						txt->setBorderColour((UIElements::EActionState)i, colourBuffer);
+					}
+				}
+
+				//Find the rendering type
+				if (pNode["renderType"].readVal<Objx::xstring>() == "blended")
+					txt->setRenderType(Rendering::ETextRenderType::Blended);
+				else txt->setRenderType(Rendering::ETextRenderType::Solid);
+
+				//Assign the textbox to the buffer
+				buffer = txt;
+			}
+
+			//Otherwise pass it on to the custom UI callback
+			else mData->customLoadUI(buffer, pNode);
+
+			//Check it exists
+			if (!buffer) return;
+
+			/////////////////////////////////////////////////////////////////////////////////////////////////////
+			////////-----------------------------------Parse Common Data---------------------------------////////
+			/////////////////////////////////////////////////////////////////////////////////////////////////////
+			
+			//Set the tag
+			buffer->setTag(pNode.hasProperty("tag") ? pNode["tag"].readVal<Objx::xstring>().c_str() : pName);
+
+			//Set the position information
+			buffer->setLocation({
+				pNode["x"].readVal<Objx::xint>(),
+				pNode["y"].readVal<Objx::xint>(),
+				pNode["width"].readVal<Objx::xint>(),
+				pNode["height"].readVal<Objx::xint>()
+			});
+
+			/////////////////////////////////////////////////////////////////////////////////////////////////////
+			////////-----------------------------------Setup Action Data---------------------------------////////
+			/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+			//Callback to get action setup information
+			if (UIElements::IUIAction* action = dynamic_cast<UIElements::IUIAction*>(buffer))
+				mData->actionSetup(action, buffer->getTag());
+		}
+
+		/*
 			Canvas : updateActionUI - Update the Actionable UI elements
 			Created: 13/10/2017
-			Modified: 15/10/2017
+			Modified: 16/10/2017
 		*/
 		void Canvas::updateActionUI() {
 			//Update all of the Actionable elements
@@ -551,8 +1127,8 @@ namespace SDL2_Engine {
 				//Rely on Axis input 
 				else {
 					//Get the axis inputs
-					float horizontal = (IN.btnPressed(mData->setup.horizontalAxis.c_str()) ? IN.getAxis(mData->setup.horizontalAxis.c_str()) : 0.f);
-					float vertical = (IN.btnPressed(mData->setup.verticalAxis.c_str()) ? IN.getAxis(mData->setup.verticalAxis.c_str()) : 0.f);
+					float horizontal = (IN.btnPressed(mData->horizontalAxis.c_str()) ? IN.getAxis(mData->horizontalAxis.c_str()) : 0.f);
+					float vertical = (IN.btnPressed(mData->verticalAxis.c_str()) ? IN.getAxis(mData->verticalAxis.c_str()) : 0.f);
 
 					//Check there was input
 					if (horizontal || vertical) {
@@ -588,7 +1164,7 @@ namespace SDL2_Engine {
 				//Check for selection of UI element
 				if (mData->selectedAction >= 0) {
 					//Flag the action should be run
-					bool takeAction = IN.btnPressed(mData->setup.confirmAxis.c_str());
+					bool takeAction = IN.btnPressed(mData->confirmAxis.c_str());
 
 					//Check if the mouse should be considered
 					if (!takeAction && MOUSE.buttonPressed(Input::EMouseButton::Left)) {

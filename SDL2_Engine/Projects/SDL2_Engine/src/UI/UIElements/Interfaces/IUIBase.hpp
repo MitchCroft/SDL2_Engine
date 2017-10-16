@@ -15,6 +15,17 @@ namespace SDL2_Engine {
 			 *		
 			 *		Purpose:
 			 *		Provide an interface for UI elements to implement from
+			 *		
+			 *		Notes:
+			 *		This UI component can be initialised by default through the Canvas.loadCanvasFromObjx function.
+			 *		Settable values are:
+			 *		
+			 *		type - A string defining the type of object to create (Default types are "panel", "label", "button", "textbox")
+			 *		tag - A string value that can be used to differentiate and identify the UI element
+			 *		x - An integer value defining the X coordinate of the UI element
+			 *		y - An integer value defining the Y coordinate of the UI element
+			 *		width - An integer value defining the width of the UI element
+			 *		height - An integer value defining the height of the UI element
 			**/
 			class SDL2_LIB_INC IUIBase {
 			public:

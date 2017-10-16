@@ -11,6 +11,9 @@
 
 namespace SDL2_Engine {
 	namespace Input {
+		//! Export the required FString implementation
+		template class SDL2_LIB_INC Utilities::FString<VIRTUAL_AXIS_NAME_MAX>;
+
 		//! Create a type define for the names of Virtual Axis
 		typedef Utilities::FString<VIRTUAL_AXIS_NAME_MAX> vAxisName;
 	}

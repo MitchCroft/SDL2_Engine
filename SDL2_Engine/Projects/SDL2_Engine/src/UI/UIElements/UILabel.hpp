@@ -19,6 +19,18 @@ namespace SDL2_Engine {
 			 *		
 			 *		Purpose:
 			 *		A simple object used to position and display text
+			 *		
+			 *		Notes:
+			 *		This UI component can be initialised by default through the Canvas.loadCanvasFromObjx function.
+			 *		Settable values are:
+			 *		
+			 *		text - A string value defining the text to display on screen
+			 *		font - A string defining the relative filepath to the true type font to load (Eg. "./fonts/arial.ttf")
+			 *		fontSize - An integer value defining the size of font to use 
+			 *		fontIndex - An integer value defining the index of the font to use
+			 *		colour - A string value defining the hexadecimal colour value to colour the text in (Eg. "FF0000FF" for red)
+			 *		alignment - A string defining the method used to align the text ("left", "center", "right")
+			 *		renderType - A string defining the method used to render the text ("blended", "solid")
 			**/
 			class SDL2_LIB_INC UILabel : public IUIBase {
 			public:

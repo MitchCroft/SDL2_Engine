@@ -23,6 +23,21 @@ namespace SDL2_Engine {
 			 *		Purpose:
 			 *		Provide a visual element that the user can use to enter custom
 			 *		text information
+			 *		
+			 *		Notes:
+			 *		This UI component can be initialised by default through the Canvas.loadCanvasFromObjx function.
+			 *		Settable values are:
+			 *		
+			 *		text - A string value defining the text to display on screen
+			 *		font - A string defining the relative filepath to the true type font to load (Eg. "./fonts/arial.ttf")
+			 *		fontSize - An integer value defining the size of font to use 
+			 *		fontIndex - An integer value defining the index of the font to use
+			 *		maxLength - An integer value defining the maximum length of the text that can be entered into the textbox. Values < 0 remove the limit
+			 *		inputFlags - An array of string values defining the character inclusion flags ("alphabetical", "numerical", "special", "space", "alphanumerical", "all")
+			 *		textColours - An array of string values defining the hexadecimal colour value to colour the text in for each state [ "FF0000FF", "00FF00FF", "0000FFFF" ]
+			 *		fillColours - An array of string values defining the hexadecimal colour value to fill in the background in for each state [ "FF0000FF", "00FF00FF", "0000FFFF" ]
+			 *		borderColours - An array of string values defining the hexadecimal colour value to outline the button in for each state [ "FF0000FF", "00FF00FF", "0000FFFF" ]
+			 *		renderType - A string defining the method used to render the text ("blended", "solid")
 			**/
 			class SDL2_LIB_INC UITextbox : public IUIBase, public IUIAction {
 			public:

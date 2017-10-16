@@ -21,7 +21,7 @@ namespace SDL2_Engine {
 			deductLocation - Deduct the location of relative resources, stripping superfluous characters
 			Author: Mitchell Croft
 			Created: 13/10/2017
-			Modified: 13/10/2017
+			Modified: 16/10/2017
 
 			param[in] pParent - The original string location of a file
 			param[in] pRelative - The file path of the second file, relative to pParent
@@ -66,6 +66,9 @@ namespace SDL2_Engine {
 				//Grab the next std::string section
 				std::string sub = pRelative.substr(prog, (index = (int)pRelative.find_first_of("/\\", index + 1)) + 1 - prog);
 
+				//Increase the progress
+				prog += sub.length();
+
 				//Check if its the current directory shorthand
 				if (sub == "./" || sub == ".\\") continue;
 
@@ -77,10 +80,10 @@ namespace SDL2_Engine {
 				else current += sub;
 
 				//Check there was text extracted
-				if (index == pRelative.npos) break;
-
-				//Increase the progress
-				prog += sub.length();
+				if (index == pRelative.npos) {
+					current += pRelative.substr(prog);
+					break;
+				}
 			}
 
 			//Return the combination

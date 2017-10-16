@@ -218,7 +218,7 @@ namespace SDL2_Engine {
 		/*
 			SceneManager : update - Update and render the contained Scenes
 			Created: 11/10/2017
-			Modified: 11/10/2017
+			Modified: 16/10/2017
 		*/
 		void SceneManager::update() {
 			//Loop through existing currently active scenes
@@ -238,8 +238,23 @@ namespace SDL2_Engine {
 
 			//Check if there are new Scenes to add to the active list
 			if (mData->scenesToAdd.size()) {
-				//Insert the Scenes into the active list
-				mData->activeScenes.insert(mData->activeScenes.end(), mData->scenesToAdd.begin(), mData->scenesToAdd.end());
+				//Loop through the elements in the list
+				for (size_t i = 0, COUNT = mData->scenesToAdd.size(); i < COUNT; i++) {
+					//Attempt to create the Scene
+					if (!mData->scenesToAdd[i]->createScene()) {
+						//Output error
+						Globals::get<Debug::Logger>().logError("Failed to create a new Scene with type ID '%zu'", mData->scenesToAdd[i]->mTypeID);
+
+						//Clear up what it can
+						mData->scenesToAdd[i]->destroyScene();
+
+						//Delete the scene
+						delete mData->scenesToAdd[i];
+					}
+
+					//If successful add to main rotation
+					else mData->activeScenes.push_back(mData->scenesToAdd[i]);
+				}
 
 				//Clear the waiting list
 				mData->scenesToAdd.clear();
@@ -272,7 +287,7 @@ namespace SDL2_Engine {
 		/*
 			SceneManager : initialiseScene - Initialise a new Scene object and if its successful add it to the list
 			Created: 11/10/2017
-			Modified: 11/10/2017
+			Modified: 16/10/2017
 
 			param[in] pScene - A pointer to the ISceneBase based object to initialise
 			param[in] pID - The ID of the type of Scene object
@@ -280,21 +295,6 @@ namespace SDL2_Engine {
 			return bool - Returns true if the Scene was successfully created
 		*/
 		bool SceneManager::initialiseScene(ISceneBase* pScene, const Utilities::typeID& pID) {
-			//Check if the Scene can be initialised
-			if (!pScene->createScene()) {
-				//Output error
-				Globals::get<Debug::Logger>().logError("Failed to create a new Scene with type ID '%zu'", pID);
-
-				//Clear up what it can
-				pScene->destroyScene();
-
-				//Delete the scene
-				delete pScene;
-
-				//Return failure
-				return false;
-			}
-
 			//Assign the ID to the Scene
 			pScene->mTypeID = pID;
 

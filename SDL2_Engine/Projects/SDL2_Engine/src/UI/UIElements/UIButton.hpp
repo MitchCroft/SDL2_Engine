@@ -21,6 +21,19 @@ namespace SDL2_Engine {
 			 *		Purpose:
 			 *		Provide a visual representation of a potential action
 			 *		that a user can take
+			 *		
+			 *		Notes:
+			 *		This UI component can be initialised by default through the Canvas.loadCanvasFromObjx function.
+			 *		Settable values are:
+			 *		
+			 *		text - A string value defining the text to display on screen
+			 *		font - A string defining the relative filepath to the true type font to load (Eg. "./fonts/arial.ttf")
+			 *		fontSize - An integer value defining the size of font to use 
+			 *		fontIndex - An integer value defining the index of the font to use
+			 *		textColours - An array of string values defining the hexadecimal colour value to colour the text in for each state [ "FF0000FF", "00FF00FF", "0000FFFF" ]
+			 *		fillColours - An array of string values defining the hexadecimal colour value to fill in the background in for each state [ "FF0000FF", "00FF00FF", "0000FFFF" ]
+			 *		borderColours - An array of string values defining the hexadecimal colour value to outline the button in for each state [ "FF0000FF", "00FF00FF", "0000FFFF" ]
+			 *		renderType - A string defining the method used to render the text ("blended", "solid")
 			**/
 			class SDL2_LIB_INC UIButton : public IUIBase, public IUIAction {
 			public:

@@ -1,3 +1,25 @@
+background = {
+	type = "panel"
+
+	x = 0
+	y = 0
+	width = 1280
+	height = 720
+
+	fillColour = "FFFFFFFF"
+}
+
+container = {
+	type = "panel"
+
+	x = 300
+	y = 20
+	width = 660
+	height = 460
+
+	fillColour = "CDCDCDFF"
+}
+
 icon = {
 	type = "panel"
 

@@ -181,7 +181,7 @@ namespace SDL2_Engine {
 
 				//Flag an error for the continuing process
 				parsingError = true;
-			}, 2);
+			}, 3);
 
 			//Parse the data
 			const Document DOC = reader.cparse(data);

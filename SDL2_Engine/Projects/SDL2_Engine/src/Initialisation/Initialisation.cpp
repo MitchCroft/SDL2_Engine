@@ -26,7 +26,7 @@ namespace SDL2_Engine {
 			SDL2_Engine_Init - Initialise the SDL2_Engine and begin operation
 			Author: Mitchell Croft
 			Created: 06/10/2017
-			Modified: 13/10/2017
+			Modified: 17/10/2017
 
 			param[in] pSetup - An SDL2_Engine_Initialiser object defining how the program should be created
 
@@ -102,6 +102,14 @@ namespace SDL2_Engine {
 						do {
 							//Update SDL events
 							SDL_PumpEvents();
+
+							//Create an event to store data
+							SDL_Event evt;
+							while (SDL_PollEvent(&evt)) {
+								//Check for quite event
+								if (evt.type == SDL_QUIT)
+									sceneManager->quit();
+							}
 
 							//Update the global objects
 							Globals::update();

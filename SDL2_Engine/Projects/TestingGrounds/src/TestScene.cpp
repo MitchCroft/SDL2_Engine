@@ -6,6 +6,7 @@
 #include <Scenes/SceneManager.hpp>
 #include <Resources/ResourceTypes/LocalResourceTexture.hpp>
 #include <Resources/ResourceTypes/LocalResourceFont.hpp>
+#include <Resources/ResourceTypes/LocalResourceCursor.hpp>
 #include <Input/Keyboard/Keyboard.hpp>
 #include <Input/Mouse/Mouse.hpp>
 #include <Input/AxisInput.hpp>
@@ -31,11 +32,23 @@ using namespace SDL2_Engine::UI::UIElements;
 /*
 	TestScene : createScene - Initialise the values for the Test Scene
 	Created: 11/10/2017
-	Modified: 16/10/2017
+	Modified: 17/10/2017
 	
 	return bool - Returns true if the Scene was initialised successfully
 */
-bool TestScene::createScene() { return Globals::get<Canvas>().loadCanvasFromObjx("menuUI.Objx"); }
+bool TestScene::createScene() { 
+	//Load the cursor object
+	mCursor = Globals::get<Resources>().loadResource<Cursor>("cursor.objx");
+
+	//Check the cursor was loaded correctly
+	if (mCursor->status() != EResourceLoadStatus::Loaded) return false;
+
+	//Assign the cursor to the Mouse
+	Globals::get<Mouse>().useCursor(mCursor);
+
+	//Load the menu UI elements
+	return Globals::get<Canvas>().loadCanvasFromObjx("menuUI.Objx"); 
+}
 
 /*
 	TestScene : destroyScene - Deallocate memory used for the Test Scene

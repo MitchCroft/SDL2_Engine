@@ -26,7 +26,7 @@ namespace SDL2_Engine {
 			SDL2_Engine_Init - Initialise the SDL2_Engine and begin operation
 			Author: Mitchell Croft
 			Created: 06/10/2017
-			Modified: 17/10/2017
+			Modified: 02/11/2017
 
 			param[in] pSetup - An SDL2_Engine_Initialiser object defining how the program should be created
 
@@ -34,7 +34,7 @@ namespace SDL2_Engine {
 		*/
 		EInitialisationError SDL2_Engine_Init(const SDL2_Engine_Initialiser& pSetup) {
 			//Create the Globals interface
-			Globals::create();
+			Globals::create(pSetup.applicationVersion.versionID);
 
 			//Store the error return
 			EInitialisationError errorNum = EInitialisationError::Success;

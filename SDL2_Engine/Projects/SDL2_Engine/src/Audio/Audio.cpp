@@ -18,7 +18,7 @@ namespace SDL2_Engine {
 	 *		Name: AudioInternalData
 	 *		Author: Mitchell Croft
 	 *		Created: 10/10/2017
-	 *		Modified: 10/10/2017
+	 *		Modified: 02/11/2017
 	 *		
 	 *		Purpose:
 	 *		Store the internal data used by the Audio manager
@@ -40,7 +40,7 @@ namespace SDL2_Engine {
 		int maximumSFXChannels = 0;
 
 		//! Flags if audio should be played by the interface
-		bool playAudio = false;
+		bool playAudio = true;
 	};
 
 	/*
@@ -63,9 +63,36 @@ namespace SDL2_Engine {
 	}};
 
 	/*
+		Audio : masterPlaybackAllowed - Returns the flag used to determine if the Audio interface will play audio on calls
+		Created: 02/11/2017
+		Modified: 02/11/2017
+
+		return const bool& - Returns a constant reference to the internal bool value
+	*/
+	const bool& Audio::masterPlaybackAllowed() const { return mData->playAudio; }
+
+	/*
+		Audio : setMasterPlayback - Set the master playback flag, preventing or allowing all audio playback through the interface
+		Created: 02/11/2017
+		Modified: 02/11/2017
+
+		param[in] pState - A bool value representing the new master playback state
+	*/
+	void Audio::setMasterPlayback(const bool& pState) {
+		//Switch on the state
+		switch (pState) {
+		case false:
+			//Stop all audio playback
+			stopSFX(-1); stopMusic();
+		default:
+			mData->playAudio = pState;
+		}
+	}
+
+	/*
 		Audio : playSFX - Fade in a sound effect over a period of time with specified values
 		Created: 10/10/2017
-		Modified: 10/10/2017
+		Modified: 02/11/2017
 
 		param[in] pSFX - A pointer to the loaded Sound Effect to play
 		param[in] pVolume - The volume to play at, where 0 is the lowest and 128 is the highest (Default 128)
@@ -77,6 +104,9 @@ namespace SDL2_Engine {
 		return int - Returns the channel that the sound effect was played on. Returns -1 if unable to play sound effect
 	*/
 	int Audio::playSFX(Mix_Chunk* pSFX, const char& pVolume /*= 128*/, const size_t& pFadeTime /*= 0*/, const int& pLoops /*= -1*/, const int& pRunTime /*= -1*/, const int& pChannel /*= -1*/) {
+		//Check if audio playback is active
+		if (!mData->playAudio) return -1;
+
 		//Get the channel to play on
 		int channel = (pChannel != -1 ? pChannel : reserveChannel());
 
@@ -109,15 +139,12 @@ namespace SDL2_Engine {
 	/*
 		Audio : toggleSFXPause - Toggle the pause/play state of a sound effect channel
 		Created: 10/10/2017
-		Modified: 10/10/2017
+		Modified: 02/11/2017
 
 		param[in] pPause - A bool state to indicate if the sound effect should be paused or resumed
 		param[in] pChannel - The channel to change the state of, or -1 to change all
 	*/
-	void Audio::toggleSFXPause(const bool& pPause, const int& pChannel) {
-		if (pPause) Mix_Pause(pChannel);
-		else Mix_Resume(pChannel);
-	}
+	void Audio::toggleSFXPause(const bool& pPause, const int& pChannel) { (pPause ? Mix_Pause : Mix_Resume)(pChannel); }
 
 	/*
 		Audio : stopSFX - Stop a sound effect from playing
@@ -202,7 +229,7 @@ namespace SDL2_Engine {
 	/*
 		Audio : playMusic - Play a background music file with specified values
 		Created: 10/10/2017
-		Modified: 10/10/2017
+		Modified: 02/11/2017
 
 		param[in] pMusic - The music file to play
 		param[in] pVolume - The volume to play at, where 0 is the lowest and 128 is the highest (Default 128)
@@ -213,6 +240,9 @@ namespace SDL2_Engine {
 		return bool - Returns true if the music was started successfully
 	*/
 	bool Audio::playMusic(_Mix_Music* pMusic, const char& pVolume /*= 128*/, const int& pFadeTime /*= 0*/, const int& pLoops /*= -1*/, const double& pPosition /*= 0.0*/) {
+		//Check if audio playback is active
+		if (!mData->playAudio) return false;
+		
 		//Play the music
 		int res;
 		if (res = Mix_FadeInMusicPos(pMusic, pLoops, pFadeTime, pPosition))

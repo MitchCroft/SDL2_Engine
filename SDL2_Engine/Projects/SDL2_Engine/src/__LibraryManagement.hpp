@@ -10,3 +10,8 @@
 #else
 	#define SDL2_LIB_INC __declspec(dllimport)
 #endif
+
+//! Identify the version of the SDL2_Engine that is in use
+#define SDL2_Engine_Version_Major 1
+#define SDL2_Engine_Version_Minor 0
+#define SDL2_Engine_Version_Patch 0

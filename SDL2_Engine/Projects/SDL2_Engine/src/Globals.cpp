@@ -3,6 +3,9 @@
 //! Include the Singleton Interface object
 #include "Utilities/IGlobal.hpp"
 
+//! Include the version object
+#include "Utilities/VersionDescriptor.hpp"
+
 //! Include the required standard objects
 #include <unordered_map>
 #include <vector>
@@ -16,7 +19,7 @@ namespace SDL2_Engine {
 	 *		Name: GlobalsInternalData
 	 *		Author: Mitchell Croft
 	 *		Created: 04/10/2017
-	 *		Modified: 11/10/2017
+	 *		Modified: 02/11/2017
 	 *		
 	 *		Purpose:
 	 *		Store internal standard library objects
@@ -27,6 +30,9 @@ namespace SDL2_Engine {
 
 		//! Store the order in which to update the Global interfaces
 		std::vector<Utilities::typeID> updateOrder;
+
+		//! Store the Application Version ID
+		Utilities::VersionDescriptor versionID;
 	};
 
 	/*
@@ -96,11 +102,24 @@ namespace SDL2_Engine {
 	}
 
 	/*
+		Globals : interfaceExists - Check to see if an interface of a specific type exists
+		Created: 04/10/2017
+		Modified: 11/10/2017
+
+		Template T - The type of interface to check for
+
+		return bool - Returns true if the specified interface exists in the Globals Manager
+	*/
+	const Utilities::VersionDescriptor& Globals::getApplicationVersion() { return mInstance->mData->versionID; }
+
+	/*
 		Globals : create - Create the Globals singleton
 		Created: 19/07/2017
-		Modified: 04/10/2017
+		Modified: 02/11/2017
+
+		param[in] pID - A starting Version Descriptor ID
 	*/
-	void Globals::create() {
+	void Globals::create(const unsigned int& pID) {
 		//Ensure the Singleton hasn't been created already
 		if (mInstance) throw new std::runtime_error("Can not create Globals Singleton instance as it already exists. Are you calling Globals::create() in multiple places?");
 
@@ -109,6 +128,9 @@ namespace SDL2_Engine {
 
 		//Create the data container
 		mInstance->mData = new GlobalsInternalData();
+
+		//Store the application version
+		mInstance->mData->versionID = pID;
 	}
 
 	/*

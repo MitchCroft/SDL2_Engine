@@ -5,14 +5,14 @@
 #include "Utilities/TypeID.hpp"
 
 namespace SDL2_Engine {
-	//! Prototype the IGlobal interface
-	namespace Utilities { class IGlobal; }
+	//! Prototype the Utilities values
+	namespace Utilities { class IGlobal; struct VersionDescriptor; }
 
 	/*
 	 *		Name: Globals
 	 *		Author: Mitchell Croft
 	 *		Created: 19/07/2017
-	 *		Modified: 11/10/2017
+	 *		Modified: 02/11/2017
 	 *		
 	 *		Purpose:
 	 *		Manage a number of Global Interface objects from a single location.
@@ -94,6 +94,15 @@ namespace SDL2_Engine {
 			return mInstance->interfaceExists(Utilities::typeToID<T>());
 		}
 
+		/*
+			Globals : getApplicationVersion - Retrieve the applications current version information
+			Created: 02/11/2017
+			Modified: 02/11/2017
+
+			return const VersionDescriptor& - Returns a constant reference to a VersionDescriptor object
+		*/
+		static const Utilities::VersionDescriptor& getApplicationVersion();
+
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 		////////------------------------------------Main Functions-----------------------------------////////
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,9 +110,11 @@ namespace SDL2_Engine {
 		/*
 			Globals : create - Create the Globals singleton
 			Created: 19/07/2017
-			Modified: 04/10/2017
+			Modified: 02/11/2017
+
+			param[in] pID - A starting Version Descriptor ID
 		*/
-		static void create();
+		static void create(const unsigned int& pID);
 
 		/*
 			Globals : update - Updates all internal IGlobal interface objects

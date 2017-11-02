@@ -8,7 +8,7 @@
  *		Name: TestScene
  *		Author: Mitchell Croft
  *		Created: 11/10/2017
- *		Modified: 17/10/2017
+ *		Modified: 02/11/2017
  *		
  *		Purpose:
  *		Test the SDL2_Engine functionality
@@ -18,7 +18,7 @@ public:
 	/*
 		TestScene : createScene - Initialise the values for the Test Scene
 		Created: 11/10/2017
-		Modified: 17/10/2017
+		Modified: 02/11/2017
 
 		return bool - Returns true if the Scene was initialised successfully
 	*/
@@ -48,4 +48,7 @@ public:
 private:
 	//! Store the cursor used for the window
 	SDL2_Engine::LocalResource<SDL2_Engine::Cursor> mCursor;
+
+	//! Store the font used to display the version
+	SDL2_Engine::LocalResource<SDL2_Engine::Font> mFont;
 };

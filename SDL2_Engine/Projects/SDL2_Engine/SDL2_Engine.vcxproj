@@ -235,6 +235,7 @@
     <ClInclude Include="src\Utilities\Bitmask.hpp" />
     <ClInclude Include="src\Utilities\DebugCallback.hpp" />
     <ClInclude Include="src\Utilities\TypeID.hpp" />
+    <ClInclude Include="src\Utilities\VersionDescriptor.hpp" />
     <ClInclude Include="src\Window\Window.hpp" />
     <ClInclude Include="src\Window\WindowInitialiser.hpp" />
     <ClInclude Include="src\Window\WindowValues.hpp" />

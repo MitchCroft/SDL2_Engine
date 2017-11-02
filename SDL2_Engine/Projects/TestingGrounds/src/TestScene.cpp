@@ -19,6 +19,7 @@
 #include <UI/UIElements/UITextbox.hpp>
 #include <Time.hpp>
 #include <Math.hpp>
+#include <Utilities/VersionDescriptor.hpp>
 
 #include <SDL.h>
 
@@ -28,11 +29,12 @@ using namespace SDL2_Engine::Input;
 using namespace SDL2_Engine::Scenes;
 using namespace SDL2_Engine::UI;
 using namespace SDL2_Engine::UI::UIElements;
+using namespace SDL2_Engine::Utilities;
 
 /*
 	TestScene : createScene - Initialise the values for the Test Scene
 	Created: 11/10/2017
-	Modified: 17/10/2017
+	Modified: 02/11/2017
 	
 	return bool - Returns true if the Scene was initialised successfully
 */
@@ -46,8 +48,35 @@ bool TestScene::createScene() {
 	//Assign the cursor to the Mouse
 	Globals::get<Mouse>().useCursor(mCursor);
 
+	//Load the font file
+	mFont = Globals::get<Resources>().loadResource<Font>("font.ttf", 16);
+
+	//Check the font was loaded correctly
+	if (mFont->status() != EResourceLoadStatus::Loaded) return false;
+
 	//Load the menu UI elements
-	return Globals::get<Canvas>().loadCanvasFromObjx("menuUI.Objx"); 
+	if (!Globals::get<Canvas>().loadCanvasFromObjx("menuUI.Objx")) return false;
+
+	//Create the version label
+	auto versionLabel = Globals::get<Canvas>().createUI<UILabel>();
+
+	//Assign the font to the label
+	versionLabel->setFont(mFont->font);
+
+	//Set the position
+	versionLabel->setLocation({ 0, 0 });
+
+	//Set the alignment
+	versionLabel->setAlignment(ETextAlignment::Left);
+
+	//Get the version for the application
+	const auto& VERSION = Globals::getApplicationVersion();
+
+	//Set the text for the label
+	versionLabel->setText((std::to_string(VERSION.major) + "." + std::to_string(VERSION.minor) + "." + std::to_string(VERSION.patch) + " (" + std::to_string(VERSION.versionID) + ")").c_str());
+
+	//Return success
+	return true;
 }
 
 /*
@@ -63,9 +92,6 @@ void TestScene::destroyScene() {}
 	Modified: 16/10/2017
 */
 void TestScene::update() {
-	//Output Delta Time
-	//Globals::get<Debug::Logger>().log("Delta Time: ", (1.f / Globals::get<Time>().getDelta()));
-
 	//Quit Application
 	if (Globals::get<Keyboard>().keyPressed(EKeyboardKeyCodes::Escape)) 
 		Globals::get<SceneManager>().quit();

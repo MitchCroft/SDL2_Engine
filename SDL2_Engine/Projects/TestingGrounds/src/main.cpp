@@ -41,6 +41,11 @@ int main() {
 	//Create an initialisation object
 	SDL2_Engine_Initialiser setup;
 
+	//Set the version number
+	setup.applicationVersion.major = 0;
+	setup.applicationVersion.minor = 0;
+	setup.applicationVersion.patch = 0;
+
 	//Provide a Basic Scene Renderer for operation
 	setup.rendererValues.sceneRenderer = new SDL2_Engine::Rendering::BasicSceneRenderer();
 

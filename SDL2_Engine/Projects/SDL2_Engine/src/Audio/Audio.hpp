@@ -15,7 +15,7 @@ namespace SDL2_Engine {
 	 *		Name: Audio
 	 *		Author: Mitchell Croft
 	 *		Created: 10/10/2017
-	 *		Modified: 10/10/2017
+	 *		Modified: 02/11/2017
 	 *		
 	 *		Purpose:
 	 *		Provide basic functionality for managing music and
@@ -26,13 +26,35 @@ namespace SDL2_Engine {
 	class SDL2_LIB_INC Audio : public Utilities::IGlobal {
 	public:
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		////////----------------------------------Master Functionality-------------------------------////////
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		/*
+			Audio : masterPlaybackAllowed - Returns the flag used to determine if the Audio interface will play audio on calls
+			Created: 02/11/2017
+			Modified: 02/11/2017
+
+			return const bool& - Returns a constant reference to the internal bool value
+		*/
+		const bool& masterPlaybackAllowed() const;
+
+		/*
+			Audio : setMasterPlayback - Set the master playback flag, preventing or allowing all audio playback through the interface
+			Created: 02/11/2017
+			Modified: 02/11/2017
+
+			param[in] pState - A bool value representing the new master playback state
+		*/
+		void setMasterPlayback(const bool& pState);
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
 		////////------------------------------------SFX Functionality--------------------------------////////
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		/*
 			Audio : playSFX - Fade in a sound effect over a period of time with specified values
 			Created: 10/10/2017
-			Modified: 10/10/2017
+			Modified: 02/11/2017
 
 			param[in] pSFX - A pointer to the loaded Sound Effect to play
 			param[in] pVolume - The volume to play at, where 0 is the lowest and 128 is the highest (Default 128)
@@ -66,7 +88,7 @@ namespace SDL2_Engine {
 		/*
 			Audio : toggleSFXPause - Toggle the pause/play state of a sound effect channel
 			Created: 10/10/2017
-			Modified: 10/10/2017
+			Modified: 02/11/2017
 
 			param[in] pPause - A bool state to indicate if the sound effect should be paused or resumed
 			param[in] pChannel - The channel to change the state of, or -1 to change all
@@ -121,7 +143,7 @@ namespace SDL2_Engine {
 		/*
 			Audio : playMusic - Play a background music file with specified values
 			Created: 10/10/2017
-			Modified: 10/10/2017
+			Modified: 02/11/2017
 
 			param[in] pMusic - The music file to play
 			param[in] pVolume - The volume to play at, where 0 is the lowest and 128 is the highest (Default 128)

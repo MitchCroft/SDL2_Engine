@@ -2,7 +2,7 @@
 
 //! Include the SDL2_Engine objects
 #include "../../../__LibraryManagement.hpp"
-#include "../../../Utilities/Action.hpp"
+#include <functional>
 
 namespace SDL2_Engine {
 	namespace UI {
@@ -10,8 +10,11 @@ namespace SDL2_Engine {
 			//! Prototype the IUIAction interface
 			class IUIAction;
 
+			//! Export the required std::function implementation
+			template class SDL2_LIB_INC std::function<void(IUIAction*, void*)>;
+
 			//! Create a type define for UI Actions 
-			typedef Utilities::Action<void(IUIAction*, void*)> UIAction;
+			typedef std::function<void(IUIAction*, void*)> UIAction;
 
 			//! Define the possible states that the action can exist in
 			enum class EActionState { Locked, Default, Highlighted };
@@ -20,7 +23,7 @@ namespace SDL2_Engine {
 			 *		Name: IUIAction
 			 *		Author: Mitchell Croft
 			 *		Created: 11/10/2017
-			 *		Modified: 14/10/2017
+			 *		Modified: 02/11/2017
 			 *		
 			 *		Purpose:
 			 *		Provide an interface for UI elements that can perform an action in response to
@@ -35,20 +38,20 @@ namespace SDL2_Engine {
 				/*
 					IUIAction : action - Call the contained UI action object
 					Created: 11/10/2017
-					Modified: 13/10/2017
+					Modified: 02/11/2017
 
 					return bool - Returns true if a callback was raised
 				*/
-				inline bool action() { return (mState != EActionState::Locked ? mActionCallback(this, mActionData) : false); }
+				inline bool action() { if (!mActionCallback) return false; mActionCallback(this, mActionData);	return true; }
 
 				/*
 					IUIAction : setAction - Set the callback function used for the action
 					Created: 11/10/2017
-					Modified: 11/10/2017
+					Modified: 02/11/2017
 
-					param[in] pCB - A pointer to the new callback function that should be used for the action
+					param[in] pCB - A callback function object to be raised when the action is called
 				*/
-				inline void setAction(const UIAction::signature& pCB) { mActionCallback = pCB; }
+				inline void setAction(const UIAction& pCB) { mActionCallback = pCB; }
 
 				/*
 					IUIAction : setData - Set the data pointer that is passed to the action callback

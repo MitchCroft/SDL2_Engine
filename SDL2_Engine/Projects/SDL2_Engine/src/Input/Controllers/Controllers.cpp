@@ -195,7 +195,7 @@ namespace SDL2_Engine {
 		*/
 		const float Controllers::rawAxis(const EGamePadAxisCodes& pAxis, const Utilities::Bitmask<EGamePadID>& pIDs /*= EGamePadID::All*/) const noexcept { 
 			//Check if the mask is multiple or a single ID
-			int s = fsqrt(pIDs.getMask());
+			int s = (int)fsqrt(pIDs.getMask());
 			if ((s * s) == pIDs.getMask()) 
 				return mData->gamepads[ID2IND(pIDs.getMask())].rawAxis(pAxis);
 
@@ -231,7 +231,7 @@ namespace SDL2_Engine {
 		*/
 		const float Controllers::rawAxisDelta(const EGamePadAxisCodes& pAxis, const Utilities::Bitmask<EGamePadID>& pIDs /*= EGamePadID::All*/) const noexcept { 
 			//Check if the mask is multiple or a single ID
-			int s = fsqrt(pIDs.getMask());
+			int s = (int)fsqrt(pIDs.getMask());
 			if ((s * s) == pIDs.getMask())
 				return mData->gamepads[ID2IND(pIDs.getMask())].rawAxisDelta(pAxis);
 

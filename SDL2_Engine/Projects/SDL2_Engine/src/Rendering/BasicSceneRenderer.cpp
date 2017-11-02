@@ -96,7 +96,7 @@ namespace SDL2_Engine {
 		/*
 			BasicSceneRenderer : drawText - Render text using the passed in values
 			Created: 09/10/2017
-			Modified: 09/10/2017
+			Modified: 02/11/2017
 
 			param[in] pRenderer - The SDL Renderer object to be used to draw graphics to the screen
 			param[in] pText - A c-string defining the text to render
@@ -113,17 +113,17 @@ namespace SDL2_Engine {
 			//Switch on the render type
 			switch (pRenderType) {
 			case ETextRenderType::Blended:
-				tempSurface = TTF_RenderText_Blended(pFont, pText, { pColour.r, pColour.g, pColour.b, pColour.a });
+				tempSurface = TTF_RenderUTF8_Blended(pFont, pText, { pColour.r, pColour.g, pColour.b, pColour.a });
 				break;
 			default: // Solid
-				tempSurface = TTF_RenderText_Solid(pFont, pText, { pColour.r, pColour.g, pColour.b, pColour.a });
+				tempSurface = TTF_RenderUTF8_Solid(pFont, pText, { pColour.r, pColour.g, pColour.b, pColour.a });
 				break;
 			}
 
 			//Check for error
 			if (!tempSurface) {
 				//Output error
-				Globals::get<Debug::Logger>().logError("BasicSceneRenderer failed to render text '%s' to a surface with the type %i during a drawText(...) call. Error: %i", pText, (int)pRenderType, SDL_GetError());
+				Globals::get<Debug::Logger>().logError("BasicSceneRenderer failed to render text '%s' to a surface with the type %i during a drawText(...) call. Error: %s", pText, (int)pRenderType, SDL_GetError());
 				return;
 			}
 

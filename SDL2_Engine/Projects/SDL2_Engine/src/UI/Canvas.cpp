@@ -468,7 +468,7 @@ namespace SDL2_Engine {
 		/*
 			Canvas : rebuildInteractionMap - Rebuild the internal interaction map to allow for users to navigate Actionable UI elements
 			Created: 13/10/2017
-			Modified: 15/10/2017
+			Modified: 02/11/2017
 		*/
 		void Canvas::rebuildInteractionMap() {
 			//Clear the previous map
@@ -480,6 +480,9 @@ namespace SDL2_Engine {
 
 			//Calculate how many elements are in interactable
 			for (size_t i = 0, COUNT = mData->uiElements.size(); i < COUNT; i++) {
+				//Check if this UI element is alive
+				if (!mData->uiElements[i]->isAlive()) continue;
+
 				//Check if this is interactable
 				if (auto pointer = dynamic_cast<UIElements::IUIAction*>(mData->uiElements[i]))
 					interactable.push_back(pointer);
@@ -626,16 +629,30 @@ namespace SDL2_Engine {
 		/*
 			Canvas : update - Update and render the contained UI elements
 			Created: 12/10/2017
-			Modified: 16/10/2017
+			Modified: 02/11/2017
 		*/
 		void Canvas::update() {
 			//Loop through existing active UI elements
 			for (int i = (int)mData->uiElements.size() - 1; i >= 0; --i) {
 				//Check if the element is dead
 				if (!mData->uiElements[i]->isAlive()) {
-					//If element is IUIAction, invalidate navigation map
-					if (mData->interactiveMap && dynamic_cast<UIElements::IUIAction*>(mData->uiElements[i]))
-						destroyInteractiveMap();
+					//Check if the interaction map has been established
+					if (mData->interactiveMap) {
+						//Check to see if the element is an Actionable object
+						if (auto temp = dynamic_cast<UIElements::IUIAction*>(mData->uiElements[i])) {
+							//Loop through interaction map and see if the element is on it
+							for (size_t i = 0; i < mData->mapSize; i++) {
+								//Check if the objects are the same
+								if (mData->interactiveMap[i].element == temp) {
+									//Destroy the interactive map
+									destroyInteractiveMap();
+
+									//Break the search
+									break;
+								}
+							}
+						}
+					}
 
 					//Destroy the UI element
 					mData->uiElements[i]->destroyUI();

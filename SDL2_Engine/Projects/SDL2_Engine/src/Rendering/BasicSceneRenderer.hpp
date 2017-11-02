@@ -9,7 +9,7 @@ namespace SDL2_Engine {
 		 *		Name: BasicSceneRenderer
 		 *		Author: Mitchell Croft
 		 *		Created: 09/10/2017
-		 *		Modified: 09/10/2017
+		 *		Modified: 02/11/2017
 		 *		
 		 *		Purpose:
 		 *		Provide basic rendering functionality
@@ -78,7 +78,7 @@ namespace SDL2_Engine {
 			/*
 				BasicSceneRenderer : drawText - Render text using the passed in values
 				Created: 09/10/2017
-				Modified: 09/10/2017
+				Modified: 02/11/2017
 
 				param[in] pRenderer - The SDL Renderer object to be used to draw graphics to the screen
 				param[in] pText - A c-string defining the text to render

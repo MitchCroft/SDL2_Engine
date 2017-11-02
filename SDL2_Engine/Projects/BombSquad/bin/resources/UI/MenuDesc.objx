@@ -1,0 +1,239 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////                                                                                                    //////////////////////////////////////////////////
+//////////////////////////////////////////////////                                                Main Menu                                           //////////////////////////////////////////////////
+//////////////////////////////////////////////////                                                                                                    //////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+mainMenu = {
+	//! Create a background panel
+	00backgroundPnl = {
+		//! Flag the type of the UI element
+		type = "panel"
+
+		//! Position to take over entire screen
+		x = 0
+		y = 0
+		width = 1280
+		height = 720
+
+		//! Assign the image
+		image = "./Textures/MenuBackground.png"
+	}
+
+	//! Create a title for the menu
+	01titlePnl = {
+		//! Flag the type of the UI element
+		type = "panel"
+
+		//! Position the panel at the top part of the screen
+		x = 412
+		y = 25
+		width = 456
+		height = 382
+
+		//! Assign the image
+		image = "./Textures/Title.png"
+	}
+
+	//! Create the button used to start the game
+	02gameBtn = {
+		//! Flag the type of the UI element
+		type = "button"
+
+		//! Tag this element should progress to the game
+		tag = "setupGame"
+
+		//! Position aligned in the center of the screen
+		x = 440
+		y = 417
+		width = 400
+		height = 50
+
+		//! Label the button
+		text = "Play Game"
+
+		//! Assign font values
+		font = "../Fonts/Ebrima.ttf"
+		fontSize = 36
+	}
+
+	//! Create the button used to navigate to the options menu
+	03optionsBtn = {
+		//! Flag the type of the UI element
+		type = "button"
+
+		//! Tag this element should progress to the game
+		tag = "optionsMenu"
+
+		//! Position aligned in the center of the screen
+		x = 440
+		y = 487
+		width = 400
+		height = 50
+
+		//! Label the button
+		text = "Options"
+
+		//! Assign font values
+		font = "../Fonts/Ebrima.ttf"
+		fontSize = 36
+	}
+
+	//! Create the button used to navigate to the credits menu
+	04creditsBtn = {
+		//! Flag the type of the UI element
+		type = "button"
+
+		//! Tag this element should progress to the game
+		tag = "creditsMenu"
+
+		//! Position aligned in the center of the screen
+		x = 440
+		y = 547
+		width = 400
+		height = 50
+
+		//! Label the button
+		text = "Credits"
+
+		//! Assign font values
+		font = "../Fonts/Ebrima.ttf"
+		fontSize = 36
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////                                                                                                    //////////////////////////////////////////////////
+//////////////////////////////////////////////////                                              Options Menu                                          //////////////////////////////////////////////////
+//////////////////////////////////////////////////                                                                                                    //////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+optionsMenu = {
+	//! Create a background panel
+	00backgroundPnl = {
+		//! Flag the type of the UI element
+		type = "panel"
+
+		//! Position to take over entire screen
+		x = 0
+		y = 0
+		width = 1280
+		height = 720
+
+		//! Assign the image
+		image = "./Textures/WarningBack.png"
+	}
+
+	//! Display message content
+	01messageLbl = {
+		//! Flag the type of the UI element
+		type = "label"
+
+		//! Position off center of the screen
+		x = 640
+		y = 300
+
+		//! Align in the center of the screen
+		alignment = "center"
+
+		//! Set the colour to white
+		colour = "FFFFFFFF"
+
+		//! Display the message
+		text = "This Is Not Ready Yet, Try Again Later"
+
+		//! Assign font values
+		font = "../Fonts/Ebrima.ttf"
+		fontSize = 50
+	}
+
+	//! Create a button to return to the main menu
+	02menuBtn = {
+		//! Flag the type of the UI element
+		type = "button"
+
+		//! Tag this element should progress to the game
+		tag = "mainMenu"
+
+		//! Position aligned in the center of the screen
+		x = 440
+		y = 360
+		width = 400
+		height = 50
+
+		//! Label the button
+		text = "Return to Menu"
+
+		//! Assign font values
+		font = "../Fonts/Ebrima.ttf"
+		fontSize = 36
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////                                                                                                    //////////////////////////////////////////////////
+//////////////////////////////////////////////////                                              Credits Menu                                          //////////////////////////////////////////////////
+//////////////////////////////////////////////////                                                                                                    //////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+creditsMenu = {
+	//! Create a background panel
+	00backgroundPnl = {
+		//! Flag the type of the UI element
+		type = "panel"
+
+		//! Position to take over entire screen
+		x = 0
+		y = 0
+		width = 1280
+		height = 720
+
+		//! Assign the image
+		image = "./Textures/WarningBack.png"
+	}
+
+	//! Display message content
+	01messageLbl = {
+		//! Flag the type of the UI element
+		type = "label"
+
+		//! Position off center of the screen
+		x = 640
+		y = 300
+
+		//! Align in the center of the screen
+		alignment = "center"
+
+		//! Set the colour to white
+		colour = "FFFFFFFF"
+
+		//! Display the message
+		text = "This Is Not Ready Yet, Try Again Later"
+
+		//! Assign font values
+		font = "../Fonts/Ebrima.ttf"
+		fontSize = 50
+	}
+
+	//! Create a button to return to the main menu
+	02menuBtn = {
+		//! Flag the type of the UI element
+		type = "button"
+
+		//! Tag this element should progress to the game
+		tag = "mainMenu"
+
+		//! Position aligned in the center of the screen
+		x = 440
+		y = 360
+		width = 400
+		height = 50
+
+		//! Label the button
+		text = "Return to Menu"
+
+		//! Assign font values
+		font = "../Fonts/Ebrima.ttf"
+		fontSize = 36
+	}
+}

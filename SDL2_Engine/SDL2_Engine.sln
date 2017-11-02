@@ -10,6 +10,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestingGrounds", "Projects\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDL2_Engine", "Projects\SDL2_Engine\SDL2_Engine.vcxproj", "{AD923EE7-362A-4D78-9159-8B89623F49A9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BombSquad", "Projects\BombSquad\BombSquad.vcxproj", "{7E1581BE-1407-40DF-A64C-A0B34335D94B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AD923EE7-362A-4D78-9159-8B89623F49A9} = {AD923EE7-362A-4D78-9159-8B89623F49A9}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -34,6 +39,14 @@ Global
 		{AD923EE7-362A-4D78-9159-8B89623F49A9}.Release|x64.Build.0 = Release|x64
 		{AD923EE7-362A-4D78-9159-8B89623F49A9}.Release|x86.ActiveCfg = Release|Win32
 		{AD923EE7-362A-4D78-9159-8B89623F49A9}.Release|x86.Build.0 = Release|Win32
+		{7E1581BE-1407-40DF-A64C-A0B34335D94B}.Debug|x64.ActiveCfg = Debug|x64
+		{7E1581BE-1407-40DF-A64C-A0B34335D94B}.Debug|x64.Build.0 = Debug|x64
+		{7E1581BE-1407-40DF-A64C-A0B34335D94B}.Debug|x86.ActiveCfg = Debug|Win32
+		{7E1581BE-1407-40DF-A64C-A0B34335D94B}.Debug|x86.Build.0 = Debug|Win32
+		{7E1581BE-1407-40DF-A64C-A0B34335D94B}.Release|x64.ActiveCfg = Release|x64
+		{7E1581BE-1407-40DF-A64C-A0B34335D94B}.Release|x64.Build.0 = Release|x64
+		{7E1581BE-1407-40DF-A64C-A0B34335D94B}.Release|x86.ActiveCfg = Release|Win32
+		{7E1581BE-1407-40DF-A64C-A0B34335D94B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

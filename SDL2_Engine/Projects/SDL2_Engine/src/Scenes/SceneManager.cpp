@@ -218,7 +218,7 @@ namespace SDL2_Engine {
 		/*
 			SceneManager : update - Update and render the contained Scenes
 			Created: 11/10/2017
-			Modified: 16/10/2017
+			Modified: 02/11/2017
 		*/
 		void SceneManager::update() {
 			//Loop through existing currently active scenes
@@ -258,6 +258,18 @@ namespace SDL2_Engine {
 
 				//Clear the waiting list
 				mData->scenesToAdd.clear();
+			}
+
+			//Ensure there are Scenes to process
+			if (!mData->activeScenes.size()) {
+				//Log the error
+				Globals::get<Debug::Logger>().logError("There are no remaining active Scenes to control application execution. Assuming program should close...");
+
+				//Quit the application
+				quit();
+
+				//Exit the function
+				return;
 			}
 
 			//Sort remaining Scenes

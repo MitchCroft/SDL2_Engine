@@ -21,7 +21,7 @@ namespace SDL2_Engine {
 		 *		Name: Controllers
 		 *		Author: Mitchell Croft
 		 *		Created: 25/07/2017
-		 *		Modified: 12/10/2017
+		 *		Modified: 02/11/2017
 		 *		
 		 *		Purpose:
 		 *		Track and manage connected XInput physical devices as
@@ -47,7 +47,7 @@ namespace SDL2_Engine {
 			/*
 				Controllers : btnDown - Test to see if the specified GamePad(s) are pressing at least one of the specified buttons
 				Created: 22/09/2017
-				Modified: 22/09/2017
+				Modified: 02/11/2017
 
 				param[in] pBtns - A Bitmask of EGamePadBtnCodes that make up the various buttons to check
 				param[in] pIDs - A Bitmask of EGamePadID values that make up the various GamePad(s) to check
@@ -59,7 +59,7 @@ namespace SDL2_Engine {
 			/*
 				Controllers : btnPressed - Test to see if the specified GamePad(s) have just pressed at least one of the specified buttons after all buttons were previously released
 				Created: 22/09/2017
-				Modified: 22/09/2017
+				Modified: 02/11/2017
 
 				param[in] pBtns - A Bitmask of EGamePadBtnCodes that make up the various buttons to check
 				param[in] pIDs - A Bitmask of EGamePadID values that make up the various GamePad(s) to check
@@ -71,7 +71,7 @@ namespace SDL2_Engine {
 			/*
 				Controllers : btnReleased - Test to see if the specified GamePad(s) have just released at least one of the specified buttons after all buttons were previously pressed
 				Created: 22/09/2017
-				Modified: 22/09/2017
+				Modified: 02/11/2017
 
 				param[in] pBtns - A Bitmask of EGamePadBtnCodes that make up the various buttons to check
 				param[in] pIDs - A Bitmask of EGamePadID values that make up the various GamePad(s) to check
@@ -81,28 +81,28 @@ namespace SDL2_Engine {
 			int btnReleased(const Utilities::Bitmask<EGamePadBtnCodes>& pBtns, const Utilities::Bitmask<EGamePadID>& pIDs = EGamePadID::All) const noexcept;
 
 			/*
-				 Controllers : rawAxis - Retrieve the raw axis value from a specific GamePad
+				 Controllers : rawAxis - Retrieve the raw axis value from a specific or multiple GamePads
 				 Created: 22/09/2017
-				 Modified: 22/09/2017
+				 Modified: 02/11/2017
 
 				 param[in] pAxis - The EGamePadAxisCode value to retrieve
-				 param[in] pID - The EGamePadID value defining the controller to retrieve input from
+				 param[in] pIDs - A Bitmask of EGamePadID values that make up the various GamePad(s) to check
 
-				 return const float& - Returns the axis value as a const float reference within the range -1.f to 1.f
+				 return const float - Returns the average axis value as a const float within the range -1.f to 1.f
 			*/
-			const float& rawAxis(const EGamePadAxisCodes& pAxis, const EGamePadID& pID) const noexcept;
+			const float rawAxis(const EGamePadAxisCodes& pAxis, const Utilities::Bitmask<EGamePadID>& pIDs = EGamePadID::All) const noexcept;
 
 			/*
-				Controllers : rawAxisDelta - Retrieve the change in raw axis value from a specified GamePad
+				Controllers : rawAxisDelta - Retrieve the change in raw axis value from a specific or multiple GamePads
 				Created: 22/09/2017
-				Modified: 22/09/2017
+				Modified: 02/11/2017
 
 				param[in] pAxis - The EGamePadAxisCode value to retrieve
-				param[in] pID - The EGamePadID value defining the controller to retrieve input from
+				param[in] pIDs - A Bitmask of EGamePadID values that make up the various GamePad(s) to check
 
-				return float - Returns a float value containing the change in the specified axis' value
+				return const float - Returns a float value containing the average change in the specified axis' value
 			*/
-			const float rawAxisDelta(const EGamePadAxisCodes& pAxis, const EGamePadID& pID) const noexcept;
+			const float rawAxisDelta(const EGamePadAxisCodes& pAxis, const Utilities::Bitmask<EGamePadID>& pIDs = EGamePadID::All) const noexcept;
 
 			/*
 				Controllers : applyVibration - Add a vibration description to the Controller Manager

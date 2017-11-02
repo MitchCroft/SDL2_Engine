@@ -51,7 +51,7 @@ namespace SDL2_Engine {
 				////////----------------------------------GamePad Values-------------------------------------////////
 				/////////////////////////////////////////////////////////////////////////////////////////////////////
 				struct {
-					//! Store the GamePads to check the input values from. Axis can only read from a single GamePad 
+					//! Store the GamePads to check the input values from
 					Utilities::Bitmask<EGamePadID> gamePads;
 
 					//! Store the GamePds input type 

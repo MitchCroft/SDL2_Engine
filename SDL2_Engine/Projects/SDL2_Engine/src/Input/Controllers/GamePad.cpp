@@ -83,14 +83,14 @@ namespace SDL2_Engine {
 				buttonMask = pState.Gamepad.wButtons;
 
 				//Convert the trigger values
-				axisValues[(int)EGamePadAxisCodes::Left_Trigger] = (float)pState.Gamepad.bLeftTrigger / GAMEPAD_TRIGGER_MAX;
-				axisValues[(int)EGamePadAxisCodes::Right_Trigger] = (float)pState.Gamepad.bRightTrigger / GAMEPAD_TRIGGER_MAX;
+				axisValues[(int)EGamePadAxisCode::Left_Trigger] = (float)pState.Gamepad.bLeftTrigger / GAMEPAD_TRIGGER_MAX;
+				axisValues[(int)EGamePadAxisCode::Right_Trigger] = (float)pState.Gamepad.bRightTrigger / GAMEPAD_TRIGGER_MAX;
 
 				//Convert the thumbstick axis
-				axisValues[(int)EGamePadAxisCodes::Left_X] = (float)pState.Gamepad.sThumbLX / GAMEPAD_THUMBSTICK_MAX;
-				axisValues[(int)EGamePadAxisCodes::Left_Y] = (float)pState.Gamepad.sThumbLY / GAMEPAD_THUMBSTICK_MAX;
-				axisValues[(int)EGamePadAxisCodes::Right_X] = (float)pState.Gamepad.sThumbRX / GAMEPAD_THUMBSTICK_MAX;
-				axisValues[(int)EGamePadAxisCodes::Right_Y] = (float)pState.Gamepad.sThumbRY / GAMEPAD_THUMBSTICK_MAX;
+				axisValues[(int)EGamePadAxisCode::Left_X] = (float)pState.Gamepad.sThumbLX / GAMEPAD_THUMBSTICK_MAX;
+				axisValues[(int)EGamePadAxisCode::Left_Y] = (float)pState.Gamepad.sThumbLY / GAMEPAD_THUMBSTICK_MAX;
+				axisValues[(int)EGamePadAxisCode::Right_X] = (float)pState.Gamepad.sThumbRX / GAMEPAD_THUMBSTICK_MAX;
+				axisValues[(int)EGamePadAxisCode::Right_Y] = (float)pState.Gamepad.sThumbRY / GAMEPAD_THUMBSTICK_MAX;
 
 				//Return self
 				return *this;
@@ -145,7 +145,7 @@ namespace SDL2_Engine {
 
 			return const float& - Returns a constant reference to the raw axis value
 		*/
-		const float& _GamePad::rawAxis(const EGamePadAxisCodes& pAxis) const noexcept { return mStates[STATE_CUR].axisValues[(int)pAxis]; }
+		const float& _GamePad::rawAxis(const EGamePadAxisCode& pAxis) const noexcept { return mStates[STATE_CUR].axisValues[(int)pAxis]; }
 
 		/*
 			_GamePad : rawAxisDelta - Retrieve the raw change in axis value from the Game Pad
@@ -156,7 +156,7 @@ namespace SDL2_Engine {
 
 			return float - Returns the change in axis value as float
 		*/
-		float _GamePad::rawAxisDelta(const EGamePadAxisCodes& pAxis) const noexcept { return mStates[STATE_CUR].axisValues[(int)pAxis] - mStates[STATE_PRE].axisValues[(int)pAxis]; }
+		float _GamePad::rawAxisDelta(const EGamePadAxisCode& pAxis) const noexcept { return mStates[STATE_CUR].axisValues[(int)pAxis] - mStates[STATE_PRE].axisValues[(int)pAxis]; }
 
 		/*
 			_GamePad : vibrate - Set the vibration values for the connected controller

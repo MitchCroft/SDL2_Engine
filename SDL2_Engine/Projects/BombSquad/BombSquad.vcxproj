@@ -168,11 +168,15 @@ xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.lib
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\entry.cpp" />
+    <ClCompile Include="src\Game\ControlScheme.cpp" />
     <ClCompile Include="src\Scenes\ExternalMenu.cpp" />
+    <ClCompile Include="src\Scenes\PlayerSetupScene.cpp" />
     <ClCompile Include="src\Scenes\SplashScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Game\ControlScheme.hpp" />
     <ClInclude Include="src\Scenes\ExternalMenu.hpp" />
+    <ClInclude Include="src\Scenes\PlayerSetupScene.hpp" />
     <ClInclude Include="src\Scenes\SplashScene.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

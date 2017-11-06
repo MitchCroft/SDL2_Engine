@@ -193,7 +193,7 @@ namespace SDL2_Engine {
 
 			return const float - Returns the average axis value as a const float within the range -1.f to 1.f
 		*/
-		const float Controllers::rawAxis(const EGamePadAxisCodes& pAxis, const Utilities::Bitmask<EGamePadID>& pIDs /*= EGamePadID::All*/) const noexcept { 
+		const float Controllers::rawAxis(const EGamePadAxisCode& pAxis, const Utilities::Bitmask<EGamePadID>& pIDs /*= EGamePadID::All*/) const noexcept { 
 			//Check if the mask is multiple or a single ID
 			int s = (int)fsqrt(pIDs.getMask());
 			if ((s * s) == pIDs.getMask()) 
@@ -229,7 +229,7 @@ namespace SDL2_Engine {
 
 			return const float - Returns a float value containing the average change in the specified axis' value
 		*/
-		const float Controllers::rawAxisDelta(const EGamePadAxisCodes& pAxis, const Utilities::Bitmask<EGamePadID>& pIDs /*= EGamePadID::All*/) const noexcept { 
+		const float Controllers::rawAxisDelta(const EGamePadAxisCode& pAxis, const Utilities::Bitmask<EGamePadID>& pIDs /*= EGamePadID::All*/) const noexcept { 
 			//Check if the mask is multiple or a single ID
 			int s = (int)fsqrt(pIDs.getMask());
 			if ((s * s) == pIDs.getMask())

@@ -10,12 +10,6 @@
 
 namespace SDL2_Engine {
 	namespace Input {
-		//! Flag the input devices the Virtual Axis can use
-		enum class EInputDevice { GamePads, Keyboard, Mouse };
-
-		//! Flag the different input types available to the Gamepad
-		enum class EGamePadInputType { Button, Axis };
-
 		/*
 		 *		Name: VirtualAxis
 		 *		Author: Mitchell Croft
@@ -38,13 +32,13 @@ namespace SDL2_Engine {
 			vAxisName name;
 
 			//! Store the additional strength scale applied to the Input movements
-			float sensitivity;
+			float sensitivity = 1.f;
 
 			//! Store the pull strength applied to the value when lacking Input
-			float gravity;
+			float gravity = 1.f;
 
 			//! Flags if the input values should be inverted
-			bool invert;
+			bool invert = false;
 
 			union {
 				/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +68,7 @@ namespace SDL2_Engine {
 					/////////////////////////////////////////////////////////////////////////////////////////////////////
 					
 					//! Store the axis to take input from
-					EGamePadAxisCodes aAxis;
+					EGamePadAxisCode aAxis;
 
 					//! Store the size of the dead zone applied to read axis 
 					float aDeadZone;
@@ -86,12 +80,12 @@ namespace SDL2_Engine {
 				/////////////////////////////////////////////////////////////////////////////////////////////////////
 				struct {
 					//! Store the buttons which contribute a positive value to the axis
-					EKeyboardKeyCodes kPosBtn;
-					EKeyboardKeyCodes kAltPosBtn;
+					EKeyboardKeyCode kPosBtn;
+					EKeyboardKeyCode kAltPosBtn;
 
 					//! Store the buttons which contribute a negative value to the axis
-					EKeyboardKeyCodes kNegBtn;
-					EKeyboardKeyCodes kAltNegBtn;
+					EKeyboardKeyCode kNegBtn;
+					EKeyboardKeyCode kAltNegBtn;
 				};
 
 				/////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -17,7 +17,7 @@ namespace SDL2_Engine {
 		 *		Name: SceneManager
 		 *		Author: Mitchell Croft
 		 *		Created: 11/10/2017
-		 *		Modified: 02/11/2017
+		 *		Modified: 06/11/2017
 		 *		
 		 *		Purpose:
 		 *		Provide an interface for controlling the updating and rendering of
@@ -49,6 +49,35 @@ namespace SDL2_Engine {
 				//Initialise the new Scene
 				return initialiseScene(new T(pArgs...), Utilities::typeToID<T>());
 			}
+
+			/*
+				SceneManager : retrieveScene - Retrieve the first active Scene of the specified type
+				Created: 06/11/2017
+				Modified: 06/11/2017
+
+				Template T - The type of Scene to retrieve
+
+				return T* - Returns a pointer to the first Scene of type T or nullptr if not found
+			*/
+			template<typename T>
+			inline T* retrieveScene() {
+				//Ensure the template is of the correct type
+				static_assert(std::is_base_of<ISceneBase, T>::value, "Can not retrieve a type that is not a subclass of ISceneBase from the Scene Manager");
+
+				//Find the Scene
+				return (T*)retrieveScene(Utilities::typeToID<T>());
+			}
+
+			/*
+				SceneManager : retrieveScene - Retrieve the first active Scene of the specified type
+				Created: 06/11/2017
+				Modified: 06/11/2017
+
+				param[in] pID - The Type ID of the Scene to retrieve
+
+				return ISceneBase* - Returns a pointer to the first active Scene of with a matching typeID or nullptr if not found
+			*/
+			ISceneBase* retrieveScene(const Utilities::typeID& pID);
 
 			/*
 				SceneManager : removeScene - Flag the first Scene of the specified type for removal

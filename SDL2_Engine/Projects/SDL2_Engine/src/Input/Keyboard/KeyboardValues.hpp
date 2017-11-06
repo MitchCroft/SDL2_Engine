@@ -17,7 +17,7 @@ namespace SDL2_Engine {
 		};
 
 		//! List the different keyboard key codes that can be read from
-		enum class EKeyboardKeyCodes : unsigned int {
+		enum class EKeyboardKeyCode : unsigned int {
 			//! Default
 			Null,
 

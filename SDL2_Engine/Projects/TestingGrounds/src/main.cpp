@@ -60,13 +60,13 @@ int main() {
 
 	//Horizontal
 	VirtualAxis horizPad;
-	horizPad.inputType = EInputDevice::GamePads;
+	horizPad.inputType = EInputDevice::GamePad;
 	horizPad.name = "horizontal";
 	horizPad.sensitivity = 1.f;
 	horizPad.gravity = 10.f;
 	horizPad.gamePads = EGamePadID::One;
 	horizPad.gamePadInputType = EGamePadInputType::Axis;
-	horizPad.aAxis = EGamePadAxisCodes::Left_X;
+	horizPad.aAxis = EGamePadAxisCode::Left_X;
 	horizPad.aDeadZone = 0.1f;
 	virtualAxis.push_back(horizPad);
 
@@ -75,19 +75,19 @@ int main() {
 	horizKey.name = "horizontal";
 	horizKey.sensitivity = 1.f;
 	horizKey.gravity = 10.f;
-	horizKey.kPosBtn = EKeyboardKeyCodes::Arrow_Right;
-	horizKey.kNegBtn = EKeyboardKeyCodes::Arrow_Left;
+	horizKey.kPosBtn = EKeyboardKeyCode::Arrow_Right;
+	horizKey.kNegBtn = EKeyboardKeyCode::Arrow_Left;
 	virtualAxis.push_back(horizKey);
 
 	//Vertical
 	VirtualAxis vertPad;
-	vertPad.inputType = EInputDevice::GamePads;
+	vertPad.inputType = EInputDevice::GamePad;
 	vertPad.name = "vertical";
 	vertPad.sensitivity = 1.f;
 	vertPad.gravity = 10.f;
 	vertPad.gamePads = EGamePadID::One;
 	vertPad.gamePadInputType = EGamePadInputType::Axis;
-	vertPad.aAxis = EGamePadAxisCodes::Left_Y;
+	vertPad.aAxis = EGamePadAxisCode::Left_Y;
 	vertPad.aDeadZone = 0.1f;
 	virtualAxis.push_back(vertPad);
 
@@ -96,13 +96,13 @@ int main() {
 	vertKey.name = "vertical";
 	vertKey.sensitivity = 1.f;
 	vertKey.gravity = 10.f;
-	vertKey.kPosBtn = EKeyboardKeyCodes::Arrow_Up;
-	vertKey.kNegBtn = EKeyboardKeyCodes::Arrow_Down;
+	vertKey.kPosBtn = EKeyboardKeyCode::Arrow_Up;
+	vertKey.kNegBtn = EKeyboardKeyCode::Arrow_Down;
 	virtualAxis.push_back(vertKey);
 
 	//Confirm
 	VirtualAxis confPad;
-	confPad.inputType = EInputDevice::GamePads;
+	confPad.inputType = EInputDevice::GamePad;
 	confPad.name = "confirm";
 	confPad.sensitivity = 1.f;
 	confPad.gravity = 10.f;
@@ -116,7 +116,7 @@ int main() {
 	confKey.name = "confirm";
 	confKey.sensitivity = 1.f;
 	confKey.gravity = 10.f;
-	confKey.kAltPosBtn = EKeyboardKeyCodes::Return;
+	confKey.kAltPosBtn = EKeyboardKeyCode::Return;
 	virtualAxis.push_back(confKey);
 
 	setup.inputValues.defaultAxis = virtualAxis.data();

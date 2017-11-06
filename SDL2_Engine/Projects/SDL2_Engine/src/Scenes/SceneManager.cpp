@@ -61,6 +61,27 @@ namespace SDL2_Engine {
 		};
 
 		/*
+			SceneManager : retrieveScene - Retrieve the first active Scene of the specified type
+			Created: 06/11/2017
+			Modified: 06/11/2017
+
+			param[in] pID - The Type ID of the Scene to retrieve
+
+			return ISceneBase* - Returns a pointer to the first active Scene of with a matching typeID or nullptr if not found
+		*/
+		ISceneBase* SceneManager::retrieveScene(const Utilities::typeID& pID) {
+			//Loop through all active scenes
+			for (int i = (int)mData->activeScenes.size() - 1; i >= 0; i--) {
+				//Check if the ID matches
+				if (mData->activeScenes[i]->mTypeID == pID)
+					return mData->activeScenes[i];
+			}
+
+			//Default return failure
+			return nullptr;
+		}
+
+		/*
 			SceneManager : removeScene - Flag the first scene of the specified type for removal
 			Created: 11/10/2017
 			Modified: 11/10/2017

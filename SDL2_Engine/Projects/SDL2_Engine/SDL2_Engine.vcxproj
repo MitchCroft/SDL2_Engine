@@ -194,6 +194,7 @@
     <ClInclude Include="src\Debug\Logger.hpp" />
     <ClInclude Include="src\Input\Mouse\Mouse.hpp" />
     <ClInclude Include="src\Input\Mouse\MouseValues.hpp" />
+    <ClInclude Include="src\Input\StringToInputValues.hpp" />
     <ClInclude Include="src\Input\VirtualAxis.hpp" />
     <ClInclude Include="src\Rendering\BasicSceneRenderer.hpp" />
     <ClInclude Include="src\Rendering\Colour.hpp" />
@@ -254,6 +255,7 @@
     <ClCompile Include="src\Input\AxisInputInitialiser.cpp" />
     <ClCompile Include="src\Input\Keyboard\Keyboard.cpp" />
     <ClCompile Include="src\Input\Mouse\Mouse.cpp" />
+    <ClCompile Include="src\Input\StringToInputValues.cpp" />
     <ClCompile Include="src\Input\VirtualAxis.cpp" />
     <ClCompile Include="src\Rendering\BasicSceneRenderer.cpp" />
     <ClCompile Include="src\Rendering\Colour.cpp" />

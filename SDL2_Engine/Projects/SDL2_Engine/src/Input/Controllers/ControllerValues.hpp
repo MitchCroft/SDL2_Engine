@@ -4,6 +4,7 @@ namespace SDL2_Engine {
 	namespace Input {
 		//! Define the ID's for the different GamePads
 		enum class EGamePadID { 
+			Null	= 0,
 			One		= 1 << 0, 
 			Two		= 1 << 1, 
 			Three	= 1 << 2, 
@@ -11,8 +12,11 @@ namespace SDL2_Engine {
 			All		= One | Two | Three | Four
 		};
 
+		//! Flag the different input types available to the Gamepad
+		enum class EGamePadInputType { Null, Button, Axis };
+
 		//! List the different axis that can be read from a GamePad
-		enum class EGamePadAxisCodes {
+		enum class EGamePadAxisCode {
 			//! Null input, axis not checked
 			Null_Axis = -1,
 

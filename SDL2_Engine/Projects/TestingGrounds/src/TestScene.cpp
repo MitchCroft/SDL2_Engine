@@ -93,7 +93,7 @@ void TestScene::destroyScene() {}
 */
 void TestScene::update() {
 	//Quit Application
-	if (Globals::get<Keyboard>().keyPressed(EKeyboardKeyCodes::Escape)) 
+	if (Globals::get<Keyboard>().keyPressed(EKeyboardKeyCode::Escape)) 
 		Globals::get<SceneManager>().quit();
 }
 

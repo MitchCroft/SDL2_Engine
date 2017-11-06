@@ -9,6 +9,9 @@
 
 namespace SDL2_Engine {
 	namespace Input {
+		//! Export the required Action implementation
+		template class SDL2_LIB_INC Utilities::Action<float(const float&)>;
+
 		/*
 		 *		Name: VibrationDescription
 		 *		Author: Mitchell Croft

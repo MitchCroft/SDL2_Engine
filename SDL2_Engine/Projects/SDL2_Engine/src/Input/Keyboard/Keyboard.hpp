@@ -36,7 +36,7 @@ namespace SDL2_Engine {
 
 				return bool - Returns true if the key is currently down
 			*/
-			bool keyDown(const EKeyboardKeyCodes& pKey) const noexcept;
+			bool keyDown(const EKeyboardKeyCode& pKey) const noexcept;
 
 			/*
 				Keyboard : keyPressed - Determine if a specified key value was pressed this cycle
@@ -47,7 +47,7 @@ namespace SDL2_Engine {
 
 				return bool - Returns true the first cycle where the key is pressed down
 			*/
-			bool keyPressed(const EKeyboardKeyCodes& pKey) const noexcept;
+			bool keyPressed(const EKeyboardKeyCode& pKey) const noexcept;
 
 			/*
 				Keyboard : keyReleased - Determine if a specified key value was released this cycle
@@ -58,7 +58,7 @@ namespace SDL2_Engine {
 
 				return bool - Returns true the first cycle where the key has been released
 			*/
-			bool keyReleased(const EKeyboardKeyCodes& pKey) const noexcept;
+			bool keyReleased(const EKeyboardKeyCode& pKey) const noexcept;
 
 			/*
 				Keyboard : keyToggled - Determine if a specified key value is currently toggled
@@ -69,7 +69,7 @@ namespace SDL2_Engine {
 
 				return bool - Returns true if the keys toggle state is active
 			*/
-			bool keyToggled(const EKeyboardKeyCodes& pKey) const noexcept;
+			bool keyToggled(const EKeyboardKeyCode& pKey) const noexcept;
 
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////-------------------------------Text Modification Function----------------------------////////
@@ -136,7 +136,7 @@ namespace SDL2_Engine {
 			KeyboardInternalData* mData;
 
 			//! Convert key values to text and append to a string
-			bool verifyKeyboardInput(std::string& pString, const EKeyboardKeyCodes& pKey, const int& pMaxLength, const Utilities::Bitmask<EKeyboardInputFlags>& pFlags) const;
+			bool verifyKeyboardInput(std::string& pString, const EKeyboardKeyCode& pKey, const int& pMaxLength, const Utilities::Bitmask<EKeyboardInputFlags>& pFlags) const;
 		};
 	}
 }

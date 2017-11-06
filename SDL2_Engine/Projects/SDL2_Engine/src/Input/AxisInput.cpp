@@ -259,7 +259,7 @@ namespace SDL2_Engine {
 					
 					//Switch based on the Input Device
 					switch (axis.inputType) {
-					case EInputDevice::GamePads: {
+					case EInputDevice::GamePad: {
 						///////////////////////////////////////////////////////////////////////////////////////////////
 						////                                Input Is Based on Axis                                 ////
 						///////////////////////////////////////////////////////////////////////////////////////////////

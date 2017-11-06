@@ -24,12 +24,24 @@
     <ClCompile Include="src\Scenes\ExternalMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Scenes\PlayerSetupScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\ControlScheme.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Scenes\SplashScene.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Scenes\ExternalMenu.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scenes\PlayerSetupScene.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\ControlScheme.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

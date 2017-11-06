@@ -1,0 +1,172 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*                                                                                                                                                                                                      *
+*       Name: controls                                                                                                                                                                                 *
+*       Author: Mitchell Croft                                                                                                                                                                         *
+*       Created: 06/11/2017                                                                                                                                                                            *
+*       Modified: 06/11/2017                                                                                                                                                                           *
+*                                                                                                                                                                                                      *
+*       Purpose:                                                                                                                                                                                       *
+*       Store the input options that can be used to control the ingame characters                                                                                                                      *
+*                                                                                                                                                                                                      *
+*       NOTE!!!                                                                                                                                                                                        *
+*       Each control definition needs to have the below listed to operate properly                                                                                                                     *
+*                                                                                                                                                                                                      *
+*       inputDevice - Defines which input device should be used for this control schemes                                                                                                               *
+*           |- id - Defines the ID of the GamePad to use the control scheme with                                                                                                                       *
+*       verticalMove - Object that defines the controls that should be used to move the player vertically                                                                                              *
+*       horizontalMove - Object that defines the controls that should be used to move the player horizontally                                                                                          *
+*       place - Object that defines the controls that should be used to place a bomb                                                                                                                   *
+*       detonate - Object that defines the controls that should be used to detonate a mine                                                                                                             *
+*                                                                                                                                                                                                      *
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////                                                                                                    //////////////////////////////////////////////////
+//////////////////////////////////////////////////                                                GamePads                                            //////////////////////////////////////////////////
+//////////////////////////////////////////////////                                                                                                    //////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//! Single control scheme that will be shared across all game pads, you can however define them individually if you wish
+gamePads = {
+    //Assign the Game Pad physical devices
+    inputDevice = "gamepad"
+    id = "all"  
+
+    //Define the movement controls
+    verticalMove = {
+        inputType = "axis"
+        axis = "left_y"
+
+        invert = true
+    }
+
+    horizontalMove = {
+        inputType = "axis"
+        axis = "left_x"
+    }
+
+    //Define combat actions
+    place = {
+        inputType = "axis"
+        axis = "right_trigger"
+    }
+
+    detonate = {
+        inputType = "button"
+        posBtn = "a"
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////                                                                                                    //////////////////////////////////////////////////
+//////////////////////////////////////////////////                                                Keyboard                                            //////////////////////////////////////////////////
+//////////////////////////////////////////////////                                                                                                    //////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+default01 = {
+    //Assign to the keyboard 
+    inputDevice = "keyboard"
+
+    //Define the movement controls
+    verticalMove = {
+        posBtn = "w"
+        negBtn = "s"
+
+        invert = true
+    }
+
+    horizontalMove = {
+        posbtn = "d"
+        negBtn = "a"
+    }
+
+    //Define combat actions
+    place = {
+        posBtn = "shift_left"
+    }
+
+    detonate = {
+        posBtn = "control_left"
+    }
+}
+
+default02 = {
+    //Assign to the keyboard 
+    inputDevice = "keyboard"
+
+    //Define the movement controls
+    verticalMove = {
+        posBtn = "num_pad8"
+        negBtn = "num_pad5"
+
+        invert = true
+    }
+
+    horizontalMove = {
+        posbtn = "num_pad6"
+        negBtn = "num_pad4"
+    }
+
+    //Define combat actions
+    place = {
+        posBtn = "page_up"
+    }
+
+    detonate = {
+        posBtn = "page_down"
+    }
+}
+
+default03 = {
+    //Assign to the keyboard 
+    inputDevice = "keyboard"
+
+    //Define the movement controls
+    verticalMove = {
+        posBtn = "i"
+        negBtn = "k"
+
+        invert = true
+    }
+
+    horizontalMove = {
+        posbtn = "l"
+        negBtn = "j"
+    }
+
+    //Define combat actions
+    place = {
+        posBtn = "space"
+    }
+
+    detonate = {
+        posBtn = "alt_right"
+    }
+}
+
+default04 = {
+    //Assign to the keyboard 
+    inputDevice = "keyboard"
+
+    //Define the movement controls
+    verticalMove = {
+        posBtn = "arrow_up"
+        negBtn = "arrow_down"
+
+        invert = true
+    }
+
+    horizontalMove = {
+        posbtn = "arrow_right"
+        negBtn = "arrow_left"
+    }
+
+    //Define combat actions
+    place = {
+        posBtn = "shift_right"
+    }
+
+    detonate = {
+        posBtn = "control_right"
+    }
+}

@@ -72,7 +72,7 @@ namespace SDL2_Engine {
 
 				return const float& - Returns a constant reference to the raw axis value
 			*/
-			const float& rawAxis(const EGamePadAxisCodes& pAxis) const noexcept;
+			const float& rawAxis(const EGamePadAxisCode& pAxis) const noexcept;
 
 			/*
 				_GamePad : rawAxisDelta - Retrieve the raw change in axis value from the Game Pad
@@ -83,7 +83,7 @@ namespace SDL2_Engine {
 
 				return float - Returns the change in axis value as float
 			*/
-			float rawAxisDelta(const EGamePadAxisCodes& pAxis) const noexcept;
+			float rawAxisDelta(const EGamePadAxisCode& pAxis) const noexcept;
 
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////-------------------------------Feedback Functionality--------------------------------////////

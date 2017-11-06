@@ -41,7 +41,7 @@ mainMenu = {
 		type = "button"
 
 		//! Tag this element should progress to the game
-		tag = "setupGame"
+		tag = "playerSetup"
 
 		//! Position aligned in the center of the screen
 		x = 440

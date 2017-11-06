@@ -213,6 +213,9 @@
     <ClInclude Include="src\Utilities\VersionDescriptor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Input\StringToInputValues.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Utilities\DebugCallback.cpp">
@@ -324,6 +327,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\UI\UIElements\UITextbox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\StringToInputValues.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

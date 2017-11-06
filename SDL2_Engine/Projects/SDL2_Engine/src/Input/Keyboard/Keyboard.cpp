@@ -55,16 +55,16 @@ namespace SDL2_Engine {
 
 			return bool - Returns true if the pString object was modified in anyway
 		*/
-		bool Keyboard::verifyKeyboardInput(std::string& pString, const EKeyboardKeyCodes& pKey, const int& pMaxLength, const Utilities::Bitmask<EKeyboardInputFlags>& pFlags) const {
+		bool Keyboard::verifyKeyboardInput(std::string& pString, const EKeyboardKeyCode& pKey, const int& pMaxLength, const Utilities::Bitmask<EKeyboardInputFlags>& pFlags) const {
 			//Check if the string has reached capacity
-			if (pMaxLength >= 0 && pString.length() >= (unsigned int)pMaxLength && pKey != EKeyboardKeyCodes::Backspace)
+			if (pMaxLength >= 0 && pString.length() >= (unsigned int)pMaxLength && pKey != EKeyboardKeyCode::Backspace)
 				return false;
 
 			//Store the size of the string prior to modification
 			const size_t STRING_SIZE = pString.length();
 
 			//Check if the key is a backspace
-			if (pKey == EKeyboardKeyCodes::Backspace) {
+			if (pKey == EKeyboardKeyCode::Backspace) {
 				//Check if there are characters to remove
 				if (STRING_SIZE) pString = pString.substr(0, (int)STRING_SIZE - 1);
 			}
@@ -167,7 +167,7 @@ namespace SDL2_Engine {
 
 			return bool - Returns true if the key is currently down
 		*/
-		bool Keyboard::keyDown(const EKeyboardKeyCodes& pKey) const noexcept { return ((mData->keyboardStates[STATE_CUR][(int)pKey] & PRESSED_MASK) != 0); }
+		bool Keyboard::keyDown(const EKeyboardKeyCode& pKey) const noexcept { return ((mData->keyboardStates[STATE_CUR][(int)pKey] & PRESSED_MASK) != 0); }
 
 		/*
 			Keyboard : keyPressed - Determine if a specified key value was pressed this cycle
@@ -178,7 +178,7 @@ namespace SDL2_Engine {
 
 			return bool - Returns true the first cycle where the key is pressed down
 		*/
-		bool Keyboard::keyPressed(const EKeyboardKeyCodes& pKey) const noexcept {
+		bool Keyboard::keyPressed(const EKeyboardKeyCode& pKey) const noexcept {
 			return ((mData->keyboardStates[STATE_CUR][(int)pKey] & PRESSED_MASK) &&
 				!(mData->keyboardStates[STATE_PRE][(int)pKey] & PRESSED_MASK));
 		}
@@ -192,7 +192,7 @@ namespace SDL2_Engine {
 
 			return bool - Returns true the first cycle where the key has been released
 		*/
-		bool Keyboard::keyReleased(const EKeyboardKeyCodes& pKey) const noexcept {
+		bool Keyboard::keyReleased(const EKeyboardKeyCode& pKey) const noexcept {
 			return (!(mData->keyboardStates[STATE_CUR][(int)pKey] & PRESSED_MASK) &&
 				(mData->keyboardStates[STATE_PRE][(int)pKey] & PRESSED_MASK));
 		}
@@ -206,7 +206,7 @@ namespace SDL2_Engine {
 
 			return bool - Returns true if the keys toggle state is active
 		*/
-		bool Keyboard::keyToggled(const EKeyboardKeyCodes& pKey) const noexcept { return ((mData->keyboardStates[STATE_CUR][(int)pKey] & TOGGLED_MASK) != 0); }
+		bool Keyboard::keyToggled(const EKeyboardKeyCode& pKey) const noexcept { return ((mData->keyboardStates[STATE_CUR][(int)pKey] & TOGGLED_MASK) != 0); }
 
 		/*
 			Keyboard : modifyStringByKeyboard - Add characters to a standard wide string object based on the keys pressed
@@ -228,11 +228,11 @@ namespace SDL2_Engine {
 			//Loop through a keys that need checking
 			for (size_t i = 0; i < KEYBOARD_STATE_SIZE; i++) {
 				//Test to see if the key has been pressed
-				if (keyDown((EKeyboardKeyCodes)i)) {
+				if (keyDown((EKeyboardKeyCode)i)) {
 					//Check to see if the timer is up for the key to be processed again
 					if (!mData->repeatTimers[i] || !mData->repeatFlags[i]) {
 						//Test to see if the string was modified with this press
-						if (verifyKeyboardInput(pString, (EKeyboardKeyCodes)i, pMaxLength, pFlags))
+						if (verifyKeyboardInput(pString, (EKeyboardKeyCode)i, pMaxLength, pFlags))
 							modified = true;
 
 						//Set the repeat delay timer

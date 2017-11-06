@@ -90,7 +90,7 @@ namespace SDL2_Engine {
 
 				 return const float - Returns the average axis value as a const float within the range -1.f to 1.f
 			*/
-			const float rawAxis(const EGamePadAxisCodes& pAxis, const Utilities::Bitmask<EGamePadID>& pIDs = EGamePadID::All) const noexcept;
+			const float rawAxis(const EGamePadAxisCode& pAxis, const Utilities::Bitmask<EGamePadID>& pIDs = EGamePadID::All) const noexcept;
 
 			/*
 				Controllers : rawAxisDelta - Retrieve the change in raw axis value from a specific or multiple GamePads
@@ -102,7 +102,7 @@ namespace SDL2_Engine {
 
 				return const float - Returns a float value containing the average change in the specified axis' value
 			*/
-			const float rawAxisDelta(const EGamePadAxisCodes& pAxis, const Utilities::Bitmask<EGamePadID>& pIDs = EGamePadID::All) const noexcept;
+			const float rawAxisDelta(const EGamePadAxisCode& pAxis, const Utilities::Bitmask<EGamePadID>& pIDs = EGamePadID::All) const noexcept;
 
 			/*
 				Controllers : applyVibration - Add a vibration description to the Controller Manager

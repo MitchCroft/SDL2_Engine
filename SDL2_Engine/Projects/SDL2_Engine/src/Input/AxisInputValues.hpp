@@ -1,9 +1,5 @@
 #pragma once
 
-//! Define a maximum length for Virtual Axis names
-#ifdef VIRTUAL_AXIS_NAME_MAX
-#undef VIRTUAL_AXIS_NAME_MAX
-#endif
 #define VIRTUAL_AXIS_NAME_MAX 32
 
 //! Include SDL2_Engine objects
@@ -16,5 +12,8 @@ namespace SDL2_Engine {
 
 		//! Create a type define for the names of Virtual Axis
 		typedef Utilities::FString<VIRTUAL_AXIS_NAME_MAX> vAxisName;
+
+		//! Flag the input devices the Virtual Axis can use
+		enum class EInputDevice { Null, GamePad, Keyboard, Mouse };
 	}
 }

@@ -32,8 +32,18 @@ using namespace SDL2_Engine::Input;
 	param[in] pTag - The tag associated with the loaded Actionable object
 */
 void setupExternalUI(SDL2_Engine::UI::UIElements::IUIAction* pObj, const SDL2_Engine::UI::uiTag& pTag) {
-	//Process set commands to code managed Scenes
-	//TODO
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////--------------------------------Check Predefined Scenes------------------------------////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//Check for Game Setup
+	if (pTag == "playerSetup") {
+
+	}
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////--------------------------Default Assign UI Menu Called Tag--------------------------////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//Set the action callback for the element
 	pObj->setAction([&](SDL2_Engine::UI::UIElements::IUIAction* pItem, void* pData) {
@@ -114,12 +124,12 @@ int main(int pArgCount, char* pArgs[]) {
 	//Horizontal
 	VirtualAxis horizPad;
 	horizPad.name = "horizontal";
-	horizPad.inputType = EInputDevice::GamePads;
+	horizPad.inputType = EInputDevice::GamePad;
 	horizPad.sensitivity = 1.f;
 	horizPad.gravity = 10.f;
 	horizPad.gamePads = EGamePadID::All;
 	horizPad.gamePadInputType = EGamePadInputType::Axis;
-	horizPad.aAxis = EGamePadAxisCodes::Left_X;
+	horizPad.aAxis = EGamePadAxisCode::Left_X;
 	horizPad.aDeadZone = 0.1f;
 	uiAxis.push_back(horizPad);
 
@@ -128,19 +138,19 @@ int main(int pArgCount, char* pArgs[]) {
 	horizKey.inputType = EInputDevice::Keyboard;
 	horizKey.sensitivity = 1.f;
 	horizKey.gravity = 10.f;
-	horizKey.kPosBtn = EKeyboardKeyCodes::Arrow_Right;
-	horizKey.kNegBtn = EKeyboardKeyCodes::Arrow_Left;
+	horizKey.kPosBtn = EKeyboardKeyCode::Arrow_Right;
+	horizKey.kNegBtn = EKeyboardKeyCode::Arrow_Left;
 	uiAxis.push_back(horizKey);
 
 	//Vertical
 	VirtualAxis vertPad;
 	vertPad.name = "vertical";
-	vertPad.inputType = EInputDevice::GamePads;
+	vertPad.inputType = EInputDevice::GamePad;
 	vertPad.sensitivity = 1.f;
 	vertPad.gravity = 10.f;
 	vertPad.gamePads = EGamePadID::All;
 	vertPad.gamePadInputType = EGamePadInputType::Axis;
-	vertPad.aAxis = EGamePadAxisCodes::Left_Y;
+	vertPad.aAxis = EGamePadAxisCode::Left_Y;
 	vertPad.aDeadZone = 0.1f;
 	uiAxis.push_back(vertPad);
 
@@ -149,14 +159,14 @@ int main(int pArgCount, char* pArgs[]) {
 	vertKey.inputType = EInputDevice::Keyboard;
 	vertKey.sensitivity = 1.f;
 	vertKey.gravity = 10.f;
-	vertKey.kPosBtn = EKeyboardKeyCodes::Arrow_Up;
-	vertKey.kNegBtn = EKeyboardKeyCodes::Arrow_Down;
+	vertKey.kPosBtn = EKeyboardKeyCode::Arrow_Up;
+	vertKey.kNegBtn = EKeyboardKeyCode::Arrow_Down;
 	uiAxis.push_back(vertKey);
 
 	//Confirm
 	VirtualAxis confPad;
 	confPad.name = "confirm";
-	confPad.inputType = EInputDevice::GamePads;
+	confPad.inputType = EInputDevice::GamePad;
 	confPad.sensitivity = 1.f;
 	confPad.gravity = 10.f;
 	confPad.gamePads = EGamePadID::All;
@@ -170,7 +180,7 @@ int main(int pArgCount, char* pArgs[]) {
 	confKey.inputType = EInputDevice::Keyboard;
 	confKey.sensitivity = 1.f;
 	confKey.gravity = 10.f;
-	confKey.kPosBtn = EKeyboardKeyCodes::Space;
+	confKey.kPosBtn = EKeyboardKeyCode::Space;
 	uiAxis.push_back(confKey);
 
 	//Assign the uiAxis to the initial list

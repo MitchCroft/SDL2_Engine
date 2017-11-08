@@ -32,13 +32,13 @@ namespace SDL2_Engine {
 		/*
 			LocalResource (Font) : Constructor - Initialise with default values
 			Created: 05/10/2017
-			Modified: 05/10/2017
+			Modified: 08/11/2017
 
 			param[in] pPath - The path of the font file to load
 			param[in] pSize - The point size to use for the font
 			param[in] pIndex - Optional index of the font face to load from the file (Default 0)
 		*/
-		__LocalResource<Font>::__LocalResource(const char* pPath, const int& pSize, const long& pIndex /* = 0*/) : ILocalResourceBase(EResourceType::Font), font(nullptr) {
+		__LocalResource<Font>::__LocalResource(const char* pPath, const int& pSize, const long& pIndex /* = 0*/) : ILocalResourceBase(EResourceType::Font), font(nullptr), fontSize(pSize) {
 			//Load the font
 			font = TTF_OpenFontIndex(pPath, pSize, pIndex);
 

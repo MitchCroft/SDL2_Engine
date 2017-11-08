@@ -76,7 +76,7 @@ default01 = {
     }
 
     horizontalMove = {
-        posbtn = "d"
+        posBtn = "d"
         negBtn = "a"
     }
 
@@ -103,7 +103,7 @@ default02 = {
     }
 
     horizontalMove = {
-        posbtn = "num_pad6"
+        posBtn = "num_pad6"
         negBtn = "num_pad4"
     }
 
@@ -130,7 +130,7 @@ default03 = {
     }
 
     horizontalMove = {
-        posbtn = "l"
+        posBtn = "l"
         negBtn = "j"
     }
 
@@ -157,7 +157,7 @@ default04 = {
     }
 
     horizontalMove = {
-        posbtn = "arrow_right"
+        posBtn = "arrow_right"
         negBtn = "arrow_left"
     }
 

@@ -16,7 +16,7 @@ namespace SDL2_Engine {
 		 *		Name: AxisInput
 		 *		Author: Mitchell Croft
 		 *		Created: 12/10/2017
-		 *		Modified: 13/10/2017
+		 *		Modified: 08/11/2017
 		 *		
 		 *		Purpose:
 		 *		Provide an interface for managing and evaluating Virtual Axis
@@ -86,7 +86,7 @@ namespace SDL2_Engine {
 			/*
 				AxisInput : addAxis - Add a new Virtual Axis description to the monitor list
 				Created: 22/09/2017
-				Modified: 12/10/2017
+				Modified: 08/11/2017
 
 				param[in] pAxis - The Virtual Axis object describing the new Virtual Axis
 			*/
@@ -95,7 +95,7 @@ namespace SDL2_Engine {
 			/*
 				AxisInput : addAxis -  Add an array of Virtual Axis descriptions to the monitor list
 				Created: 22/09/2017
-				Modified: 22/09/2017
+				Modified: 08/11/2017
 
 				param[in] pAxis - A pointer to the array of Virtual Axis objects to monitor
 				param[in] pCount - The number of Virtual Axis objects stored in the array
@@ -105,7 +105,7 @@ namespace SDL2_Engine {
 			/*
 				AxisInput : hasAxis - Check to see if a Virtual Axis exists in the monitor list
 				Created: 13/10/2017
-				Modified: 13/10/2017
+				Modified: 08/11/2017
 
 				param[in] pAxis - A string defining the name of the Axis to retrieve
 
@@ -116,7 +116,7 @@ namespace SDL2_Engine {
 			/*
 				AxisInput : removeAxis - Clear all Virtual Axis' with a specific name
 				Created: 22/09/2017
-				Modified: 12/10/2017
+				Modified: 08/11/2017
 
 				param[in] pAxis - A string defining the name of the Axis to remove
 			*/
@@ -125,7 +125,7 @@ namespace SDL2_Engine {
 			/*
 				AxisInput : removeAxis - Clear all Virtual Axis'
 				Created: 22/09/2017
-				Modified: 12/10/2017
+				Modified: 08/11/2017
 			*/
 			void removeAxis();
 
@@ -161,7 +161,7 @@ namespace SDL2_Engine {
 			/*
 				AxisInput : update - Update the Virtual Axis
 				Created: 11/10/2017
-				Modified: 11/10/2017
+				Modified: 08/11/2017
 			*/
 			void update() override;
 

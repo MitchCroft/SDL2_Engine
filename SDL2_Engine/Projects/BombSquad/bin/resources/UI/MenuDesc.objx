@@ -33,6 +33,8 @@ mainMenu = {
 
 		//! Assign the image
 		image = "./Textures/Title.png"
+
+		borderColour = "00000000"
 	}
 
 	//! Create the button used to start the game

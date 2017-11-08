@@ -38,7 +38,7 @@ namespace BombSquad {
 		/*
 			ControlScheme : setGamePadID - Set the Game Pad ID used for the control scheme
 			Created: 06/11/2017
-			Modified: 06/11/2017
+			Modified: 08/11/2017
 
 			param[in] pID - The new EGamePadID to give to the Control Scheme
 

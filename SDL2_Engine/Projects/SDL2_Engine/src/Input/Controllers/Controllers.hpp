@@ -196,7 +196,7 @@ namespace SDL2_Engine {
 			/*
 				Controllers : update - Update the GamePads input states
 				Created: 25/07/2017
-				Modified: 12/10/2017
+				Modified: 08/11/2017
 			*/
 			void update() override;
 

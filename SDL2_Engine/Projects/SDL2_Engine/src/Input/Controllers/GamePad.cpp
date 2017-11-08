@@ -218,7 +218,7 @@ namespace SDL2_Engine {
 		/*
 			_GamePad : update - Update the current state information for the controller
 			Created: 13/02/2017
-			Modified: 24/07/2017
+			Modified: 08/11/2017
 
 			param[in] pReconnect - Flags if the GamePad should attempt to reconnect to a physical device
 
@@ -238,13 +238,7 @@ namespace SDL2_Engine {
 			//If the GamePad is still connected
 			if (result == ERROR_SUCCESS) {
 				//Check if the controller was already connected
-				if (!mConnected) {
-					//Set the connected flag
-					mConnected = true;
-
-					//Apply small vibration to notify player
-					vibrate(0.25f, 0.25f);
-				}
+				if (!mConnected) mConnected = true;
 			}
 
 			//If the GamePad is no longer connected

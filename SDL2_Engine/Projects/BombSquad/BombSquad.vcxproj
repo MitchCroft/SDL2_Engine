@@ -168,13 +168,21 @@ xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.lib
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\entry.cpp" />
-    <ClCompile Include="src\Game\ControlScheme.cpp" />
+    <ClCompile Include="src\Game\Animation\PlayerAnimator.cpp" />
+    <ClCompile Include="src\Game\Input\ControlScheme.cpp" />
+    <ClCompile Include="src\Game\Map Generation\Region.cpp" />
+    <ClCompile Include="src\Game\Map Generation\RegionIdentifier.cpp" />
     <ClCompile Include="src\Scenes\ExternalMenu.cpp" />
     <ClCompile Include="src\Scenes\PlayerSetupScene.cpp" />
     <ClCompile Include="src\Scenes\SplashScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Game\ControlScheme.hpp" />
+    <ClInclude Include="src\Game\Animation\PlayerAnimator.hpp" />
+    <ClInclude Include="src\Game\Input\ControlScheme.hpp" />
+    <ClInclude Include="src\Game\Map Generation\Map.hpp" />
+    <ClInclude Include="src\Game\Map Generation\MapGenerationValues.hpp" />
+    <ClInclude Include="src\Game\Map Generation\Region.hpp" />
+    <ClInclude Include="src\Game\Map Generation\RegionIdentifier.hpp" />
     <ClInclude Include="src\Scenes\ExternalMenu.hpp" />
     <ClInclude Include="src\Scenes\PlayerSetupScene.hpp" />
     <ClInclude Include="src\Scenes\SplashScene.hpp" />

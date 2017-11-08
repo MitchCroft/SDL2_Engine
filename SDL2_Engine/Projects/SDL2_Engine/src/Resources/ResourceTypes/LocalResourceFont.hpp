@@ -15,7 +15,7 @@ namespace SDL2_Engine {
 		 *		Name: LocalResource (Font)
 		 *		Author: Mitchell Croft
 		 *		Created: 05/10/2017
-		 *		Modified: 05/10/2017
+		 *		Modified: 08/11/2017
 		 *		
 		 *		Purpose:
 		 *		Specialise the LocalResource object to operate on TTF_Font objects
@@ -29,6 +29,9 @@ namespace SDL2_Engine {
 
 			//! Store a pointer to the created font
 			_TTF_Font* font;
+
+			//! Store the size of the font
+			const size_t fontSize;
 
 			/////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////-----------------------------Interface Implementations-------------------------------////////
@@ -56,7 +59,7 @@ namespace SDL2_Engine {
 			/*
 				LocalResource (Font) : Constructor - Initialise with default values
 				Created: 05/10/2017
-				Modified: 05/10/2017
+				Modified: 08/11/2017
 
 				param[in] pPath - The path of the font file to load
 				param[in] pSize - The point size to use for the font

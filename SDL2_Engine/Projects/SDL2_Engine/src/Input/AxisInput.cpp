@@ -37,6 +37,9 @@ namespace SDL2_Engine {
 			//! Temporary storage of the Initialiser
 			const Initialisation::AxisInputInitialiser* setup = nullptr;
 
+			//! Store a map of the virtual axis names being monitored
+			std::unordered_map<std::string, char> monitoredNames;
+
 			//! Store a map of the Virtual Axis' that need monitoring
 			std::unordered_multimap<std::string, VirtualAxis> monitoredAxis;
 
@@ -102,45 +105,57 @@ namespace SDL2_Engine {
 		/*
 			AxisInput : addAxis - Add a new Virtual Axis description to the monitor list
 			Created: 22/09/2017
-			Modified: 12/10/2017
+			Modified: 08/11/2017
 
 			param[in] pAxis - The Virtual Axis object describing the new Virtual Axis
 		*/
-		void AxisInput::addAxis(const VirtualAxis& pAxis) { mData->monitoredAxis.insert(std::pair<std::string, VirtualAxis>(pAxis.name.c_str(), pAxis)); }
+		void AxisInput::addAxis(const VirtualAxis& pAxis) { 
+			//Insert the name into the monitored list
+			mData->monitoredNames[pAxis.name.c_str()]++;
+
+			//Stash the Virtual Axis under the name
+			mData->monitoredAxis.insert(std::pair<std::string, VirtualAxis>(pAxis.name.c_str(), pAxis)); 
+		}
 
 		/*
 			AxisInput : addAxis -  Add an array of Virtual Axis descriptions to the monitor list
 			Created: 22/09/2017
-			Modified: 22/09/2017
+			Modified: 08/11/2017
 
 			param[in] pAxis - A pointer to the array of Virtual Axis objects to monitor
 			param[in] pCount - The number of Virtual Axis objects stored in the array
 		*/
 		void AxisInput::addAxis(const VirtualAxis* pAxis, const size_t& pCount) {
-			for (size_t i = 0; i < pCount; i++)
+			for (size_t i = 0; i < pCount; i++) {
+				//Insert the name into the monitored list
+				mData->monitoredNames[pAxis[i].name.c_str()]++;
+
+				//Stash the Virtual Axis under the name
 				mData->monitoredAxis.insert(std::pair<std::string, VirtualAxis>(pAxis[i].name.c_str(), pAxis[i]));
+			}
 		}
 
 		/*
 			AxisInput : hasAxis - Check to see if a Virtual Axis exists in the monitor list
 			Created: 13/10/2017
-			Modified: 13/10/2017
+			Modified: 08/11/2017
 
 			param[in] pAxis - A string defining the name of the Axis to retrieve
 
 			return bool - Returns true if the specified axis name exists
 		*/
-		bool AxisInput::hasAxis(const char* pAxis) const { return (mData->monitoredAxis.find(pAxis) != mData->monitoredAxis.end()); }
+		bool AxisInput::hasAxis(const char* pAxis) const { return (mData->monitoredNames.find(pAxis) != mData->monitoredNames.end()); }
 
 		/*
 			AxisInput : removeAxis - Clear all Virtual Axis' with a specific name
 			Created: 22/09/2017
-			Modified: 12/10/2017
+			Modified: 08/11/2017
 
 			param[in] pAxis - A string defining the name of the Axis to remove
 		*/
 		void AxisInput::removeAxis(const char* pAxis) {
 			//Clear all traces of the axis
+			mData->monitoredNames.erase(pAxis);
 			mData->monitoredAxis.erase(pAxis);
 			mData->inputAxis[STATE_CUR].erase(pAxis);
 			mData->inputAxis[STATE_PRE].erase(pAxis);
@@ -149,10 +164,11 @@ namespace SDL2_Engine {
 		/*
 			AxisInput : removeAxis - Clear all Virtual Axis'
 			Created: 22/09/2017
-			Modified: 12/10/2017
+			Modified: 08/11/2017
 		*/
 		void AxisInput::removeAxis() {
 			//Clear all Virtual Axis
+			mData->monitoredNames.clear();
 			mData->monitoredAxis.clear();
 			mData->inputAxis[STATE_CUR].clear();
 			mData->inputAxis[STATE_PRE].clear();
@@ -202,7 +218,7 @@ namespace SDL2_Engine {
 		/*
 			AxisInput : update - Update the Virtual Axis
 			Created: 11/10/2017
-			Modified: 11/10/2017
+			Modified: 08/11/2017
 		*/
 		void AxisInput::update() {
 			//Check that the Window has focus
@@ -218,18 +234,9 @@ namespace SDL2_Engine {
 			const Mouse& mouse = Globals::get<Mouse>();
 
 			//Loop through all monitored axis
-			for (int i = (int)mData->monitoredAxis.bucket_count() - 1; i >= 0; --i) {
-				//Get the first element
-				auto bucket = mData->monitoredAxis.begin(i);
-
-				//Get the final iterator
-				auto end = mData->monitoredAxis.end(i);
-
-				//Check there are elements in the bucket
-				if (bucket == end) continue;
-
+			for (auto it = mData->monitoredNames.cbegin(); it != mData->monitoredNames.cend(); ++it) {
 				//Store the name of the Virtual axis
-				const std::string& V_AXIS_NAME = bucket->first;
+				const std::string& V_AXIS_NAME = it->first;
 
 				//Store the number of Virtual axis' contributing to these values
 				size_t contributingAxis = 0U;
@@ -243,13 +250,16 @@ namespace SDL2_Engine {
 				//Copy the previous value of the axis
 				mData->inputAxis[STATE_PRE][V_AXIS_NAME] = mData->inputAxis[STATE_CUR][V_AXIS_NAME];
 
+				//Get all Virtual Axis with the name
+				auto range = mData->monitoredAxis.equal_range(V_AXIS_NAME);
+
 				//Loop through all monitored Virtual Axis with the same name
-				for (; bucket != end; ++bucket) {
+				for (auto iter = range.first; iter != range.second; ++iter) {
 					//Add to the contributing Axis' counter
 					++contributingAxis;
 
 					//Get a reference to the current Virtual Axis
-					const VirtualAxis& axis = bucket->second;
+					const VirtualAxis& axis = iter->second;
 
 					//Add the gravity to the running sum
 					gravAvg += axis.gravity;
@@ -268,7 +278,7 @@ namespace SDL2_Engine {
 							const float AXIS_VALUE = controllers.rawAxis(axis.aAxis, axis.gamePads.getValue());
 
 							//Check if there is enough input to get out of the dead zone
-							if (AXIS_VALUE <= axis.aDeadZone) break;
+							if (AXIS_VALUE * AXIS_VALUE <= axis.aDeadZone) break;
 
 							//Store the sign of the axis value
 							const float SIGN = math.sign(AXIS_VALUE);

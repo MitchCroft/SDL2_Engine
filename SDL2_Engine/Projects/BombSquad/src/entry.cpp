@@ -15,6 +15,7 @@ using namespace SDL2_Engine::Input;
 #include <Scenes/SceneManager.hpp>
 
 #include "Scenes/ExternalMenu.hpp"
+#include "Scenes/PlayerSetupScene.hpp"
 
 //! Use a vector to store Virtual Axis
 #include <vector>
@@ -38,7 +39,16 @@ void setupExternalUI(SDL2_Engine::UI::UIElements::IUIAction* pObj, const SDL2_En
 
 	//Check for Game Setup
 	if (pTag == "playerSetup") {
+		pObj->setAction([&](SDL2_Engine::UI::UIElements::IUIAction* pItem, void* pData) {
+			//Get a reference to the Scene Manager
+			auto& scene = SDL2_Engine::Globals::get<SDL2_Engine::Scenes::SceneManager>();
 
+			//Load the new External Menu
+			scene.addScene<BombSquad::PlayerSetupScene>();
+
+			//Remove any External Menu scenes
+			scene.removeScenes<BombSquad::ExternalMenu>();
+		});
 	}
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,7 +56,7 @@ void setupExternalUI(SDL2_Engine::UI::UIElements::IUIAction* pObj, const SDL2_En
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//Set the action callback for the element
-	pObj->setAction([&](SDL2_Engine::UI::UIElements::IUIAction* pItem, void* pData) {
+	else pObj->setAction([&](SDL2_Engine::UI::UIElements::IUIAction* pItem, void* pData) {
 		//Get a reference to the Scene Manager
 		auto& scene = SDL2_Engine::Globals::get<SDL2_Engine::Scenes::SceneManager>();
 		
@@ -181,6 +191,7 @@ int main(int pArgCount, char* pArgs[]) {
 	confKey.sensitivity = 1.f;
 	confKey.gravity = 10.f;
 	confKey.kPosBtn = EKeyboardKeyCode::Space;
+	confKey.kAltPosBtn = EKeyboardKeyCode::Return;
 	uiAxis.push_back(confKey);
 
 	//Assign the uiAxis to the initial list

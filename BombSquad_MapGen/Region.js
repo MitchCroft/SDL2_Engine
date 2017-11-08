@@ -7,7 +7,7 @@
  *      Purpose:
  *      Monitor a collection of coordinates as a Region on a 2D string map
  *      and at request find the distance of each coord from an edge
-**/
+ **/
 
 /*
     Region : Constructor - Initialise with a collection of values
@@ -69,7 +69,7 @@ function Region(pCoords, pWidth, pHeight) {
     this.edges = [];
 
     //! Store a list of the axis offsets to check for edges
-    let edgeCheckOffsets = [ new Vec2(-1, 0), new Vec2(1, 0), new Vec2(0, -1), new Vec2(0, 1)];
+    let edgeCheckOffsets = [new Vec2(-1, 0), new Vec2(1, 0), new Vec2(0, -1), new Vec2(0, 1)];
 
     //! Loop through the coordinates and check if its on the edge
     for (let i = 0; i < this.coordinates.length; i++) {
@@ -77,9 +77,9 @@ function Region(pCoords, pWidth, pHeight) {
         let coord = this.coordinates[i];
 
         //! Check if coordinate is on the bounds of the map
-        if (coord.x === 0 || coord.x === pWidth  - 1 ||
+        if (coord.x === 0 || coord.x === pWidth - 1 ||
             coord.y === 0 || coord.y === pHeight - 1);
-            
+
         //! Check if the coordinate has (at least) one non-contained coordinate
         else {
             //! Loop through the axis offset values
@@ -89,7 +89,7 @@ function Region(pCoords, pWidth, pHeight) {
                 let offset = coord.add(edgeCheckOffsets[j]);
 
                 //! Check the offset coords are on the map
-                if (offset.x < 0 || offset.y < 0 || offset.x >= pWidth || offset.y >= pHeight) 
+                if (offset.x < 0 || offset.y < 0 || offset.x >= pWidth || offset.y >= pHeight)
                     continue;
 
                 //! Ensure the check bounds on the 'x' axis are valid arrays
@@ -128,7 +128,7 @@ Region.prototype.analyseDepth = function() {
     };
 
     //Store the offsets used to find neighbours
-    let offsets = [ new Vec2(-1, 0), new Vec2(1, 0), new Vec2(0, -1), new Vec2(0, 1), new Vec2(-1, -1), new Vec2(-1, 1), new Vec2(1, 1), new Vec2(1, -1)];
+    let offsets = [new Vec2(-1, 0), new Vec2(1, 0), new Vec2(0, -1), new Vec2(0, 1), new Vec2(-1, -1), new Vec2(-1, 1), new Vec2(1, 1), new Vec2(1, -1)];
 
     //Loop through the coordinates to find their depth
     for (let i = 0; i < this.coordinates.length; i++) {
@@ -164,8 +164,8 @@ Region.prototype.analyseDepth = function() {
                 let offset = current.pos.add(offsets[j]);
 
                 //Check the coordinate is in bounds
-                if (offset.x < 0 || offset.y < 0 || 
-                    offset.x >= this.mapWidth || offset.y >= this.mapHeight)  {
+                if (offset.x < 0 || offset.y < 0 ||
+                    offset.x >= this.mapWidth || offset.y >= this.mapHeight) {
                     outOfBounds = true;
                     break;
                 }

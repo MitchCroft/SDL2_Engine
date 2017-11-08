@@ -357,7 +357,7 @@ namespace SDL2_Engine {
 		/*
 			Controllers : update - Update the GamePads input states
 			Created: 25/07/2017
-			Modified: 12/10/2017
+			Modified: 08/11/2017
 		*/
 		void Controllers::update() {
 			//Check that the Window has focus
@@ -377,8 +377,19 @@ namespace SDL2_Engine {
 			if (attemptReconnect) mData->pollTimer = 0.f;
 
 			//Loop through and update all controllers
-			for (int i = GAMEPAD_ONE; i < GAMEPAD_TOTAL; i++)
-				mData->gamepads[i].update(attemptReconnect);
+			for (int i = GAMEPAD_ONE; i < GAMEPAD_TOTAL; i++) {
+				//Flag if the gamepad was previously connected
+				bool flag = mData->gamepads[i].mConnected;
+
+				//Update the gamepad
+				if (mData->gamepads[i].update(attemptReconnect) && !flag) {
+					//Create short vibration animation
+					VibrationDescription desc;
+					desc.gamePad = (1 << i);
+					desc.vibrationLength = 0.5f;
+					applyVibration(desc);
+				}
+			}
 
 			//Check there are Vibration Descriptions to process
 			if (mData->vibrationValues.size()) {

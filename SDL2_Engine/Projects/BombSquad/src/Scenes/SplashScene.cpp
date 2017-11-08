@@ -119,7 +119,7 @@ namespace BombSquad {
 			mLabels[i]->setColour(toAssign);
 
 		//Check if the splash screen is finished
-		if (mTimer >= 7.5f) {
+		if (mTimer >= 0.f) {
 			//Load the main menu 
 			Globals::get<Scenes::SceneManager>().addScene<ExternalMenu>("mainMenu");
 

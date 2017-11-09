@@ -8,7 +8,7 @@ namespace BombSquad {
 	 *		Name: Region
 	 *		Author: Mitchell Croft
 	 *		Created: 08/11/2017
-	 *		Modified: 08/11/2017
+	 *		Modified: 09/11/2017
 	 *		
 	 *		Purpose:
 	 *		Monitor a collection of coordinates as a Region on a gameMap object
@@ -33,6 +33,12 @@ namespace BombSquad {
 		//! Store the 'center of mass' for the region
 		coord center;
 
+		//! Flag if this region is connected to the 'main' region
+		bool linkedToMain;
+
+		//! Store the Regions that the current is linked to
+		std::vector<Region*> links;
+
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 		////////----------------------------------------Construction---------------------------------////////
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,10 +57,22 @@ namespace BombSquad {
 		////////--------------------------------------Data Collection--------------------------------////////
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 		/*
-			Region : analyseDepth - Flood search each coordinate to find the distance from a coordinate not contained in the region
+			Region : analyseDepth - Flood search each coordinate to find the distance from a coordinate not 
+									contained in the region
 			Created: 08/11/2017
 			Modified: 08/11/2017
 		*/
 		void analyseDepth();
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		////////-----------------------------------------Management----------------------------------////////
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		/*
+			Region : recursiveLinkToMain - Recursively traverse the links vector and toggle the linkedToMain 
+										   flag
+			Created: 09/11/2017
+			Modified: 09/11/2017
+		*/
+		void recursiveLinkToMain();
 	};
 }

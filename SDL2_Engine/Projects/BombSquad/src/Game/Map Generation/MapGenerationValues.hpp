@@ -21,11 +21,11 @@ namespace BombSquad {
 		//! Safe tile that can't have obstacles placed on its location
 		Safe,
 
-		//! Temporarily blocked tile that must be destroyed with a bomb
-		Blocked,
-
 		//! Flags an impassable tile
 		Restricted,
+
+		//! Temporarily blocked tile that must be destroyed with a bomb
+		Obstacle,
 	};
 
 	//! Create a type define for the coordinate value

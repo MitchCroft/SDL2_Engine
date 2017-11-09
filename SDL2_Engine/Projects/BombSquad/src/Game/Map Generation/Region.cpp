@@ -173,4 +173,22 @@ namespace BombSquad {
 			}
 		}
 	}
+
+	/*
+		Region : recursiveLinkToMain - Recursively traverse the links vector and toggle the linkedToMain
+									   flag
+		Created: 09/11/2017
+		Modified: 09/11/2017
+	*/
+	void Region::recursiveLinkToMain() {
+		//Check if the current is already linked to main
+		if (linkedToMain) return;
+
+		//Toggle the linked flag
+		linkedToMain = true;
+
+		//Recurse through the links
+		for (size_t i = 0; i < links.size(); i++)
+			links[i]->recursiveLinkToMain();
+	}
 }

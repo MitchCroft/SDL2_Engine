@@ -161,7 +161,7 @@ namespace SDL2_Engine {
 			/*
 				AxisInput : update - Update the Virtual Axis
 				Created: 11/10/2017
-				Modified: 08/11/2017
+				Modified: 09/11/2017
 			*/
 			void update() override;
 

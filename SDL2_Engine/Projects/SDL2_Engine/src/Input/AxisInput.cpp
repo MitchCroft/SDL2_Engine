@@ -218,7 +218,7 @@ namespace SDL2_Engine {
 		/*
 			AxisInput : update - Update the Virtual Axis
 			Created: 11/10/2017
-			Modified: 08/11/2017
+			Modified: 09/11/2017
 		*/
 		void AxisInput::update() {
 			//Check that the Window has focus
@@ -278,7 +278,7 @@ namespace SDL2_Engine {
 							const float AXIS_VALUE = controllers.rawAxis(axis.aAxis, axis.gamePads.getValue());
 
 							//Check if there is enough input to get out of the dead zone
-							if (AXIS_VALUE * AXIS_VALUE <= axis.aDeadZone) break;
+							if (abs(AXIS_VALUE) <= axis.aDeadZone) break;
 
 							//Store the sign of the axis value
 							const float SIGN = math.sign(AXIS_VALUE);

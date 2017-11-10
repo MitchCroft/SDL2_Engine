@@ -1,0 +1,217 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*                                                                                                                                                                                                      *
+*       Name: StandardSet                                                                                                                                                                              *
+*       Author: Mitchell Croft                                                                                                                                                                         *
+*       Created: 10/11/2017                                                                                                                                                                            *
+*       Modified: 10/11/2017                                                                                                                                                                           *
+*                                                                                                                                                                                                      *
+*       Purpose:                                                                                                                                                                                       *
+*       Store the default powerups that are available for use in a game of Bomb Squad                                                                                                                  *
+*                                                                                                                                                                                                      *
+*       NOTE:                                                                                                                                                                                          *
+*       The modifieable properties are listed below. Permanant powerups (where duration <= 0) wil be applied first with temporary powerups (where duration > 0) will be applied last, overriding any   *
+*       permanant powerup properties. If the duration is not specified then the powerup will be considered permanat by default                                                                         *
+*                                                                                                                                                                                                      *
+*       REQUIRED PROPERTIES:                                                                                                                                                                           *
+*       actor - A string that indicates if the powerup should affect the player who ppicked up the powerup ("self"), an opponent ("enemy") or a random player ("random")                               *
+*       spriteSheet - A string value indicating the relative filepath of the image to use represent the powerup                                                                                        *
+*       sourceRect - An object definition with 'x', 'y', 'width' and 'height' properties that indicate the area of the spritesheet to use to represent the powerup                                     *
+*       description - A string value containing a short description of what the powerup does                                                                                                           *
+*                                                                                                                                                                                                      *
+*       OPTIONAL PROPERTIES:                                                                                                                                                                           *
+*       name - A string value that is used as the display name for the powerup. If undefined the object's name is used instead                                                                         *
+*       duration - A decimal value that indicates how long the powerup will last (where duration <= 0 is permanant). This is restricted to a maximum of 9999.0                                         *
+*       fuseDuration - A decimal value that idicates the time (in seconds) it takes for a placed bomb to detonate. This has a minimum of 0.0 (death sentence) and maximum of 30.0                      *
+*       deltaBlastRadius - An integer value that indicates the size increase (or decrease) in a placed bombs blast radius. This is restricted to a minimum of 1 and a maximum of 9999 (which           *
+*                          should cover the entire game map)                                                                                                                                           *
+*       detonateAll - A boolean value that indicates if all of the bombs currently on the map should be detonated (true) or left untouched (false)                                                     *
+*       deltaBombCount - An integer value that indicates the size increase (or decrease) in available bomb count. A players available bomb count is restricted to a minimum of 1 and a maximum of 100  *
+*       reverseControls - A boolean value that indicates if the movement input controls should be reversed (true) or be set to normal (false)                                                          *
+*       teleport - A boolean value that indicates if the actor should be teleported to a random free tile (true)                                                                                       *
+*       hasMines - A boolean value that indicates if the actor's bombs should be replaced with mines (true) or returned to bombs (false)                                                               *
+*       speed - An decimal value that defines the number of tiles a player can move per second. This has a minimum of 1.0                                                                              *
+*                                                                                                                                                                                                      *
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+shortFuse = {
+	//! Provide a name 
+	name = "Short Fuse"
+
+	//! Force an enemy player to have a very short fuse on their bombs
+	actor = "enemy"
+
+	//! Setup the StandardSet spritesheet
+	spriteSheet = "./Standard Powerups.png"
+	sourceRect = { x = 0 y = 0 width = 32 height = 32 }
+
+	//! Provide a description for the powerup
+	description = "Force an enemey player to have a very short fuse on their bombs"
+
+	//! Set a short fuse duration
+	fuseDuration = 1.0
+}
+
+mediumFuse = {
+	//! Provide a name 
+	name = "Medium Fuse"
+
+	//! Force an enemy player to have an average fuse on their bombs
+	actor = "enemy"
+
+	//! Setup the StandardSet spritesheet
+	spriteSheet = "./Standard Powerups.png"
+	sourceRect = { x = 32 y = 0 width = 32 height = 32 }
+
+	//! Provide a description for the powerup
+	description = "Force an enemy player to have an average fuse on their bombs"
+
+	//! Set a short fuse duration
+	fuseDuration = 2.0
+}
+
+longFuse = {
+	//! Provide a name 
+	name = "Long Fuse"
+
+	//! Force an enemy player to have a long fuse on their bombs
+	actor = "enemy"
+
+	//! Setup the StandardSet spritesheet
+	spriteSheet = "./Standard Powerups.png"
+	sourceRect = { x = 64 y = 0 width = 32 height = 32 }
+
+	//! Provide a description for the powerup
+	description = "Force an enemy player to have a long fuse on their bombs"
+
+	//! Set a short fuse duration
+	fuseDuration = 3.0
+}
+
+nuclearBombs = {
+	//! Provide a name 
+	name = "Nuclear Bombs"
+
+	//! Give to the current player
+	actor = "self"
+
+	//! Setup the StandardSet spritesheet
+	spriteSheet = "./Standard Powerups.png"
+	sourceRect = { x = 96 y = 0 width = 32 height = 32 }
+
+	//! Provide a description for the powerup
+	description = "Harness the ultimate explosive firepower"
+
+	//! Set the explosive radius to max
+	deltaBlastRadius = 9999
+}
+
+detonator = {
+	//! Provide a name 
+	name = "Detonator"
+
+	//! Give to the current player (Has no effect)
+	actor = "self"
+
+	//! Setup the StandardSet spritesheet
+	spriteSheet = "./Standard Powerups.png"
+	sourceRect = { x = 128 y = 0 width = 32 height = 32 }
+
+	//! Provide a description for the powerup
+	description = "Detonate all bombs on the map"
+
+	//! Start the fireworks
+	detonateAll = true
+}
+
+additionalBomb = {
+	//! Provide a name 
+	name = "Additional Bomb"
+
+	//! Give to the current player
+	actor = "self"
+
+	//! Setup the StandardSet spritesheet
+	spriteSheet = "./Standard Powerups.png"
+	sourceRect = { x = 160 y = 0 width = 32 height = 32 }
+
+	//! Provide a description for the powerup
+	description = "Gain an additional bomb that can be placed on the map"
+
+	//! Provide an additional bomb
+	deltaBombCount = 1
+}
+
+increasedFirepower = {
+	//! Provide a name 
+	name = "Increased Firepower"
+
+	//! Give to the current player
+	actor = "self"
+
+	//! Setup the StandardSet spritesheet
+	spriteSheet = "./Standard Powerups.png"
+	sourceRect = { x = 192 y = 0 width = 32 height = 32 }
+
+	//! Provide a description for the powerup
+	description = "Increase the blast radius of your bombs"
+
+	//! Increase the blast radius by 1
+	deltaBlastRadius = 1
+}
+
+reverseControls = {
+	//! Provide a name 
+	name = "Reverse Controls"
+
+	//! Give to an enemy player
+	actor = "enemy"
+
+	//! Setup the StandardSet spritesheet
+	spriteSheet = "./Standard Powerups.png"
+	sourceRect = { x = 224 y = 0 width = 32 height = 32 }
+
+	//! Provide a description for the powerup
+	description = "Reverse the controls of a random opponen for a short period of time"
+
+	//! Set a limit on the time the powerup has an effect
+	duration = 10.0
+
+	//! Flag controls for reverse
+	reverseControls = true
+}
+
+teleporter = {
+	//! Provide a name 
+	name = "Teleporter"
+
+	//! Teleport a random player
+	actor = "random"
+
+	//! Setup the StandardSet spritesheet
+	spriteSheet = "./Standard Powerups.png"
+	sourceRect = { x = 256 y = 0 width = 32 height = 32 }
+
+	//! Provide a description for the powerup
+	description = "Teleport a random player to a free spot on the map"
+
+	//! Teleport the player
+	teleport = true
+}
+
+mines = {
+	//! Provide a name 
+	name = "Mines"
+
+	//! Give the current player mines
+	actor = "self"
+
+	//! Setup the StandardSet spritesheet
+	spriteSheet = "./Standard Powerups.png"
+	sourceRect = { x = 288 y = 0 width = 32 height = 32 }
+
+	//! Provide a description for the powerup
+	description = "Replace your bombs with controllable mines"
+
+	//! Provide mines
+	hasMines = true
+}

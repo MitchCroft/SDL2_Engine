@@ -33,13 +33,25 @@
     <ClCompile Include="src\Game\Animation\PlayerAnimator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\Map Generation\Region.cpp">
+    <ClCompile Include="src\Game\Powerups\PowerupLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\Map Generation\RegionIdentifier.cpp">
+    <ClCompile Include="src\Game\Powerups\TempProperties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game\Map Generation\MapGenerator.cpp">
+    <ClCompile Include="src\Game\Powerups\PlayerProperties.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\MapGeneration\MapGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\MapGeneration\Region.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\MapGeneration\RegionIdentifier.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Management\GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,19 +71,46 @@
     <ClInclude Include="src\Game\Animation\PlayerAnimator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game\Map Generation\Region.hpp">
+    <ClInclude Include="src\Game\Powerups\Powerup.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game\Map Generation\MapGenerationValues.hpp">
+    <ClInclude Include="src\Game\Powerups\PowerupValues.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game\Map Generation\Map.hpp">
+    <ClInclude Include="src\Game\Powerups\PowerupLoader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game\Map Generation\RegionIdentifier.hpp">
+    <ClInclude Include="src\Game\Powerups\TempProperties.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game\Map Generation\MapGenerator.hpp">
+    <ClInclude Include="src\Game\Powerups\PlayerProperties.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Management\GameManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\GameObjects\Player.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\MapGeneration\Map.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\MapGeneration\MapGenerationValues.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\MapGeneration\MapGenerator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\MapGeneration\Region.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\MapGeneration\RegionIdentifier.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\GameObjects\Bomb.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\GameObjects\GameObjectValues.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

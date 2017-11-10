@@ -3,11 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestingGrounds", "Projects\TestingGrounds\TestingGrounds.vcxproj", "{5DCC01DA-D9EA-4494-9450-D4D80E2D101C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{AD923EE7-362A-4D78-9159-8B89623F49A9} = {AD923EE7-362A-4D78-9159-8B89623F49A9}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDL2_Engine", "Projects\SDL2_Engine\SDL2_Engine.vcxproj", "{AD923EE7-362A-4D78-9159-8B89623F49A9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BombSquad", "Projects\BombSquad\BombSquad.vcxproj", "{7E1581BE-1407-40DF-A64C-A0B34335D94B}"
@@ -23,14 +18,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5DCC01DA-D9EA-4494-9450-D4D80E2D101C}.Debug|x64.ActiveCfg = Debug|x64
-		{5DCC01DA-D9EA-4494-9450-D4D80E2D101C}.Debug|x64.Build.0 = Debug|x64
-		{5DCC01DA-D9EA-4494-9450-D4D80E2D101C}.Debug|x86.ActiveCfg = Debug|Win32
-		{5DCC01DA-D9EA-4494-9450-D4D80E2D101C}.Debug|x86.Build.0 = Debug|Win32
-		{5DCC01DA-D9EA-4494-9450-D4D80E2D101C}.Release|x64.ActiveCfg = Release|x64
-		{5DCC01DA-D9EA-4494-9450-D4D80E2D101C}.Release|x64.Build.0 = Release|x64
-		{5DCC01DA-D9EA-4494-9450-D4D80E2D101C}.Release|x86.ActiveCfg = Release|Win32
-		{5DCC01DA-D9EA-4494-9450-D4D80E2D101C}.Release|x86.Build.0 = Release|Win32
 		{AD923EE7-362A-4D78-9159-8B89623F49A9}.Debug|x64.ActiveCfg = Debug|x64
 		{AD923EE7-362A-4D78-9159-8B89623F49A9}.Debug|x64.Build.0 = Debug|x64
 		{AD923EE7-362A-4D78-9159-8B89623F49A9}.Debug|x86.ActiveCfg = Debug|Win32

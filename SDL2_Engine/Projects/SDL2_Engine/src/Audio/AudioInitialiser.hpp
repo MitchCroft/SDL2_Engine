@@ -7,6 +7,9 @@
 
 namespace SDL2_Engine {
 	namespace Initialisation {
+		//! Export the required Bitmask implementation
+		template class SDL2_LIB_INC Utilities::Bitmask<ESupportedCodecs>;
+
 		/*
 		 *		Name: AudioInitialiser
 		 *		Author: Mitchell Croft

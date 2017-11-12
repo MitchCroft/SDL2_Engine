@@ -179,6 +179,8 @@ xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.lib
     <ClCompile Include="src\Game\Powerups\PowerupLoader.cpp" />
     <ClCompile Include="src\Game\Powerups\TempProperties.cpp" />
     <ClCompile Include="src\Scenes\ExternalMenu.cpp" />
+    <ClCompile Include="src\Scenes\GameLoadingScene.cpp" />
+    <ClCompile Include="src\Scenes\GameScene.cpp" />
     <ClCompile Include="src\Scenes\GameSetupScene.cpp" />
     <ClCompile Include="src\Scenes\PlayerSetupScene.cpp" />
     <ClCompile Include="src\Scenes\SplashScene.cpp" />
@@ -202,6 +204,8 @@ xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.lib
     <ClInclude Include="src\Game\Powerups\PowerupValues.hpp" />
     <ClInclude Include="src\Game\Powerups\TempProperties.hpp" />
     <ClInclude Include="src\Scenes\ExternalMenu.hpp" />
+    <ClInclude Include="src\Scenes\GameLoadingScene.hpp" />
+    <ClInclude Include="src\Scenes\GameScene.hpp" />
     <ClInclude Include="src\Scenes\GameSetupScene.hpp" />
     <ClInclude Include="src\Scenes\PlayerSetupScene.hpp" />
     <ClInclude Include="src\Scenes\SplashScene.hpp" />

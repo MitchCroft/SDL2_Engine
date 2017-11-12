@@ -9,7 +9,7 @@ namespace BombSquad {
 	 *		Name: TempProperties
 	 *		Author: Mitchell Croft
 	 *		Created: 10/11/2017
-	 *		Modified: 11/11/2017
+	 *		Modified: 12/11/2017
 	 *		
 	 *		Purpose:
 	 *		Store temporary powerup values that are used to modify the player stats
@@ -97,9 +97,9 @@ namespace BombSquad {
 		/*
 			TempProperties : clear - Remove all temporary powerups stored
 			Created: 10/11/2017
-			Modified: 10/11/2017
+			Modified: 12/11/2017
 		*/
-		inline void clear() { mProperties.clear(); }
+		inline void clear() { mProperties.clear(); mCollectiveMask = 0; }
 
 		/*
 			TempProperties : Addition Assignment Operator - Add a new Powerup object to the internal list

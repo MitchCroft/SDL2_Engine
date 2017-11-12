@@ -81,13 +81,13 @@ namespace BombSquad {
 		/*
 			PlayerAnimator : getFrame - Get the current frame for a specific animation set
 			Created: 08/11/2017
-			Modified: 08/11/2017
+			Modified: 12/11/2017
 
 			param[in] pSet - An EAnimationSet value defining the set to retrieve the active frame of
 
 			return AniFrame - Return an AniFrame object holding the animation frame location
 		*/
-		AniFrame getFrame(const EAnimationSet& pSet);
+		AniFrame getFrame(const EAnimationSet& pSet) const;
 
 		/*
 			PlayerAnimator : getSpriteSheet - Get the Sprite Sheet currently in use for the current animation

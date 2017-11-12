@@ -5,14 +5,14 @@
 
 namespace BombSquad {
 	/*
-	 *		Name: Map
-	 *		Author: Mitchell Croft
-	 *		Created: 08/11/2017
-	 *		Modified: 11/11/2017
-	 *		
-	 *		Purpose:
-	 *		Store a 2D map of data values that can be used to represent
-	 *		various pieces of information
+	*		Name: Map
+	*		Author: Mitchell Croft
+	*		Created: 08/11/2017
+	*		Modified: 08/11/2017
+	*
+	*		Purpose:
+	*		Store a 2D map of data values that can be used to represent
+	*		various pieces of information
 	**/
 	template<typename T>
 	class Map {
@@ -68,10 +68,14 @@ namespace BombSquad {
 			mHeight = pHeight;
 
 			//Create the new array
-			mMap = new T[mWidth * mHeight];
-			
-			//Set default values
-			memset(mMap, 0, sizeof(T) * mWidth * mHeight);
+			mMap = new T*[mWidth];
+			for (size_t i = 0; i < mWidth; i++) {
+				//Create the array
+				mMap[i] = new T[mHeight];
+
+				//Reset the data
+				memset(mMap[i], 0, sizeof(T) * mHeight);
+			}
 		}
 
 		/*
@@ -82,7 +86,8 @@ namespace BombSquad {
 		void dispose() {
 			//Check if the map is allocated
 			if (mMap) {
-				//Delete the data
+				//Loop through and delete individual rows
+				for (size_t i = 0; i < mWidth; i++) delete[] mMap[i];
 				delete[] mMap;
 
 				//Reset the pointer
@@ -104,7 +109,7 @@ namespace BombSquad {
 		////////----------------------------------------Getters--------------------------------------////////
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 		/*
-			Map : width - Get the width of the Map 
+			Map : width - Get the width of the Map
 			Created: 08/11/2017
 			Modified: 08/11/2017
 
@@ -127,7 +132,7 @@ namespace BombSquad {
 		/*
 			Map : Assignment Operator - Copy the values of another Map object
 			Created: 08/11/2017
-			Modified: 11/11/2017
+			Modified: 08/11/2017
 
 			param[in] pCopy - The Map object to copy
 
@@ -138,7 +143,8 @@ namespace BombSquad {
 			setBounds(pCopy.mWidth, pCopy.mHeight);
 
 			//Copy the data values
-			memcpy_s(mMap, sizeof(T) * mWidth * mHeight, pCopy.mMap, sizeof(T) * mWidth * mHeight);
+			for (size_t i = 0; i < mWidth; i++)
+				memcpy_s(mMap[i], sizeof(T) * mHeight, pCopy.mMap[i], sizeof(T) * mHeight);
 
 			//Return itself
 			return *this;
@@ -147,28 +153,28 @@ namespace BombSquad {
 		/*
 			Map : Subscript Operator - Access the internal value map values via sub-script
 			Created: 08/11/2017
-			Modified: 11/11/2017
+			Modified: 08/11/2017
 
 			param[in] pIndex - The width index of the map to retrieve
 
-			return T* - Returns a pointer for that specified row
+			return T*& - Returns a reference to the pointer for that specified row
 		*/
-		inline T* operator[](const size_t& pIndex) { return &mMap[pIndex * mWidth]; }
+		inline T*& operator[](const size_t& pIndex) { return mMap[pIndex]; }
 
 		/*
 			Map : Const Subscript Operator - Access the internal value map values via sub-script
 			Created: 08/11/2017
-			Modified: 11/11/2017
+			Modified: 08/11/2017
 
 			param[in] pIndex - The width index of the map to retrieve
 
-			return const T* - Returns a constant pointer for that specified row
+			return T*& - Returns a reference to the pointer for that specified row
 		*/
-		inline const T* operator[](const size_t& pIndex) const { return &mMap[pIndex * mWidth]; }
+		inline T*& operator[](const size_t& pIndex) const { return mMap[pIndex]; }
 
 	private:
-		//! Store a map of values
-		T* mMap;
+		//! Store a 2D map of values
+		T** mMap;
 
 		//! Store the dimensions of the map
 		size_t mWidth, mHeight;

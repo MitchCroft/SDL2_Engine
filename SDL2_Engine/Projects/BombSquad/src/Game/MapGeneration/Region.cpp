@@ -13,7 +13,7 @@ namespace BombSquad {
 		param[in] pWidth - The width of the map that the coordinates exist on
 		param[in] pHeight - The height of the map that the coordinates exist on
 	*/
-	Region::Region(const coords& pCoords, const size_t& pWidth, const size_t& pHeight) : contained(pCoords) {
+	Region::Region(const coords& pCoords, const size_t& pWidth, const size_t& pHeight) : contained(pCoords), linkedToMain(false) {
 		//Create the location map
 		locationMap.setBounds(pWidth, pHeight);
 
@@ -112,6 +112,9 @@ namespace BombSquad {
 
 			//Add the current coordinate to the queue
 			unsearched.push(&traceGrid[COORD.x][COORD.y]);
+
+			//Flag the current as searched
+			searched[COORD.x][COORD.y] = 1;
 
 			//Flag if the search has gone out of bounds
 			bool outOfBounds = false;

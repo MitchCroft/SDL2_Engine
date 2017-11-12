@@ -11,7 +11,7 @@ namespace BombSquad {
 	 *		Name: Player 
 	 *		Author: Mitchell Croft
 	 *		Created: 10/11/2017
-	 *		Modified: 10/11/2017
+	 *		Modified: 12/11/2017
 	 *		
 	 *		Purpose:
 	 *		Store values related to the in game player object
@@ -37,6 +37,9 @@ namespace BombSquad {
 
 		//! Store the movement progression values from one tile to another
 		glm::vec2 moveProg;
+
+		//! Store the number of placed bombs 
+		size_t placedBombs;
 
 		//! Store game values
 		size_t wins, losses;

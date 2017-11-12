@@ -9,6 +9,9 @@ namespace SDL2_Engine {
 	//! Prototype the ISceneRenderer object
 	namespace Rendering { class ISceneRenderer; }
 
+	//! Export the required Bitmask implementation
+	template class SDL2_LIB_INC Utilities::Bitmask<Rendering::ERendererProperties>;
+
 	namespace Initialisation {
 		/*
 		 *		Name: RendererInitialiser

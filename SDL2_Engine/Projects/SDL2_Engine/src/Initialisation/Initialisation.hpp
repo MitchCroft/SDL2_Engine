@@ -56,6 +56,9 @@ namespace SDL2_Engine {
 			All				= Time | Input | Rendering | Audio | Local_Resources | UI
 		};
 
+		//! Export the required Bitmask implementation
+		template class SDL2_LIB_INC Utilities::Bitmask<EInitialiseSystems>;
+
 		/*
 		 *		Name: SDL2_Engine_Initialiser
 		 *		Author: Mitchell Croft

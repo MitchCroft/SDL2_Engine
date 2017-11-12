@@ -17,6 +17,9 @@ using namespace SDL2_Engine::Input;
 #include "Scenes/ExternalMenu.hpp"
 #include "Scenes/PlayerSetupScene.hpp"
 
+//! Allow seeding of random
+#include <time.h>
+
 //! Use a vector to store Virtual Axis
 #include <vector>
 
@@ -80,6 +83,9 @@ void setupExternalUI(SDL2_Engine::UI::UIElements::IUIAction* pObj, const SDL2_En
 	return int - Returns the status code for the programs execution
 */
 int main(int pArgCount, char* pArgs[]) {
+	//Seed the random
+	srand(unsigned int(time(NULL)));
+
 	//Create the initialisation object
 	SDL2_Engine_Initialiser setup;
 

@@ -144,7 +144,7 @@ namespace BombSquad {
 
 				//Check if this animation is the default
 				if (!strcmp(SET_CONTAINER["default"].readVal<Objx::xstring>().c_str(), ANI_NAMES[ani]))
-					mAniSets[set].currentAni = ANIMS[ani];
+					setAnimation(SETS[set], ANIMS[ani]);
 			}
 		}
 
@@ -178,18 +178,21 @@ namespace BombSquad {
 	/*
 		PlayerAnimator : getFrame - Get the current frame for a specific animation set
 		Created: 08/11/2017
-		Modified: 08/11/2017
+		Modified: 12/11/2017
 
 		param[in] pSet - An EAnimationSet value defining the set to retrieve the active frame of
 
 		return AniFrame - Return an AniFrame object holding the animation frame location
 	*/
-	AniFrame PlayerAnimator::getFrame(const EAnimationSet& pSet) {
+	AniFrame PlayerAnimator::getFrame(const EAnimationSet& pSet) const {
 		//Get a reference to the specified set
-		AnimationSet& set = mAniSets[(int)pSet];
+		const AnimationSet& set = mAniSets[(int)pSet];
+
+		//Attempt to find the animation
+		auto it = set.animations.find(set.currentAni);
 
 		//Return the active frame
-		return set.animations[set.currentAni].frames[set.currentFrame];
+		return (it != set.animations.end() ? it->second.frames[set.currentFrame] : AniFrame());
 	}
 
 	/*

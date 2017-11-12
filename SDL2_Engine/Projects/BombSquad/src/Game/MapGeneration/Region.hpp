@@ -8,7 +8,7 @@ namespace BombSquad {
 	 *		Name: Region
 	 *		Author: Mitchell Croft
 	 *		Created: 08/11/2017
-	 *		Modified: 09/11/2017
+	 *		Modified: 12/11/2017
 	 *		
 	 *		Purpose:
 	 *		Monitor a collection of coordinates as a Region on a gameMap object

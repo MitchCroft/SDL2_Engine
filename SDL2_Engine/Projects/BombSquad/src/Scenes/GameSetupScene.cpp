@@ -23,7 +23,7 @@
 
 #include <Scenes/SceneManager.hpp>
 #include "PlayerSetupScene.hpp"
-//TODO: Game Load Scene
+#include "GameLoadingScene.hpp"
 
 using namespace SDL2_Engine;
 using namespace SDL2_Engine::UI;
@@ -61,7 +61,7 @@ namespace BombSquad {
 	/*
 		GameSetupScene : createScene - Load the values required for the Scene to operate
 		Created: 11/11/2017
-		Modified: 11/11/2017
+		Modified: 12/11/2017
 
 		return bool - Returns true if the Scene was initialised successfully
 	*/
@@ -201,7 +201,11 @@ namespace BombSquad {
 			//Shutdown the game setup scene
 			shutdown();
 
-			//TODO: Load the Game Load Screen
+			//Load the Game Load Screen
+			Globals::get<Scenes::SceneManager>().addScene<GameLoadingScene>();
+
+			//Prevent the manager being destroyed with the scene
+			mDestroyGM = false;
 		});
 
 		//Set the text on the play button

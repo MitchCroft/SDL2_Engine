@@ -10,6 +10,9 @@ namespace SDL2_Engine {
 		//! Define a type for rendering order
 		typedef unsigned char renderOrder;
 
+		//! Export the required Bitmask implementation
+		template class SDL2_LIB_INC Utilities::Bitmask<ESceneProperties>;
+
 		/*
 		 *		Name: ISceneBase
 		 *		Author: Mitchell Croft

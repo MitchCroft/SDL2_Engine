@@ -11,7 +11,7 @@ namespace BombSquad {
 	 *		Name: GameManager
 	 *		Author: Mitchell Croft
 	 *		Created: 10/11/2017
-	 *		Modified: 11/11/2017
+	 *		Modified: 12/11/2017
 	 *		
 	 *		Purpose:
 	 *		Manage the aspects relating to game play and its setup
@@ -86,7 +86,7 @@ namespace BombSquad {
 		/*
 			GameManager : setupNewMap - Reset all values for a new game
 			Created: 10/11/2017
-			Modified: 10/11/2017
+			Modified: 12/11/2017
 		*/
 		static void setupNewGame();
 
@@ -99,6 +99,17 @@ namespace BombSquad {
 		*/
 		static void update(const float& pDelta);
 
+		/*
+			GameManager : isTileBlocked - Check to see if a specific tile is currently blocked
+			Created: 12/11/2017
+			Modified: 12/11/2017
+
+			param[in] pPos - A coord object containing the positions to check
+
+			return bool - Returns true if the tile is blocked
+		*/
+		static bool isTileBlocked(const coord& pPos);
+
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 		////////----------------------------------------Getters--------------------------------------////////
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -109,7 +120,7 @@ namespace BombSquad {
 
 			return const vector<Player>& - Returns a constant reference to the internal value
 		*/
-		inline static std::vector<Player>& getPlayers() { return mInstance->mPlayers; }
+		inline static const std::vector<Player>& getPlayers() { return mInstance->mPlayers; }
 
 		/*
 			GameManager : getBlueprints - Get the current powerups in the internal Blueprint powerup list

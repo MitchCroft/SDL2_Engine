@@ -14,6 +14,9 @@ namespace SDL2_Engine {
 		//! Export the required FString implementation
 		template class SDL2_LIB_INC Utilities::FString<FILENAME_MAX>;
 
+		//! Export the required Bitmask implementation
+		template class SDL2_LIB_INC Utilities::Bitmask<EWindowProperties>;
+
 		/*
 		 *		Name: WindowInitialiser
 		 *		Author: Mitchell Croft

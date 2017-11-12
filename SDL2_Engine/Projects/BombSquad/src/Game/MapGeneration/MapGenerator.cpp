@@ -42,11 +42,9 @@ namespace BombSquad {
 	/*
 		MapGenerator : Constructor - Initialise with default values
 		Created: 09/11/2017
-		Modified: 09/11/2017
-
-		param[in] pSeed - The seed value to be used to generate gameMap objects (Default 0)
+		Modified: 12/11/2017
 	*/
-	MapGenerator::MapGenerator(const unsigned int& pSeed /*= 0*/) :
+	MapGenerator::MapGenerator() :
 		mBirthRate(4),
 		mDeathLimit(3),
 		mInitialChance(0.55f),
@@ -54,7 +52,7 @@ namespace BombSquad {
 		mMaxIterations(25),
 		mPassageRadius(1),
 		mObstacleChance(0.25f)
-	{	srand(pSeed); }
+	{}
 
 	/*
 		MapGenerator : generateMap - Create a gameMap based on the current settings
@@ -130,6 +128,15 @@ namespace BombSquad {
 	}
 
 	/*
+		MapGenerator : setSeed - Set the seed that is used to generate the 'random' values
+		Created: 12/11/2017
+		Modified: 12/11/2017
+
+		param[in] pSeed - An unsigned integer value to be used as the seed
+	*/
+	void MapGenerator::setSeed(const unsigned int& pSeed) { srand(pSeed); }
+
+	/*
 		MapGenerator : createInitialMap - Create the initial map, and populate with initial free tiles
 		Created: 09/11/2017
 		Modified: 09/11/2017
@@ -143,14 +150,11 @@ namespace BombSquad {
 		//Create the initial empty map
 		gameMap map(pWidth, pHeight);
 
-		//Calculate the reverse initial spawn chance
-		float chance = 1.f - mInitialChance;
-
 		//Loop through the map and set initial set the initial values
 		for (size_t x = 0; x < pWidth; x++) {
 			for (size_t y = 0; y < pHeight; y++) {
 				//Get the random chance
-				if (random() <= chance) map[x][y] = ETileType::Free;
+				if (random() <= mInitialChance) map[x][y] = ETileType::Free;
 			}
 		}
 

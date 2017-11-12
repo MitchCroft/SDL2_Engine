@@ -1,8 +1,5 @@
 #pragma once
 
-//! Include Windows UUID functionality
-#include <Objbase.h>
-
 namespace BombSquad {
 	//! Store bitmask flags for the properties the powerup effects
 	enum class EPowerupEffectFlags {

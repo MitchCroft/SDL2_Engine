@@ -20,7 +20,7 @@ namespace SDL2_Engine {
 		 *		Name: Canvas
 		 *		Author: Mitchell Croft
 		 *		Created: 11/10/2017
-		 *		Modified: 02/11/2017
+		 *		Modified: 11/11/2017
 		 *		
 		 *		Purpose:
 		 *		Provide a uniform interface for managing the navigation, operation and displaying 
@@ -89,6 +89,15 @@ namespace SDL2_Engine {
 				return bool - Returns true if a matching IUIAction was found
 			*/
 			bool setActionObject(const uiTag& pTag);
+
+			/*
+				Canvas : getActionObject - Get the currently active interactive object
+				Created: 11/11/2017
+				Modified: 11/11/2017
+
+				return IUIBase* - Returns a pointer to a IUIBase object or nullptr if no active object
+			*/
+			UIElements::IUIBase* getActionObject();
 
 			/*
 				Canvas : destroyUI - Destroy the first UI element with the specified tag

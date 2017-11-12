@@ -71,7 +71,7 @@ namespace SDL2_Engine {
 		 *		Name: Bitmask
 		 *		Author: Mitchell Croft
 		 *		Created: 13/02/2017
-		 *		Modified: 11/10/2017
+		 *		Modified: 11/11/2017
 		 *
 		 *		Purpose:
 		 *		Provide a method for gathering and using
@@ -79,7 +79,7 @@ namespace SDL2_Engine {
 		 *		an indiscriminate number of types and values
 		**/
 		template<typename T>
-		class SDL2_LIB_INC Bitmask {
+		class Bitmask {
 		public:
 			//! Define the underlying type that is used by this object
 			typedef typename Implementation::__EnumBaseType__<T, std::is_enum<T>::value>::type baseType;

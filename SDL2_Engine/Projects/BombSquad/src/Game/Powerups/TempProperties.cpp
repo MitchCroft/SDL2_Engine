@@ -26,11 +26,11 @@ namespace BombSquad {
 	/*
 		TempProperties : getDeltaBlastRadius - Get the collective delta blast radius
 		Created: 10/11/2017
-		Modified: 10/11/2017
+		Modified: 11/11/2017
 
 		return int - Returns the collective delta blast radius as an int
 	*/
-	float TempProperties::getDeltaBlastRadius() const {
+	int TempProperties::getDeltaBlastRadius() const {
 		//Check if the delta blast radius in the mask
 		if (!(mCollectiveMask & EPowerupEffectFlags::Delta_Blast_Radius)) return 0;
 
@@ -181,7 +181,7 @@ namespace BombSquad {
 
 		return TempProperties& - Returns a reference to itself
 	*/
-	TempProperties& TempProperties::operator+=(const Powerup& pPUp) { mProperties.push_back({ pPUp, 0.f }); mCollectiveMask = constructMask(); return *this; }
+	TempProperties& TempProperties::operator+=(const Powerup& pPUp) { mProperties.push_back(PowerupNode(pPUp)); mCollectiveMask = constructMask(); return *this; }
 
 	/*
 		TempProperties : Subtraction Assignment Operator - Remove all powerups with a specific mask value

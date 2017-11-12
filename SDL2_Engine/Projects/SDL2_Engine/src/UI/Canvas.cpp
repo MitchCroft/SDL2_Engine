@@ -258,6 +258,17 @@ namespace SDL2_Engine {
 		}
 
 		/*
+			Canvas : getActionObject - Get the currently active interactive object
+			Created: 11/11/2017
+			Modified: 11/11/2017
+	
+			return IUIBase* - Returns a pointer to a IUIBase object or nullptr if no active object
+		*/
+		UIElements::IUIBase* Canvas::getActionObject() {
+			return (mData->selectedAction == -1 ? nullptr : dynamic_cast<UIElements::IUIBase*>(mData->interactiveMap[mData->selectedAction].element));
+		}
+
+		/*
 			Canvas : destroyUI - Destroy the first UI element with the specified tag
 			Created: 13/10/2017
 			Modified: 13/10/2017
@@ -480,7 +491,7 @@ namespace SDL2_Engine {
 
 			//Calculate how many elements are in interactable
 			for (size_t i = 0, COUNT = mData->uiElements.size(); i < COUNT; i++) {
-				//Check if this UI element is alive
+				//Check if this UI element is alive and active
 				if (!mData->uiElements[i]->isAlive()) continue;
 
 				//Check if this is interactable

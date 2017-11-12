@@ -167,6 +167,7 @@ xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.lib
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Additionals.cpp" />
     <ClCompile Include="src\entry.cpp" />
     <ClCompile Include="src\Game\Animation\PlayerAnimator.cpp" />
     <ClCompile Include="src\Game\Input\ControlScheme.cpp" />
@@ -178,10 +179,12 @@ xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.lib
     <ClCompile Include="src\Game\Powerups\PowerupLoader.cpp" />
     <ClCompile Include="src\Game\Powerups\TempProperties.cpp" />
     <ClCompile Include="src\Scenes\ExternalMenu.cpp" />
+    <ClCompile Include="src\Scenes\GameSetupScene.cpp" />
     <ClCompile Include="src\Scenes\PlayerSetupScene.cpp" />
     <ClCompile Include="src\Scenes\SplashScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Additionals.hpp" />
     <ClInclude Include="src\Game\Animation\PlayerAnimator.hpp" />
     <ClInclude Include="src\Game\GameObjects\Bomb.hpp" />
     <ClInclude Include="src\Game\GameObjects\GameObjectValues.hpp" />
@@ -199,6 +202,7 @@ xcopy "$(SolutionDir)Projects\SDL2_Engine\bin\$(Platform)\$(Configuration)\*.lib
     <ClInclude Include="src\Game\Powerups\PowerupValues.hpp" />
     <ClInclude Include="src\Game\Powerups\TempProperties.hpp" />
     <ClInclude Include="src\Scenes\ExternalMenu.hpp" />
+    <ClInclude Include="src\Scenes\GameSetupScene.hpp" />
     <ClInclude Include="src\Scenes\PlayerSetupScene.hpp" />
     <ClInclude Include="src\Scenes\SplashScene.hpp" />
   </ItemGroup>

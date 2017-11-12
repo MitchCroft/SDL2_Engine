@@ -11,7 +11,7 @@ namespace BombSquad {
 	 *		Name: GameManager
 	 *		Author: Mitchell Croft
 	 *		Created: 10/11/2017
-	 *		Modified: 10/11/2017
+	 *		Modified: 11/11/2017
 	 *		
 	 *		Purpose:
 	 *		Manage the aspects relating to game play and its setup
@@ -118,16 +118,16 @@ namespace BombSquad {
 
 			return const vector<Powerup>& - Returns a constant reference to the internal value
 		*/
-		inline static std::vector<Powerup>& getBlueprints() { return mInstance->mBlueprints; }
+		inline static const std::vector<Powerup>& getBlueprints() { return mInstance->mBlueprints; }
 
 		/*
 			GameManager : getLoader - Get the Powerup Loader object used for the internal blueprints
 			Created: 10/11/2017
-			Modified: 10/11/2017
+			Modified: 11/11/2017
 
 			return const PowerupLoader& - Returns a constant reference to the internal value
 		*/
-		inline static const PowerupLoader& getLoader() { mInstance->mPowerLoader; }
+		inline static const PowerupLoader& getLoader() { return mInstance->mPowerLoader; }
 
 		/*
 			GameManager : getMap - Get the current map object

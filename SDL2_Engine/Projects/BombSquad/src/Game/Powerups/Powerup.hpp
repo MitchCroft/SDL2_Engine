@@ -11,7 +11,7 @@ namespace BombSquad {
 	 *		Name: Powerup
 	 *		Author: Mitchell Croft
 	 *		Created: 10/11/2017
-	 *		Modified: 10/11/2017
+	 *		Modified: 11/11/2017
 	 *		
 	 *		Purpose:
 	 *		Store the values loaded from an Objx powerup descriptor
@@ -24,11 +24,12 @@ namespace BombSquad {
 		/*
 			Powerup : Constructor - Initialise with default values
 			Created: 10/11/2017
-			Modified: 10/11/2017
+			Modified: 11/11/2017
 		*/
 		inline Powerup() : 
 			mMask(EPowerupEffectFlags::Null),
 			mActor(EPowerupActor::Null),
+			mTextureID(-1),
 			mName("Unassigned"),
 			mDescription("Undescribed"),
 			mDuration(0.f),
@@ -39,9 +40,8 @@ namespace BombSquad {
 			mReverseControls(false),
 			mTeleport(false),
 			mMines(false),
-			mSpeed(0.f) {
-			memset(&mTextureID, 0, sizeof(UUID));
-		}
+			mSpeed(0.f) 
+		{}
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 		////////--------------------------------------Getters----------------------------------------////////
@@ -67,11 +67,11 @@ namespace BombSquad {
 		/*
 			Powerup : getTextureID - Get the UUID used to represent the powerups texture
 			Created: 10/11/2017
-			Modified: 10/11/2017
+			Modified: 11/11/2017
 
-			return UUID& - Returns a constant reference to the internal value
+			return size_t& - Returns a constant reference to the internal value
 		*/
-		inline const UUID& getTextureID() const { return mTextureID; }
+		inline const size_t& getTextureID() const { return mTextureID; }
 
 		/*
 			Powerup : getName - Get the name of the powerup
@@ -187,11 +187,11 @@ namespace BombSquad {
 		/*
 			Powerup : setTextureID - Set the ID used for texture identification
 			Created: 10/11/2017
-			Modified: 10/11/2017
+			Modified: 11/11/2017
 
-			param[in] pID - The UUID object to assign
+			param[in] pID - The size_t value to assign
 		*/
-		inline void setTextureID(const UUID& pID) { mTextureID = pID; }
+		inline void setTextureID(const size_t& pID) { mTextureID = pID; }
 
 		/*
 			Powerup : setName - Set the name used for the powerup
@@ -296,7 +296,7 @@ namespace BombSquad {
 		EPowerupActor mActor;
 
 		//! Store the texture that is used to represent the powerup
-		UUID mTextureID;
+		size_t mTextureID;
 
 		//! Store the name of the powerup
 		std::string mName;

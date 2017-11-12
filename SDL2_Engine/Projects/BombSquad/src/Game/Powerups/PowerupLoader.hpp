@@ -14,7 +14,7 @@ namespace BombSquad {
 	 *		Name: PowerupLoader
 	 *		Author: Mitchell Croft
 	 *		Created: 10/11/2017
-	 *		Modified: 10/11/2017
+	 *		Modified: 11/11/2017
 	 *		
 	 *		Purpose:
 	 *		Recursively load all Objx files within a directory, treating them as
@@ -29,9 +29,9 @@ namespace BombSquad {
 		/*
 			PowerupLoader : Constructor - Initialise with default values
 			Created: 10/11/2017
-			Modified: 10/11/2017
+			Modified: 11/11/2017
 		*/
-		inline PowerupLoader() {}
+		inline PowerupLoader() : mTextureProg(0) {}
 
 		/*
 			PowerupLoader : Destructor - Deallocate loaded memory
@@ -46,7 +46,7 @@ namespace BombSquad {
 		/*
 			PowerupLoader : loadDirectory - Load all Objx files in a directory as Powerups
 			Created: 10/11/2017
-			Modified: 10/11/2017
+			Modified: 11/11/2017
 
 			param[in] pDir - the directory to start loading powerups from
 
@@ -59,11 +59,11 @@ namespace BombSquad {
 			Created: 10/11/2017
 			Modified: 10/11/2017
 
-			param[in] pID - A UUID object describing the unique texture identifier
+			param[in] pID - A size_t value describing the unique texture identifier
 
 			return SDL_Texture* - Returns a pointer to the corresponding texture object or nullptr if none
 		*/
-		SDL_Texture* getTexture(const UUID& pID) const;
+		SDL_Texture* getTexture(const size_t& pID) const;
 
 		/*
 			PowerupLoader : dispose - Deallocate loaded memory
@@ -91,7 +91,10 @@ namespace BombSquad {
 		inline PowerupLoader& operator=(const PowerupLoader&) = delete;
 
 	private:
+		//! Store the current texture ID progress
+		size_t mTextureProg;
+
 		//! Store a map of the loaded textures
-		std::unordered_map<UUID, SDL_Texture*> mTextures;
+		std::unordered_map<size_t, SDL_Texture*> mTextures;
 	};
 }

@@ -9,7 +9,7 @@ namespace BombSquad {
 	 *		Name: TempProperties
 	 *		Author: Mitchell Croft
 	 *		Created: 10/11/2017
-	 *		Modified: 10/11/2017
+	 *		Modified: 11/11/2017
 	 *		
 	 *		Purpose:
 	 *		Store temporary powerup values that are used to modify the player stats
@@ -40,11 +40,11 @@ namespace BombSquad {
 		/*
 			TempProperties : getDeltaBlastRadius - Get the collective delta blast radius
 			Created: 10/11/2017
-			Modified: 10/11/2017
+			Modified: 11/11/2017
 
 			return int - Returns the collective delta blast radius as an int
 		*/
-		float getDeltaBlastRadius() const;
+		int getDeltaBlastRadius() const;
 
 		/*
 			TempProperties : getDeltaBombCount - Get the collective delta bomb count
@@ -127,10 +127,13 @@ namespace BombSquad {
 		//! Define an internal node for tracking powerup and timer values
 		struct PowerupNode {
 			//! Store a set of powerup values
-			const Powerup powerup;
+			Powerup powerup;
 
 			//! Store the timer for the powerup
 			float timer;
+
+			//! Simple constructor
+			inline PowerupNode(const Powerup& pType) : powerup(pType), timer(0.f) {}
 		};
 
 		//! Store a collective Bitmask

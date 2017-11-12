@@ -29,8 +29,7 @@ using namespace Objx;
 #include <SDL.h>
 #include <SDL_image.h>
 
-//! Creating UUID objects
-#include <Objbase.h>
+#include "../../Additionals.hpp"
 
 namespace BombSquad {
 	/*
@@ -56,82 +55,9 @@ namespace BombSquad {
 	}
 
 	/*
-		deductLocation - Deduct the location of relative resources, stripping superfluous characters
-		Author: Mitchell Croft
-		Created: 13/10/2017
-		Modified: 16/10/2017
-
-		param[in] pParent - The original string location of a file
-		param[in] pRelative - The file path of the second file, relative to pParent
-
-		return std::string - Returns the clean filepath as a new std::string object
-	*/
-	std::string deductLocation(const std::string pParent, const std::string pRelative) {
-		//Check if the pRelative is actually relative
-		if (pRelative.find(':') != pRelative.npos) return pRelative;
-
-		//Store a std::string of the current filepath
-		std::string current = "";
-
-		//Optomise the parent std::string
-		int index = -1;
-		size_t prog = 0;
-		while (true) {
-			//Grab the next std::string section
-			std::string sub = pParent.substr(prog, (index = (int)pParent.find_first_of("/\\", index + 1)) + 1 - prog);
-
-			//Check there was text extracted
-			if (index == pParent.npos) break;
-
-			//Check if its the current directory shorthand
-			else if (sub == "./" || sub == ".\\") continue;
-
-			//Check if its the directory up shorthand
-			else if (sub == "../" || sub == "..\\")
-				current = current.substr(0, current.find_last_of("/\\", current.length() - 2)) + '/';
-
-			//Otherwise concatenate
-			else current += sub;
-
-			//Increase the progress
-			prog += sub.length();
-		}
-
-		//Optomise the relative std::string
-		index = -1;
-		prog = 0;
-		while (true) {
-			//Grab the next std::string section
-			std::string sub = pRelative.substr(prog, (index = (int)pRelative.find_first_of("/\\", index + 1)) + 1 - prog);
-
-			//Increase the progress
-			prog += sub.length();
-
-			//Check if its the current directory shorthand
-			if (sub == "./" || sub == ".\\") continue;
-
-			//Check if its the directory up shorthand
-			else if (sub == "../" || sub == "..\\")
-				current = current.substr(0, current.find_last_of("/\\", current.length() - 2)) + '/';
-
-			//Otherwise concatenate
-			else current += sub;
-
-			//Check there was text extracted
-			if (index == pRelative.npos) {
-				current += pRelative.substr(prog);
-				break;
-			}
-		}
-
-		//Return the combination
-		return current;
-	}
-
-	/*
 		PowerupLoader : loadDirectory - Load all Objx files in a directory as Powerups
 		Created: 10/11/2017
-		Modified: 10/11/2017
+		Modified: 11/11/2017
 
 		param[in] pDir - the directory to start loading powerups from
 
@@ -151,6 +77,9 @@ namespace BombSquad {
 		{
 			//Create a queue to hold the directories to search
 			std::queue<std::string> toSearch;
+
+			//Add the initial directory to the queue
+			toSearch.push(pDir);
 
 			//Store the name of the element being processed
 			std::string elementName;
@@ -216,8 +145,7 @@ namespace BombSquad {
 		const size_t REQ_PROP_COUNT = sizeof(REQ_PROP) / sizeof(const xstring);
 
 		//Store the powerup frames to be laid over powerup sprites (according to the actor)
-		SDL_Surface* powerupFrames[] = { nullptr, nullptr, nullptr, nullptr };
-		const size_t FRAME_COUNT = sizeof(powerupFrames) / sizeof(SDL_Surface*);
+		SDL_Surface** powerupFrames = new SDL_Surface*[4] { nullptr, nullptr, nullptr, nullptr };
 
 		//Setup RGBA masks for the endian order of the machine
 		Uint32 rmask, gmask, bmask, amask;
@@ -233,12 +161,9 @@ namespace BombSquad {
 			amask = 0xff000000;
 		}
 
-		//Terrible hard coded values for the individual powerup sprites
-		SDL_Rect to = { 0, 0, 32, 32 };
-
 		{
 			//Store an array or colour values to apply to filter the powerup frame
-			const Rendering::Colour FILTER_COL[] = { Rendering::Colour::Black, Rendering::Colour::Green, Rendering::Colour::Red, Rendering::Colour::Yellow };
+			const Rendering::Colour FILTER_COL[] = { Utilities::Endian::reverseBytes(Rendering::Colour::Black), Utilities::Endian::reverseBytes(Rendering::Colour::Green), Utilities::Endian::reverseBytes(Rendering::Colour::Red), Utilities::Endian::reverseBytes(Rendering::Colour::Yellow) };
 			
 			//Load the basic spritesheet
 			SDL_Surface* sprites = IMG_Load("resources/Textures/Spritesheet.png");
@@ -250,18 +175,18 @@ namespace BombSquad {
 			}
 
 			//Terrible hard coded values of the powerup frame on the spritesheet
-			SDL_Rect from = { 228, 0, 32, 32 };
-
-			//Store the total pixel count on the frames
-			const size_t FRAME_PIXEL_TOTAL = to.w * to.h;
+			SDL_Rect from = { 224, 0, 32, 32 };
 
 			//Loop through and setup the frames
-			for (size_t i = 0; i < FRAME_COUNT; i++) {
+			for (size_t i = 0; i < 4; i++) {
+				//Terrible hard coded values for the individual powerup sprites
+				SDL_Rect TO = { 0, 0, 32, 32 };
+
 				//Create a surface to transplant the frame to
-				powerupFrames[i] = SDL_CreateRGBSurface(SDL_SWSURFACE, to.w, to.h, 32, rmask, gmask, bmask, amask);
+				powerupFrames[i] = SDL_CreateRGBSurface(SDL_SWSURFACE, TO.w, TO.h, 32, rmask, gmask, bmask, amask);
 
 				//Check the surface was created properly
-				if (!powerupFrames) {
+				if (!powerupFrames[i]) {
 					//Output the error
 					LOG.logError("Powerup Loader failed to create the initial powerup frame surface '%zu'. Error: %s", i, SDL_GetError());
 
@@ -277,7 +202,7 @@ namespace BombSquad {
 				}
 
 				//Transplant the image information from the source to the new surface
-				if (SDL_BlitSurface(sprites, &from, powerupFrames[i], &to)) {
+				if (SDL_BlitSurface(sprites, &from, powerupFrames[i], &TO)) {
 					//Output the error
 					LOG.logError("Powerup Loader failed to transplant the powerup frame image data to powerup frame '%zu'. Error: %s", i, SDL_GetError());
 
@@ -299,9 +224,9 @@ namespace BombSquad {
 				unsigned int* pixelData = (unsigned int*)powerupFrames[i]->pixels;
 
 				//Loop through an set all non blank pixels to filter colour
-				for (size_t j = 0; j < FRAME_PIXEL_TOTAL; j++) {
+				for (size_t j = 0, count = powerupFrames[i]->w * powerupFrames[i]->h; j < count; j++) {
 					//Check the pixel 
-					if (pixelData[j]) pixelData[j] = Utilities::Endian::convert(FILTER_COL[i].ID);
+					if (pixelData[j]) pixelData[j] = FILTER_COL[i].ID;
 				}
 
 				//Unlock the surface
@@ -387,8 +312,11 @@ namespace BombSquad {
 						return true;
 					}
 
+					//Terrible hard coded values for the individual powerup sprites
+					SDL_Rect TO = { 0, 0, 32, 32 };
+
 					//Create a surface to store the images on
-					SDL_Surface* toSurface = SDL_CreateRGBSurface(SDL_SWSURFACE, to.w, to.h, 32, rmask, gmask, bmask, amask);
+					SDL_Surface* toSurface = SDL_CreateRGBSurface(SDL_SWSURFACE, TO.w, TO.h, 32, rmask, gmask, bmask, amask);
 
 					//Check the surface was created
 					if (!toSurface) {
@@ -410,8 +338,11 @@ namespace BombSquad {
 						MATH.largest(0, pNode["sourceRect"]["height"].readVal<xint>())
 					};
 
+					//Recertify values
+					TO = { 0, 0, 32, 32 };
+
 					//Blitz the spritesheet to the surface
-					if (SDL_BlitSurface(spritesheet, &fromSpritesheet, toSurface, &to)) {
+					if (SDL_BlitSurface(spritesheet, &fromSpritesheet, toSurface, &TO)) {
 						//Output error
 						LOG.logError("Powerup Loader failed to transplant the image data from '%s' with the dimensions { x: %i y: %i width: %i height: %i } for the description '%s' on the Document '%s'. Error: %s", REL_PATH.c_str(), fromSpritesheet.x, fromSpritesheet.y, fromSpritesheet.w, fromSpritesheet.h, pName.c_str(), toLoad[i].c_str(), SDL_GetError());
 
@@ -426,8 +357,11 @@ namespace BombSquad {
 					//Free the spritesheet
 					SDL_FreeSurface(spritesheet);
 
+					//Recertify values
+					TO = { 0, 0, 32, 32 };
+
 					//Copy the powerups frame over the sprite
-					if (SDL_BlitSurface(powerupFrames[(int)newObj.getActor()], &to, toSurface, &to)) {
+					if (SDL_BlitSurface(powerupFrames[(int)newObj.getActor()], &TO, toSurface, &TO)) {
 						//Output error
 						LOG.logError("Powerup Loader failed to transplant the Powerup Border image data for actor type '%i' on the object '%s' on the Document '%s'. Error: %s", (int)newObj.getActor(), pName.c_str(), toLoad[i].c_str(), SDL_GetError());
 
@@ -456,10 +390,8 @@ namespace BombSquad {
 					//Free the surface
 					SDL_FreeSurface(toSurface);
 
-					//Create unique identifier for the texture
-					UUID id;
-					do { UuidCreate(&id);
-					} while (mTextures.find(id) != mTextures.end());
+					//Get the next texture ID
+					size_t id = mTextureProg++;
 
 					//Add the texture to the internal textures map
 					mTextures.insert({ id, tex });
@@ -488,8 +420,11 @@ namespace BombSquad {
 		}
 
 		//Free the frame surfaces
-		for (size_t i = 0; i < FRAME_COUNT; i++)
+		for (size_t i = 0; i < 4; i++)
 			SDL_FreeSurface(powerupFrames[i]);
+
+		//Delete the powerup frames array
+		delete[] powerupFrames;
 
 		//Return the loaded powerups
 		return blueprints;
@@ -500,11 +435,11 @@ namespace BombSquad {
 		Created: 10/11/2017
 		Modified: 10/11/2017
 
-		param[in] pID - A UUID object describing the unique texture identifier
+		param[in] pID - A size_t value describing the unique texture identifier
 
 		return SDL_Texture* - Returns a pointer to the corresponding texture object or nullptr if none
 	*/
-	SDL_Texture* PowerupLoader::getTexture(const UUID& pID) const {
+	SDL_Texture* PowerupLoader::getTexture(const size_t& pID) const {
 		//Search for the ID
 		auto iter = mTextures.find(pID);
 

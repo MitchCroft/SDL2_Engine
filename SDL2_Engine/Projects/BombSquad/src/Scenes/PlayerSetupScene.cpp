@@ -31,6 +31,7 @@ using namespace SDL2_Engine::Input;
 //! Allow for the return to the main menu
 #include <Scenes/SceneManager.hpp>
 #include "ExternalMenu.hpp"
+#include "GameSetupScene.hpp"
 
 //! Include the SDL objects
 #include <SDL.h>
@@ -294,8 +295,18 @@ namespace BombSquad {
 			for (size_t i = 0; i < mClaimedSchemes.size(); i++) {
 				//Check for detonation button press
 				if (mClaimedSchemes[i].actionPressed(EPlayerAction::Detonate_Mine)) {
+					//Flag the current scene for shutdown
+					shutdown();
+
+					//Unbind all claimed control schemes
+					for (size_t i = 0; i < mClaimedSchemes.size(); i++)
+						mClaimedSchemes[i].unbindControlScheme();
+					
 					//Progress the scene to the game setup 
-					//TODO
+					Globals::get<Scenes::SceneManager>().addScene<GameSetupScene>(mClaimedSchemes);
+
+					//Exit the function
+					return;
 				}
 			}
 		}

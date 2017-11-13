@@ -6,13 +6,14 @@
 
 //! Include the thread objects
 #include <thread>
+#include <atomic>
 
 namespace BombSquad {
 	/*
 	 *		Name: GameLoadingScene
 	 *		Author: Mitchell Croft
 	 *		Created: 12/11/2017
-	 *		Modified: 12/11/2017
+	 *		Modified: 13/11/2017
 	 *		
 	 *		Purpose:
 	 *		Provide a visual indication of the behind the scenes process
@@ -29,7 +30,7 @@ namespace BombSquad {
 		/*
 			GameLoadingScene : createScene - Load the values required for the Scene to operate
 			Created: 12/11/2017
-			Modified: 12/11/2017
+			Modified: 13/11/2017
 
 			return bool - Returns true if the Scene was initialised successfully
 		*/
@@ -45,7 +46,7 @@ namespace BombSquad {
 		/*
 			GameLoadingScene : update - Check for loading completion
 			Created: 12/11/2017
-			Modified: 12/11/2017
+			Modified: 13/11/2017
 		*/
 		void update() override;
 
@@ -65,5 +66,8 @@ namespace BombSquad {
 
 		//! Store the thread being used to load the map
 		std::thread mWorker;
+
+		//! Flag when the loading operation has been completed
+		std::atomic<bool> mLoadedFlag;
 	};
 }

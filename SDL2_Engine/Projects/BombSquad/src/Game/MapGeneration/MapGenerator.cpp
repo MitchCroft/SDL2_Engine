@@ -250,7 +250,7 @@ namespace BombSquad {
 	/*
 		MapGenerator : linkRegions - Links regions identified by a RegionIdentifier object
 		Created: 09/11/2017
-		Modified: 09/11/2017
+		Modified: 13/11/2017
 
 		param[in] pIdent - A RegionIdentifer containing the regions to link together
 		param[in] pMap - The gameMap object the regions exist on
@@ -264,7 +264,7 @@ namespace BombSquad {
 
 		//Loop through until all regions are linked to main
 		bool allLinked = false;
-		for (size_t iter = 1; !allLinked; iter++) {
+		for (size_t iter = 0; !allLinked; iter++) {
 			//Flag all regions as linked
 			allLinked = true;
 
@@ -286,41 +286,44 @@ namespace BombSquad {
 					return (glm::length(glm::vec2(pLeft->center - pIdent.regions[reg].center)) > glm::length(glm::vec2(pRight->center - pIdent.regions[reg].center)));
 				});
 
-				//Find the closest possible points
-				coord* bestA = &pIdent.regions[reg].edges[0];
-				coord* bestB = &proximity[iter]->edges[0];
-				float bestDistance = glm::length(glm::vec2(*bestA - *bestB));
+				//Skip linking itself
+				if (&pIdent.regions[reg] != proximity[iter]) {
+					//Find the closest possible points
+					coord* bestA = &pIdent.regions[reg].edges[0];
+					coord* bestB = &proximity[iter]->edges[0];
+					float bestDistance = glm::length(glm::vec2(*bestA - *bestB));
 
-				//Loop through all edges of the region
-				float buffer = 0;
-				for (size_t A = 0; A < pIdent.regions[reg].edges.size(); A++) {
-					for (size_t B = 0; B < proximity[iter]->edges.size(); B++) {
-						//Get the distance between the points
-						buffer = glm::length(glm::vec2(proximity[iter]->edges[B] - pIdent.regions[reg].edges[A]));
+					//Loop through all edges of the region
+					float buffer = 0;
+					for (size_t A = 0; A < pIdent.regions[reg].edges.size(); A++) {
+						for (size_t B = 0; B < proximity[iter]->edges.size(); B++) {
+							//Get the distance between the points
+							buffer = glm::length(glm::vec2(proximity[iter]->edges[B] - pIdent.regions[reg].edges[A]));
 
-						//Check if the distance is less
-						if (buffer < bestDistance) {
-							bestA = &pIdent.regions[reg].edges[A];
-							bestB = &proximity[iter]->edges[B];
-							bestDistance = buffer;
+							//Check if the distance is less
+							if (buffer < bestDistance) {
+								bestA = &pIdent.regions[reg].edges[A];
+								bestB = &proximity[iter]->edges[B];
+								bestDistance = buffer;
+							}
 						}
 					}
+
+					//Get the line between the two points
+					coords line = getLine(*bestA, *bestB);
+
+					//Create the link between the regions
+					for (size_t i = 0; i < line.size(); i++)
+						drawCircle(ETileType::Free, line[i], mPassageRadius, pMap);
+
+					//Create the link between the two
+					pIdent.regions[reg].links.push_back(proximity[iter]);
+					proximity[iter]->links.push_back(&pIdent.regions[reg]);
+
+					//Check if either are linked to main
+					if (pIdent.regions[reg].linkedToMain) proximity[iter]->recursiveLinkToMain();
+					else if (proximity[iter]->linkedToMain) pIdent.regions[reg].recursiveLinkToMain();
 				}
-
-				//Get the line between the two points
-				coords line = getLine(*bestA, *bestB);
-
-				//Create the link between the regions
-				for (size_t i = 0; i < line.size(); i++)
-					drawCircle(ETileType::Free, line[i], mPassageRadius, pMap);
-
-				//Create the link between the two
-				pIdent.regions[reg].links.push_back(proximity[iter]);
-				proximity[iter]->links.push_back(&pIdent.regions[reg]);
-
-				//Check if either are linked to main
-				if (pIdent.regions[reg].linkedToMain) pIdent.regions[reg].recursiveLinkToMain();
-				else if (proximity[iter]->linkedToMain) proximity[iter]->recursiveLinkToMain();
 
 				//Check if the current is linked to main at this point
 				if (!pIdent.regions[reg].linkedToMain) allLinked = false;
@@ -522,12 +525,12 @@ namespace BombSquad {
 
 				//Loop through the previously established positions
 				for (size_t i = 0; i < player; i++) {
-					avg += findPath(spawnPoints[i], available[aval], pMap, ETileType::Free).size() +
+					avg += (int)findPath(spawnPoints[i], available[aval], pMap, ETileType::Free).size() +
 						(totalDepth[available[aval].x][available[aval].y] * 4);
 				}
 
 				//Take the average
-				avg /= player;
+				avg /= (int)player;
 
 				//Check if the distance is further
 				if (avg > furthestAvgDist) {

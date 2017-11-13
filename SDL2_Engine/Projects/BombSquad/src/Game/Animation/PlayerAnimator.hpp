@@ -21,7 +21,7 @@ namespace BombSquad {
 	 *		Name: AniFrame 
 	 *		Author: Mitchell Croft
 	 *		Created: 08/11/2017
-	 *		Modified: 08/11/2017
+	 *		Modified: 13/11/2017
 	 *		
 	 *		Purpose:
 	 *		Store a single animation frames dimensions
@@ -81,7 +81,7 @@ namespace BombSquad {
 		/*
 			PlayerAnimator : getFrame - Get the current frame for a specific animation set
 			Created: 08/11/2017
-			Modified: 12/11/2017
+			Modified: 13/11/2017
 
 			param[in] pSet - An EAnimationSet value defining the set to retrieve the active frame of
 
@@ -106,7 +106,7 @@ namespace BombSquad {
 		/*
 			PlayerAnimator : update - Update the contained animation values
 			Created: 08/11/2017
-			Modified: 08/11/2017
+			Modified: 13/11/2017
 
 			param[in] pDelta - The delta time for current cycle
 		*/

@@ -88,7 +88,7 @@ namespace BombSquad {
 		/*
 			TempProperties : update - Update the internal timer values 
 			Created: 10/11/2017
-			Modified: 10/11/2017
+			Modified: 13/11/2017
 
 			param[in] pDelta - The delta time for the current cycle
 		*/

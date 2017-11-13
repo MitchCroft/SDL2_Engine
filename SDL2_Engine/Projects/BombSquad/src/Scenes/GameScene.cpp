@@ -10,6 +10,9 @@
 
 #include <Rendering/Renderer.hpp>
 
+#include <Scenes/SceneManager.hpp>
+#include "ScoreScene.hpp"
+
 using namespace SDL2_Engine;
 using namespace SDL2_Engine::Rendering;
 
@@ -108,7 +111,7 @@ namespace BombSquad {
 				shutdown();
 
 				//Load the score scene
-				//TODO
+				Globals::get<Scenes::SceneManager>().addScene<ScoreScene>();
 				
 				//Prevent the Game Manager being destroyed
 				mDestroyGM = false;

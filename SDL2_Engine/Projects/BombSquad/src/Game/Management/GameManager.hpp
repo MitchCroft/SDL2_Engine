@@ -11,7 +11,7 @@ namespace BombSquad {
 	 *		Name: GameManager
 	 *		Author: Mitchell Croft
 	 *		Created: 10/11/2017
-	 *		Modified: 12/11/2017
+	 *		Modified: 13/11/2017
 	 *		
 	 *		Purpose:
 	 *		Manage the aspects relating to game play and its setup
@@ -80,20 +80,29 @@ namespace BombSquad {
 		*/
 		static void setObstacleDensity(const float& pChance) { mInstance->mGenerator.setObstacleChance(pChance); }
 
+		/*
+			GameManager : setPowerupChance - Set the chance of a powerup being dropped when an obstacle is destroyed
+			Created: 10/11/2017
+			Modified: 10/11/2017
+
+			param[in] pChance - A 0 - 1 scale float value representing the chance of spawning a powerup
+		*/
+		static void setPowerupChance(const float& pChance) { mInstance->mPowerupChance = pChance; }
+
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 		////////----------------------------------------Gameplay-------------------------------------////////
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 		/*
 			GameManager : setupNewMap - Reset all values for a new game
 			Created: 10/11/2017
-			Modified: 12/11/2017
+			Modified: 13/11/2017
 		*/
 		static void setupNewGame();
 
 		/*
 			GameManager : update - Update the current game state values 
 			Created: 10/11/2017
-			Modified: 10/11/2017
+			Modified: 13/11/2017
 
 			param[in] pDelta - The delta time for the current cycle
 		*/
@@ -102,7 +111,7 @@ namespace BombSquad {
 		/*
 			GameManager : isTileBlocked - Check to see if a specific tile is currently blocked
 			Created: 12/11/2017
-			Modified: 12/11/2017
+			Modified: 13/11/2017
 
 			param[in] pPos - A coord object containing the positions to check
 
@@ -206,10 +215,16 @@ namespace BombSquad {
 		//! Store the desired dimensions of the map
 		size_t mMapWidth, mMapHeight;
 
+		//! Store the chance of spawning a powerup on obstacle destruction
+		float mPowerupChance;
+
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 		////////-----------------------------------Gameplay Objects----------------------------------////////
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 		
+		//! Flag if the match is over
+		bool mGameOver;
+
 		//! Store the map the players are currently on
 		gameMap mCurrentMap;
 

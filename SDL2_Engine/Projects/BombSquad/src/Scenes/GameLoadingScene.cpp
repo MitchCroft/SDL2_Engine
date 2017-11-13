@@ -36,7 +36,7 @@ namespace BombSquad {
 	/*
 		GameLoadingScene : createScene - Load the values required for the Scene to operate
 		Created: 12/11/2017
-		Modified: 12/11/2017
+		Modified: 13/11/2017
 
 		return bool - Returns true if the Scene was initialised successfully
 	*/
@@ -50,8 +50,17 @@ namespace BombSquad {
 		//Check the font loaded correctly
 		if (mMsgFont->status() != EResourceLoadStatus::Loaded) return false;
 
+		//Default not completed
+		mLoadedFlag.store(false);
+
 		//Create the worker thread
-		mWorker = std::thread([&]() { GM::setupNewGame(); });
+		mWorker = std::thread([&]() { 
+			//Load the new map
+			GM::setupNewGame(); 
+
+			//Flag completed
+			mLoadedFlag.store(true);
+		});
 
 		//Return success
 		return true;
@@ -73,11 +82,11 @@ namespace BombSquad {
 	/*
 		GameLoadingScene : update - Check for loading completion
 		Created: 12/11/2017
-		Modified: 12/11/2017
+		Modified: 13/11/2017
 	*/
 	void GameLoadingScene::update() {
 		//Check if the thread has finished
-		if (mWorker.joinable()) {
+		if (mLoadedFlag.load()) {
 			//Shutdown the current scene
 			shutdown();
 

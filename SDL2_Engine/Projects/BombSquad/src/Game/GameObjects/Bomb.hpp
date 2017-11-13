@@ -8,7 +8,7 @@ namespace BombSquad {
 	 *		Name: Bomb
 	 *		Author: Mitchell Croft
 	 *		Created: 10/11/2017
-	 *		Modified: 10/11/2017
+	 *		Modified: 13/11/2017
 	 *		
 	 *		Purpose:
 	 *		Store values related to the in game bomb object
@@ -16,6 +16,9 @@ namespace BombSquad {
 	struct Bomb {
 		//! Store the ID of the Player that placed the bomb
 		EPlayerID owner;
+
+		//! Store the blast radius of the bomb
+		int radius;
 
 		//! Flag if the bomb should be treated like a mine
 		bool isMine;

@@ -104,7 +104,7 @@ namespace BombSquad {
 	/*
 		PlayerProperties : Addition Assignment Operator - Apply a new Powerup object to the properties
 		Created: 10/11/2017
-		Modified: 10/11/2017
+		Modified: 13/11/2017
 
 		param[in] pPUp - The powerup object to add to the internal list
 
@@ -120,7 +120,7 @@ namespace BombSquad {
 			if (pPUp.getMask() & EPowerupEffectFlags::Fuse_Duration)
 				mFuseLength = CLAMP(pPUp.getFuseLength(), 0.f, 30.f);
 			if (pPUp.getMask() & EPowerupEffectFlags::Delta_Blast_Radius)
-				mBlastRadius = CLAMP(mBlastRadius + pPUp.getDeltaBombCount(), 1, 9999);
+				mBlastRadius = CLAMP(mBlastRadius + pPUp.getDeltaBlastRadius(), 1, 9999);
 			if (pPUp.getMask() & EPowerupEffectFlags::Delta_Bomb_Count)
 				mBombCount = CLAMP(mBombCount + pPUp.getDeltaBombCount(), 1, 100);
 			if (pPUp.getMask() & EPowerupEffectFlags::Reverse_Controls)

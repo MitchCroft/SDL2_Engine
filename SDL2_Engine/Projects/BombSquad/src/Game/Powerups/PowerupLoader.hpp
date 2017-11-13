@@ -46,7 +46,7 @@ namespace BombSquad {
 		/*
 			PowerupLoader : loadDirectory - Load all Objx files in a directory as Powerups
 			Created: 10/11/2017
-			Modified: 11/11/2017
+			Modified: 13/11/2017
 
 			param[in] pDir - the directory to start loading powerups from
 

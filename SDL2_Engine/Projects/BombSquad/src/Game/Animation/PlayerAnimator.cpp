@@ -178,7 +178,7 @@ namespace BombSquad {
 	/*
 		PlayerAnimator : getFrame - Get the current frame for a specific animation set
 		Created: 08/11/2017
-		Modified: 12/11/2017
+		Modified: 13/11/2017
 
 		param[in] pSet - An EAnimationSet value defining the set to retrieve the active frame of
 
@@ -191,8 +191,17 @@ namespace BombSquad {
 		//Attempt to find the animation
 		auto it = set.animations.find(set.currentAni);
 
-		//Return the active frame
-		return (it != set.animations.end() ? it->second.frames[set.currentFrame] : AniFrame());
+		//Check if the animation was found
+		if (it != set.animations.end()) {
+			//Check if the frame is valid
+			if (set.currentFrame < it->second.frames.size()) {
+				//Return the frame
+				return it->second.frames[set.currentFrame];
+			}
+		}
+
+		//Return default
+		return AniFrame();
 	}
 
 	/*
@@ -209,7 +218,7 @@ namespace BombSquad {
 	/*
 		PlayerAnimator : update - Update the contained animation values
 		Created: 08/11/2017
-		Modified: 08/11/2017
+		Modified: 13/11/2017
 
 		param[in] pDelta - The delta time for current cycle
 	*/
@@ -219,6 +228,9 @@ namespace BombSquad {
 			//Get a reference to the current animation values
 			AnimationSet& set = mAniSets[i];
 			Animation& ani = set.animations[set.currentAni];
+
+			//Check there are frames to update
+			if (!ani.frames.size()) continue;
 
 			//Increment the timer
 			mAniSets[i].timer += pDelta;

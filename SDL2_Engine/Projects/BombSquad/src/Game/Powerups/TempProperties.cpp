@@ -145,7 +145,7 @@ namespace BombSquad {
 	/*
 		TempProperties : update - Update the internal timer values
 		Created: 10/11/2017
-		Modified: 10/11/2017
+		Modified: 13/11/2017
 
 		param[in] pDelta - The delta time for the current cycle
 	*/
@@ -154,7 +154,7 @@ namespace BombSquad {
 		bool flag = false;
 
 		//Loop through and update the timer values
-		for (int i = (int)mProperties.size(); i >= 0; i--) {
+		for (int i = (int)mProperties.size() - 1; i >= 0; i--) {
 			//Update the timer
 			mProperties[i].timer += pDelta;
 

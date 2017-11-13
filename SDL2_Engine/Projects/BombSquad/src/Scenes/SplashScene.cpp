@@ -64,7 +64,7 @@ namespace BombSquad {
 
 		//Move the dimensions to the middle on x and top on y
 		DIM.x /= 2;
-		DIM.y = (DIM.y / 2) - (mLabelCount / 2 * FNT_SIZE);
+		DIM.y = (DIM.y / 2) - ((int)mLabelCount / 2 * (int)FNT_SIZE);
 
 		//Loop through and create the labels
 		for (size_t i = 0; i < mLabelCount; i++) {
@@ -105,7 +105,7 @@ namespace BombSquad {
 	/*
 		SplashScene : update - Function to facilitate the updating of values once per cycle
 		Created: 02/11/2017
-		Modified: 02/11/2017
+		Modified: 13/11/2017
 	*/
 	void SplashScene::update() {
 		//Increment the timer's value
@@ -119,7 +119,7 @@ namespace BombSquad {
 			mLabels[i]->setColour(toAssign);
 
 		//Check if the splash screen is finished
-		if (mTimer >= 0.f) {
+		if (mTimer >= 6.f) {
 			//Load the main menu 
 			Globals::get<Scenes::SceneManager>().addScene<ExternalMenu>("mainMenu");
 

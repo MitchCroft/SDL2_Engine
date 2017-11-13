@@ -57,7 +57,7 @@ namespace BombSquad {
 	/*
 		PowerupLoader : loadDirectory - Load all Objx files in a directory as Powerups
 		Created: 10/11/2017
-		Modified: 11/11/2017
+		Modified: 13/11/2017
 
 		param[in] pDir - the directory to start loading powerups from
 
@@ -401,7 +401,7 @@ namespace BombSquad {
 				}
 
 				//Read the game modification properties
-				newObj.setDuration((float)MATH.clamp(pNode["duration"].readVal<xdec>(-1.0), 1.0, 9999.9));
+				newObj.setDuration((float)MATH.clamp(pNode["duration"].readVal<xdec>(-1.0), -1.0, 9999.9));
 				if (pNode.hasProperty("fuseDuration")) newObj.setFuseLength((float)MATH.largest(pNode["fuseDuration"].readVal<xdec>(), 0.0));
 				if (pNode.hasProperty("deltaBlastRadius")) newObj.setDeltaBlastRadius(MATH.clamp(pNode["deltaBlastRadius"].readVal<xint>(1), 1, 9999));
 				if (pNode.hasProperty("detonateAll") && pNode["detonateAll"].readVal<xbool>()) newObj.setDetonateAll();

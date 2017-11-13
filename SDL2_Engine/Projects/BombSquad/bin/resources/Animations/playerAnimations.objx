@@ -239,7 +239,7 @@ player1 = {
 		}
 
 		death = {
-			loop = true
+			loop = false
 			fps = 4.0
 
 			frames = [{
@@ -282,7 +282,7 @@ player1 = {
 					y = 192
 					width = 32
 					height = 32
-				}
+				}, {}
 			]
 		}
 	}
@@ -517,7 +517,7 @@ player2 = {
 		}
 
 		death = {
-			loop = true
+			loop = false
 			fps = 4.0
 
 			frames = [{
@@ -560,7 +560,7 @@ player2 = {
 					y = 192
 					width = 32
 					height = 32
-				}
+				}, {}
 			]
 		}
 	}
@@ -795,7 +795,7 @@ player3 = {
 		}
 
 		death = {
-			loop = true
+			loop = false
 			fps = 4.0
 
 			frames = [{
@@ -838,7 +838,7 @@ player3 = {
 					y = 416
 					width = 32
 					height = 32
-				}
+				}, {}
 			]
 		}
 	}
@@ -1073,7 +1073,7 @@ player4 = {
 		}
 
 		death = {
-			loop = true
+			loop = false
 			fps = 4.0
 
 			frames = [{
@@ -1116,7 +1116,7 @@ player4 = {
 					y = 416
 					width = 32
 					height = 32
-				}
+				}, {}
 			]
 		}
 	}

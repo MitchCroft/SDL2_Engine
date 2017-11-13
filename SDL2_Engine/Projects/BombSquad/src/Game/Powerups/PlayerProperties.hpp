@@ -8,7 +8,7 @@ namespace BombSquad {
 	 *		Name: PlayerProperties 
 	 *		Author: Mitchell Croft
 	 *		Created: 10/11/2017
-	 *		Modified: 10/11/2017
+	 *		Modified: 13/11/2017
 	 *		
 	 *		Purpose:
 	 *		Store permanent values that influence the way that the 
@@ -105,7 +105,7 @@ namespace BombSquad {
 		/*
 			PlayerProperties : Addition Assignment Operator - Apply a new Powerup object to the properties
 			Created: 10/11/2017
-			Modified: 10/11/2017
+			Modified: 13/11/2017
 
 			param[in] pPUp - The powerup object to add to the internal list
 

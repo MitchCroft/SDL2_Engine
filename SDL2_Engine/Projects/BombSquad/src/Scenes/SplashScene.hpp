@@ -46,7 +46,7 @@ namespace BombSquad {
 		/*
 			SplashScene : update - Function to facilitate the updating of values once per cycle
 			Created: 02/11/2017
-			Modified: 02/11/2017
+			Modified: 13/11/2017
 		*/
 		void update() override;
 

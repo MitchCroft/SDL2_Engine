@@ -21,7 +21,7 @@ namespace BombSquad {
 	 *		Name: GameSetupScene
 	 *		Author: Mitchell Croft
 	 *		Created: 11/11/2017
-	 *		Modified: 12/11/2017
+	 *		Modified: 13/11/2017
 	 *		
 	 *		Purpose:
 	 *		Allow for modification of the settings involved in the game,
@@ -42,7 +42,7 @@ namespace BombSquad {
 		/*
 			GameSetupScene : createScene - Load the values required for the Scene to operate
 			Created: 11/11/2017
-			Modified: 12/11/2017
+			Modified: 13/11/2017
 
 			return bool - Returns true if the Scene was initialised successfully
 		*/
@@ -58,7 +58,7 @@ namespace BombSquad {
 		/*
 			GameSetupScene : update - Monitor input values to check for return to previous Scene
 			Created: 11/11/2017
-			Modified: 11/11/2017
+			Modified: 13/11/2017
 		*/
 		void update() override;
 
@@ -104,6 +104,7 @@ namespace BombSquad {
 		SDL2_Engine::UI::UIElements::UITextbox* mWidthTB;
 		SDL2_Engine::UI::UIElements::UITextbox* mHeightTB;
 		SDL2_Engine::UI::UIElements::UITextbox* mObstacleTB;
+		SDL2_Engine::UI::UIElements::UITextbox* mPowerupChanceTB;
 
 		//! Store the UI elements that are used to show descriptions of the powerups
 		SDL2_Engine::UI::UIElements::UIPanel* mSpritePanel;

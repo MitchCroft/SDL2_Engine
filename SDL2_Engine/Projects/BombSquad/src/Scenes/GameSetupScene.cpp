@@ -61,7 +61,7 @@ namespace BombSquad {
 	/*
 		GameSetupScene : createScene - Load the values required for the Scene to operate
 		Created: 11/11/2017
-		Modified: 12/11/2017
+		Modified: 13/11/2017
 
 		return bool - Returns true if the Scene was initialised successfully
 	*/
@@ -198,6 +198,12 @@ namespace BombSquad {
 			//Assign the chance
 			GM::setObstacleDensity(chance);
 
+			//Convert the powerup chance to a 0 - 1 scale float
+			chance = (float)std::stoi(mPowerupChanceTB->getText()) / 100.f;
+
+			//Assign the chance
+			GM::setPowerupChance(chance);
+
 			//Shutdown the game setup scene
 			shutdown();
 
@@ -244,7 +250,7 @@ namespace BombSquad {
 		mWidthTB->setInputFlags(Input::EKeyboardInputFlags::Numerical);
 
 		//Set the maximum length
-		mWidthTB->setMaxLength(3);
+		mWidthTB->setMaxLength(2);
 
 		//Set the starting text
 		mWidthTB->setText("25");
@@ -330,7 +336,7 @@ namespace BombSquad {
 		mHeightTB->setInputFlags(Input::EKeyboardInputFlags::Numerical);
 
 		//Set the maximum length
-		mHeightTB->setMaxLength(3);
+		mHeightTB->setMaxLength(2);
 
 		//Set the starting text
 		mHeightTB->setText("15");
@@ -470,6 +476,92 @@ namespace BombSquad {
 
 			//Set the text
 			mObstacleTB->setText(std::to_string(val).c_str());
+		});
+		#pragma endregion
+
+		#pragma region Powerup Chance
+		//Create a label for the width
+		UILabel* powerupChance = canvas.createUI<UILabel>();
+
+		//Set the label position
+		powerupChance->setLocation({ 640, 280 });
+
+		//Set alignment
+		powerupChance->setAlignment(Rendering::ETextAlignment::Center);
+
+		//Set text
+		powerupChance->setText("Powerup Spawn Chance");
+
+		//Set font
+		powerupChance->setFont(mMinorLabelFont->font);
+
+		//Set the colour
+		powerupChance->setColour(Rendering::Colour::Wheat);
+
+		//Create the obstacle chance textbox
+		mPowerupChanceTB = canvas.createUI<UITextbox>();
+
+		//Position the obstacle chance textbox
+		mPowerupChanceTB->setLocation({ 565, 300, 150, 75 });
+
+		//Set the text conditions
+		mPowerupChanceTB->setInputFlags(Input::EKeyboardInputFlags::Numerical);
+
+		//Set the maximum length
+		mPowerupChanceTB->setMaxLength(3);
+
+		//Set the starting text
+		mPowerupChanceTB->setText("35");
+
+		//Set the font
+		mPowerupChanceTB->setFont(mInfoFont->font);
+
+		//Create the chance increase button
+		UIButton* increasePUChance = canvas.createUI<UIButton>();
+
+		//Position the button
+		increasePUChance->setLocation({ 715, 300, 25, 75 });
+
+		//Set the text
+		increasePUChance->setText(">");
+
+		//Set the font
+		increasePUChance->setFont(mActionFont->font);
+
+		//Set the action
+		increasePUChance->setAction([&](IUIAction* pObj, void* pData) {
+			//Get the text as an integer value
+			int val = std::stoi(mPowerupChanceTB->getText());
+
+			//Increase the value by 5
+			val = roundToClosestMultiple(val, 5) + 5;
+
+			//Set the text
+			mPowerupChanceTB->setText(std::to_string(val).c_str());
+		});
+
+		//Create the decrease chance button
+		UIButton* decreasePUChance = canvas.createUI<UIButton>();
+
+		//Position the button
+		decreasePUChance->setLocation({ 540, 300, 25, 75 });
+
+		//Set the text
+		decreasePUChance->setText("<");
+
+		//Set the font
+		decreasePUChance->setFont(mActionFont->font);
+
+		//Set the action
+		decreasePUChance->setAction([&](IUIAction* pObj, void* pData) {
+			//Get the text as an integer value
+			int val = std::stoi(mPowerupChanceTB->getText());
+
+			//Increase the value by 5
+			val = roundToClosestMultiple(val, 5) - 5;
+
+			//Set the text
+			mPowerupChanceTB->setText(std::to_string(val).c_str());
 		});
 		#pragma endregion
 
@@ -645,7 +737,7 @@ namespace BombSquad {
 	/*
 		GameSetupScene : update - Monitor input values to check for return to previous Scene
 		Created: 11/11/2017
-		Modified: 11/11/2017
+		Modified: 13/11/2017
 	*/
 	void GameSetupScene::update() {
 		//Check for return 
@@ -678,8 +770,8 @@ namespace BombSquad {
 				//Get the width textbox value as an int
 				buffer = std::stoi(mWidthTB->getText());
 
-				//Bind the value in the 10 - 100 range
-				buffer = MATH.clamp(buffer, 10, 100);
+				//Bind the value in the 10 - 50 range
+				buffer = MATH.clamp(buffer, 10, 50);
 
 				//Set the textbox value
 				mWidthTB->setText(std::to_string(buffer).c_str());
@@ -696,8 +788,8 @@ namespace BombSquad {
 				//Get the height textbox value as an int
 				buffer = std::stoi(mHeightTB->getText());
 
-				//Bind the value in the 10 - 100 range
-				buffer = MATH.clamp(buffer, 10, 100);
+				//Bind the value in the 10 - 50 range
+				buffer = MATH.clamp(buffer, 10, 50);
 
 				//Set the textbox value
 				mHeightTB->setText(std::to_string(buffer).c_str());
@@ -719,6 +811,24 @@ namespace BombSquad {
 
 				//Set the textbox value
 				mObstacleTB->setText(std::to_string(buffer).c_str());
+			}
+		}
+
+		//Check the powerup chance textbox is not in use
+		if (mPowerupChanceTB->getState() != EActionState::Highlighted) {
+			//Check there is text
+			if (!strlen(mPowerupChanceTB->getText())) mPowerupChanceTB->setText("35");
+
+			//Otherwise clamp values
+			else {
+				//Get the powerup chance as an int
+				buffer = std::stoi(mPowerupChanceTB->getText());
+
+				//Bind the value in the 0 - 100 range
+				buffer = MATH.clamp(buffer, 0, 100);
+
+				//Set the textbox value
+				mPowerupChanceTB->setText(std::to_string(buffer).c_str());
 			}
 		}
 

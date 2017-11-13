@@ -22,23 +22,6 @@ enum EStates : unsigned char { STATE_CUR, STATE_PRE, STATE_TOTAL };
 //! Macro for converting SINGLE EGamePadID value to an index
 #define ID2IND(X) (int)(log((int)(X)) / log(2))
 
-/*
-	fsqrt - Assembly fast square root function
-	Author: Unknown
-
-	param[in] n - The number to take the square root of
-
-	return double - Returns the answer as a double value
-
-	NOTE:
-	Function was found at https://www.codeproject.com/Articles/69941/Best-Square-Root-Method-Algorithm-Function-Precisi
-*/
-double inline __declspec (naked) __fastcall fsqrt(double n) {
-	_asm fld qword ptr[esp + 4]
-		_asm fsqrt
-	_asm ret 8
-}
-
 namespace SDL2_Engine {
 	namespace Input {
 		/*
@@ -195,7 +178,7 @@ namespace SDL2_Engine {
 		*/
 		const float Controllers::rawAxis(const EGamePadAxisCode& pAxis, const Utilities::Bitmask<EGamePadID>& pIDs /*= EGamePadID::All*/) const noexcept { 
 			//Check if the mask is multiple or a single ID
-			int s = (int)fsqrt(pIDs.getMask());
+			int s = (int)sqrt(pIDs.getMask());
 			if ((s * s) == pIDs.getMask()) 
 				return mData->gamepads[ID2IND(pIDs.getMask())].rawAxis(pAxis);
 
@@ -231,7 +214,7 @@ namespace SDL2_Engine {
 		*/
 		const float Controllers::rawAxisDelta(const EGamePadAxisCode& pAxis, const Utilities::Bitmask<EGamePadID>& pIDs /*= EGamePadID::All*/) const noexcept { 
 			//Check if the mask is multiple or a single ID
-			int s = (int)fsqrt(pIDs.getMask());
+			int s = (int)sqrt(pIDs.getMask());
 			if ((s * s) == pIDs.getMask())
 				return mData->gamepads[ID2IND(pIDs.getMask())].rawAxisDelta(pAxis);
 

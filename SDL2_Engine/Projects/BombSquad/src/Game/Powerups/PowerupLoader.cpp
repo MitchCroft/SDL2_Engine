@@ -403,13 +403,13 @@ namespace BombSquad {
 				//Read the game modification properties
 				newObj.setDuration((float)MATH.clamp(pNode["duration"].readVal<xdec>(-1.0), -1.0, 9999.9));
 				if (pNode.hasProperty("fuseDuration")) newObj.setFuseLength((float)MATH.largest(pNode["fuseDuration"].readVal<xdec>(), 0.0));
-				if (pNode.hasProperty("deltaBlastRadius")) newObj.setDeltaBlastRadius(MATH.clamp(pNode["deltaBlastRadius"].readVal<xint>(1), 1, 9999));
+				if (pNode.hasProperty("deltaBlastRadius")) newObj.setDeltaBlastRadius(pNode["deltaBlastRadius"].readVal<xint>(1));
 				if (pNode.hasProperty("detonateAll") && pNode["detonateAll"].readVal<xbool>()) newObj.setDetonateAll();
 				if (pNode.hasProperty("deltaBombCount")) newObj.setDeltaBombCount(pNode["deltaBombCount"].readVal<xint>());
 				if (pNode.hasProperty("reverseControls")) newObj.setReverseControls(pNode["reverseControls"].readVal<xbool>());
 				if (pNode.hasProperty("teleport") && pNode["teleport"].readVal<xbool>()) newObj.setTeleport();
 				if (pNode.hasProperty("hasMines")) newObj.setMines(pNode["hasMines"].readVal<xbool>());
-				if (pNode.hasProperty("speed")) newObj.setSpeed((float)MATH.largest(pNode["speed"].readVal<xdec>(), 1.0));
+				if (pNode.hasProperty("speed")) newObj.setSpeed((float)pNode["speed"].readVal<xdec>());
 
 				//Add the powerup object to the list of blueprints
 				blueprints.push_back(newObj);

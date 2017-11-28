@@ -3,6 +3,7 @@
 //! Include required standard functionality
 #include <cstdlib>
 #include <algorithm>
+#include <time.h>
 
 #include <glm/glm.hpp>
 
@@ -57,7 +58,7 @@ namespace BombSquad {
 	/*
 		MapGenerator : generateMap - Create a gameMap based on the current settings
 		Created: 09/11/2017
-		Modified: 09/11/2017
+		Modified: 16/11/2017
 
 		param[in] pWidth - The Width of the map to create
 		param[in] pHeight - The Height of the map to create
@@ -66,6 +67,9 @@ namespace BombSquad {
 		return gameMap - Returns a gameMap object that has been setup for a game
 	*/
 	gameMap MapGenerator::generateMap(const size_t& pWidth, const size_t& pHeight, const size_t& pPlayers) const {
+		//Set the randomised seed
+		srand((unsigned int)time(NULL));
+
 		//Flag if the generation process was successful
 		bool flag = false;
 
@@ -126,15 +130,6 @@ namespace BombSquad {
 		//Return the generated map
 		return map;
 	}
-
-	/*
-		MapGenerator : setSeed - Set the seed that is used to generate the 'random' values
-		Created: 12/11/2017
-		Modified: 12/11/2017
-
-		param[in] pSeed - An unsigned integer value to be used as the seed
-	*/
-	void MapGenerator::setSeed(const unsigned int& pSeed) { srand(pSeed); }
 
 	/*
 		MapGenerator : createInitialMap - Create the initial map, and populate with initial free tiles
@@ -441,7 +436,7 @@ namespace BombSquad {
 	/*
 		MapGenerator : findPlayerSpawns - Find the 'ideal' position(s) within the regions to place spawn points for the player(s)
 		Created: 09/11/2017
-		Modified: 09/11/2017
+		Modified: 16/11/2017
 
 		param[in] pMap - The map to find spawn positions on
 		param[in] pIdent - A RegionIdentifer object defining the available areas
@@ -526,7 +521,7 @@ namespace BombSquad {
 				//Loop through the previously established positions
 				for (size_t i = 0; i < player; i++) {
 					avg += (int)findPath(spawnPoints[i], available[aval], pMap, ETileType::Free).size() +
-						(totalDepth[available[aval].x][available[aval].y] * 4);
+						(totalDepth[available[aval].x][available[aval].y]);
 				}
 
 				//Take the average

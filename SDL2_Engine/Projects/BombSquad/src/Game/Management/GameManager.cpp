@@ -193,7 +193,7 @@ namespace BombSquad {
 	/*
 		GameManager : update - Update the current game state values
 		Created: 10/11/2017
-		Modified: 13/11/2017
+		Modified: 28/11/2017
 
 		param[in] pDelta - The delta time for the current cycle
 	*/
@@ -450,7 +450,7 @@ namespace BombSquad {
 							mInstance->mCurrentMap[BLST.x][BLST.y] = ETileType::Free;
 
 							//Check for powerup drop
-							if (random() <= mInstance->mPowerupChance) 
+							if (mInstance->mBlueprints.size() && random() <= mInstance->mPowerupChance) 
 								mInstance->mPowerups.insert(std::pair<coord, const Powerup*>(BLST, &mInstance->mBlueprints[rand() % mInstance->mBlueprints.size()]));
 
 							//Stop the explosion short

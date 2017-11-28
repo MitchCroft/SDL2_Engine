@@ -8,7 +8,7 @@ namespace BombSquad {
 	 *		Name: MapGenerator 
 	 *		Author: Mitchell Croft
 	 *		Created: 09/11/2017
-	 *		Modified: 12/11/2017
+	 *		Modified: 16/11/2017
 	 *		
 	 *		Purpose:
 	 *		Generate a gameMap object representing a possible area of play for
@@ -32,7 +32,7 @@ namespace BombSquad {
 		/*
 			MapGenerator : generateMap - Create a gameMap based on the current settings
 			Created: 09/11/2017
-			Modified: 09/11/2017
+			Modified: 16/11/2017
 
 			param[in] pWidth - The Width of the map to create
 			param[in] pHeight - The Height of the map to create
@@ -174,15 +174,6 @@ namespace BombSquad {
 			param[in] pChance - A 0-1 scale float value that defines the new chance of spawning an obstacle
 		*/
 		inline void setObstacleChance(const float& pChance) { mObstacleChance = pChance; }
-
-		/*
-			MapGenerator : setSeed - Set the seed that is used to generate the 'random' values
-			Created: 12/11/2017
-			Modified: 12/11/2017
-
-			param[in] pSeed - An unsigned integer value to be used as the seed
-		*/
-		void setSeed(const unsigned int& pSeed);
 
 	private:
 		/////////////////////////////////////////////////////////////////////////////////////////////////////

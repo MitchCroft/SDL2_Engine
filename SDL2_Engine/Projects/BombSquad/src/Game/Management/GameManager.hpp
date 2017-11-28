@@ -11,7 +11,7 @@ namespace BombSquad {
 	 *		Name: GameManager
 	 *		Author: Mitchell Croft
 	 *		Created: 10/11/2017
-	 *		Modified: 13/11/2017
+	 *		Modified: 28/11/2017
 	 *		
 	 *		Purpose:
 	 *		Manage the aspects relating to game play and its setup
@@ -102,7 +102,7 @@ namespace BombSquad {
 		/*
 			GameManager : update - Update the current game state values 
 			Created: 10/11/2017
-			Modified: 13/11/2017
+			Modified: 28/11/2017
 
 			param[in] pDelta - The delta time for the current cycle
 		*/
